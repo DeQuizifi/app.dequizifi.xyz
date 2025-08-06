@@ -1,14 +1,23 @@
+import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
+
 import React from "react";
 
 function page() {
   return (
     <div
-      className="min-h-screen bg-no-repeat bg-cover  flex flex-col-reverse items-center bg-purple-500 "
+      className="min-h-screen bg-no-repeat bg-cover flex flex-col-reverse  "
       style={{ backgroundImage: "url('/images/login-bg.svg')" }}
     >
-    <div className="min-h-screen bg-no-repeat bg-cover  flex flex-col-reverse items-center bg-purple-500 ">
-      <div className="bg-white bg-opacity-80 p-8 rounded shadow-md  mb-14">
-        Login page
+      <WalletLoginButton  />
+      <div className="container mx-auto text-white p-8">
+        <h1 className="text-4xl font-bold mb-4">
+          Welcome <br /> to DequiziFi
+        </h1>
+        <p className="font-semibold  mb-8">
+          Unlock Defi knowledge through fun, fast-
+          <br />
+          paced Quizzes
+        </p>
       </div>
     </div>
   );
