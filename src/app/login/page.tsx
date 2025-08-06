@@ -5,7 +5,7 @@ import React from "react";
 function page() {
   return (
     <div
-      className="min-h-screen bg-no-repeat bg-cover  flex flex-col-reverse  "
+      className="min-h-screen bg-no-repeat bg-cover flex flex-col-reverse  "
       style={{ backgroundImage: "url('/images/login-bg.svg')" }}
     >
       <WalletLoginButton  />
