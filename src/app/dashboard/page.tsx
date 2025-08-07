@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import BalanceCard from "@/components/dashboard/BalanceCard";
 
 // Mock data for now - later will be replaced with actual API calls
 const mockUser = {
@@ -45,6 +46,7 @@ export default function DashboardPage() {
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
             <WelcomeHeader name={user?.username} />
+            <BalanceCard amount={balance} />
           </div>
         </div>
       </div>
