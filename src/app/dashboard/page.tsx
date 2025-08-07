@@ -1,8 +1,11 @@
+
+
 "use client";
 
 import { useEffect, useState } from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
+import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 
 // Mock data for now - later will be replaced with actual API calls
 const mockUser = {
@@ -11,15 +14,27 @@ const mockUser = {
 
 const mockBalance = 60.25;
 
+const mockRecentQuiz = {
+  id: "1",
+  title: "Know Your Crypto Lingo",
+  progress: 69,
+};
+
 export default function DashboardPage() {
   const [user, setUser] = useState<{ username: string } | null>(null);
   const [balance, setBalance] = useState(0);
+  const [recentQuiz, setRecentQuiz] = useState<{
+    id: string;
+    title: string;
+    progress: number;
+  } | null>(null);
 
   useEffect(() => {
     // Simulate loading user data
     const timer = setTimeout(() => {
       setUser(mockUser);
       setBalance(mockBalance);
+      setRecentQuiz(mockRecentQuiz);
     }, 100);
 
     return () => clearTimeout(timer);
@@ -49,7 +64,23 @@ export default function DashboardPage() {
             <BalanceCard amount={balance} />
           </div>
         </div>
+
+        {/* Recent Quiz Widget */}
+        {recentQuiz && (
+          <RecentQuizWidget
+            title={recentQuiz.title}
+            progress={recentQuiz.progress}
+            onClick={() => {
+              // TODO: Navigate to quiz detail page
+              console.log(`Navigate to quiz ${recentQuiz.id}`);
+            }}
+          />
+        )}
       </div>
     </main>
   );
 }
+
+
+
+
