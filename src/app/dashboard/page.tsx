@@ -35,7 +35,7 @@ export default function DashboardPage() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('/images/login-bg.svg')`,
+          backgroundImage: `url('/images/dashboard.svg')`,
         }}
         aria-hidden="true"
       />
