@@ -1,11 +1,10 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
+import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
 
 // Mock data for now - later will be replaced with actual API calls
 const mockUser = {
@@ -76,11 +75,19 @@ export default function DashboardPage() {
             }}
           />
         )}
+
+        {/* Invite Friends Banner */}
+        <InviteFriendsBanner
+          onInvite={() => {
+            // TODO: Analytics tracking for invite action
+            console.log("User clicked invite friends");
+          }}
+          onDismiss={() => {
+            // TODO: Analytics tracking for banner dismiss
+            console.log("User dismissed invite banner");
+          }}
+        />
       </div>
     </main>
   );
 }
-
-
-
-
