@@ -1,61 +1,73 @@
 "use client";
 
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
 interface CircularProgressProps {
   value: number;
   size?: number;
-  strokeWidth?: number;
   className?: string;
   showValue?: boolean;
+}
+
+function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians),
+  };
+}
+
+function describePieSlice(centerX: number, centerY: number, radius: number, value: number) {
+  const endAngle = (value / 100) * 360;
+  const start = polarToCartesian(centerX, centerY, radius, 0);
+  const end = polarToCartesian(centerX, centerY, radius, endAngle);
+  const largeArcFlag = endAngle > 180 ? 1 : 0;
+
+  if (value === 0) {
+    // No slice
+    return "";
+  }
+  if (value === 100) {
+    // Full circle
+    return `\n      M ${centerX},${centerY}\n      m 0,-${radius}\n      a ${radius},${radius} 0 1,1 0,${2 * radius}\n      a ${radius},${radius} 0 1,1 0,-${2 * radius}\n      Z\n    `;
+  }
+
+  return [
+    `M ${centerX},${centerY}`,
+    `L ${start.x},${start.y}`,
+    `A ${radius},${radius} 0 ${largeArcFlag},1 ${end.x},${end.y}`,
+    "Z",
+  ].join(" ");
 }
 
 function CircularProgress({
   value,
   size = 64,
-  strokeWidth = 6,
   className,
   showValue = true,
 }: CircularProgressProps) {
-  const radius = (size - strokeWidth) / 2;
-  const circumference = radius * 2 * Math.PI;
-  const strokeDasharray = circumference;
-  const strokeDashoffset = circumference - (value / 100) * circumference;
+  const radius = size / 2;
 
   return (
     <div
       className={cn("relative", className)}
       style={{ width: size, height: size }}
     >
-      <svg
-        width={size}
-        height={size}
-        className="transform -rotate-90"
-        aria-hidden="true"
-      >
+      <svg width={size} height={size} aria-hidden="true">
         {/* Background circle */}
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={radius}
+          cy={radius}
           r={radius}
-          stroke="currentColor"
-          strokeWidth={strokeWidth}
-          fill="transparent"
-          className="text-white/20"
+          fill="#2C2357"
         />
-        {/* Progress circle */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          stroke="currentColor"
-          strokeWidth={strokeWidth}
-          fill="transparent"
-          strokeDasharray={strokeDasharray}
-          strokeDashoffset={strokeDashoffset}
-          strokeLinecap="round"
-          className="text-pink-400 transition-all duration-300 ease-in-out"
+        {/* Pie slice */}
+        <path
+          d={describePieSlice(radius, radius, radius, value)}
+          fill="#D485F2"
+          className="transition-all duration-300 ease-in-out"
         />
       </svg>
       {showValue && (
