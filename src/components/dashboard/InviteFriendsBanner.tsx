@@ -60,14 +60,11 @@ export default function InviteFriendsBanner({
 
   return (
     <div
-      className="mx-6 my-2"
+      className="mx-6 my-2 bg-violet-500/10 backdrop-blur-sm p-4 shadow-lg rounded-3xl"
       role="banner"
       aria-label="Invite friends promotion"
     >
       <div className="relative rounded-2xl overflow-hidden">
-        {/* Glassmorphism Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/20 to-white/10 backdrop-blur-md border border-white/20" />
-
         {/* Close Button - Top Right Corner with transparent background */}
         <button
           onClick={handleDismiss}
@@ -81,14 +78,13 @@ export default function InviteFriendsBanner({
         {/* Content */}
         <div className="mt-2 relative p-6 text-center">
           {/* Title */}
-          <h2 className="text-white font-semibold text-lg mb-2 font-mono ">
+          <h2 className="text-white font-semibold text-lg mb-2">
             MORE FRIENDS, MORE REWARDS
           </h2>
 
           {/* Description */}
           <p
-            className="text-white/90 text-lg mb-6 leading-relaxed max-w-xs mx-auto font-semibold
-           font-mono"
+            className="text-white/90 text-lg mb-6 leading-relaxed max-w-xs mx-auto font-semibold"
           >
             Invite your friends to take part in challenges and earn rewards
             together

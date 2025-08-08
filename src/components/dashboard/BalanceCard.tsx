@@ -18,18 +18,18 @@ export default function BalanceCard({ amount }: BalanceCardProps) {
   return (
     <div className="flex-shrink-0">
       <div
-        className="bg-[#2B2356] rounded-lg p-1 min-w-[80px] flex items-center justify-between mt-4"
+        className="bg-[#2B2356] rounded-full p-1 min-w-[80px] flex items-center justify-between mt-4"
         role="region"
         aria-label="Account balance information"
       >
         <span
-          className="text-lg font-semibold text-background tabular-nums px-1 font-mono"
+          className="text-md font-semibold text-background tabular-nums px-2"
           aria-label={`Balance: ${formatBalance(amount)}`}
         >
           {formatBalance(amount)}
         </span>
         <div className="flex-shrink-0">
-          <div className="w-8 h-8  bg-white rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
             <CircleDollarSign
               className="w-6 h-6 text-blue-500"
               aria-hidden="true"
