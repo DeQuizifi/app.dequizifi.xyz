@@ -24,7 +24,6 @@ export default function RecentQuizWidget({
         "bg-slate-900/30 backdrop-blur-md border border-white/10",
         "shadow-2xl shadow-black/20",
         "hover:bg-slate-900/40 hover:border-white/20 transition-all duration-300 ease-out",
-        "focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-2 focus:ring-offset-transparent",
         className
       )}
       onClick={onClick}
@@ -41,7 +40,7 @@ export default function RecentQuizWidget({
       {/* Subtle gradient overlay for enhanced glassmorphism */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-slate-800/10 pointer-events-none" />
 
-      <div className="relative p-6">
+      <div className="relative px-6">
         {/* Content - Header and Quiz title on left, Progress on right */}
         <div className="flex items-center justify-between gap-4">
           {/* Left side - Header and Quiz title together */}
@@ -59,7 +58,6 @@ export default function RecentQuizWidget({
             <CircularProgress
               value={progress}
               size={64}
-              strokeWidth={6}
               className="text-white"
             />
           </div>

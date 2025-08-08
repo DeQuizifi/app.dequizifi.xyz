@@ -8,7 +8,7 @@ import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
 
 // Mock data for now - later will be replaced with actual API calls
 const mockUser = {
-  username: "Arion Loveless",
+  username: "CryptoEnthusiast",
 };
 
 const mockBalance = 60.25;
