@@ -3,11 +3,35 @@
 import React, { useState, useEffect } from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
+import Top3Ranks from "@/components/leaderboard/Top3Ranks";
 import { cn } from "@/lib/utils";
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
+
+  // Mock leaderboard data
+  const mockLeaderboardData = {
+    week: [
+      { id: "1", rank: 1, username: "Alice", points: 453 },
+      { id: "2", rank: 2, username: "Bob", points: 442 },
+      { id: "3", rank: 3, username: "Charlie", points: 433 },
+      { id: "4", rank: 4, username: "Jessica", points: 223 },
+      { id: "5", rank: 5, username: "Elsa", points: 160 },
+      { id: "6", rank: 6, username: "Knelson", points: 140 },
+    ],
+    allTime: [
+      { id: "1", rank: 1, username: "David", points: 1250 },
+      { id: "2", rank: 2, username: "Emma", points: 1180 },
+      { id: "3", rank: 3, username: "Frank", points: 1120 },
+      { id: "4", rank: 4, username: "Grace", points: 890 },
+      { id: "5", rank: 5, username: "Henry", points: 750 },
+      { id: "6", rank: 6, username: "Iris", points: 620 },
+    ],
+  };
+
+  const currentLeaderboard = mockLeaderboardData[activeTab];
+  const top3Users = currentLeaderboard.slice(0, 3);
 
   // Calculate time remaining in the week
   useEffect(() => {
@@ -129,15 +153,20 @@ export default function LeaderboardPage() {
             )}
           </div>
 
-          {/* Placeholder for leaderboard content */}
-          <div className="mt-4">
+          {/* Top 3 Ranks Section */}
+          <div className="mt-6">
+            <Top3Ranks top3Users={top3Users} />
+          </div>
+
+          {/* Placeholder for scrollable list of other users */}
+          <div className="mt-8">
             {activeTab === "week" ? (
               <div className="text-black/70">
-                {/* Weekly leaderboard content will go here */}
+                {/* Weekly leaderboard scrollable list will go here */}
               </div>
             ) : (
               <div className="text-black/70">
-                {/* All-time leaderboard content will go here */}
+                {/* All-time leaderboard scrollable list will go here */}
               </div>
             )}
           </div>
