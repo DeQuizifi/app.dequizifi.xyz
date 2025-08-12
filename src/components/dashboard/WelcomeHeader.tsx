@@ -10,9 +10,9 @@ export default function WelcomeHeader({ name = "User" }: WelcomeHeaderProps) {
   return (
     <div className="flex-1">
       <div className="space-y-1">
-        <p className="text-white/90 font-bold font-mono ">Welcome</p>
+        <p className="text-white/90 font-bold">Welcome</p>
         <h1
-          className="text-white text-2xl font-mono font-bold"
+          className="text-white text-2xl font-bold"
           aria-label={`Welcome ${name}`}
         >
           {name}
