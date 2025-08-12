@@ -5,6 +5,7 @@ import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
+import TrendingQuiz from "@/components/dashboard/TrendingQuiz";
 
 // Mock data for now - later will be replaced with actual API calls
 const mockUser = {
@@ -87,6 +88,8 @@ export default function DashboardPage() {
             console.log("User dismissed invite banner");
           }}
         />
+
+        <TrendingQuiz/>
       </div>
     </main>
   );
