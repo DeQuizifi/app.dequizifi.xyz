@@ -9,8 +9,8 @@ import Image from "next/image";
 
 export default function TrendingQuiz() {
   return (
-    <div className="border border-gray-200 bg-white rounded-xl p-4 shadow-sm">
-      <h1 className="text-2xl font-semibold font-mono mx-2 my-2">Trending Quizzes</h1>
+    <div className="border border-gray-200 bg-white rounded-t-xl p-4 shadow-sm">
+      <h1 className="text-2xl font-semibold mx-2 my-2">Trending Quizzes</h1>
       <ReusableCard
         title="DEX vs CEX"
         description="20 questions"
@@ -39,11 +39,11 @@ export function ReusableCard({ title, description, action }: { title: string; de
             className="rounded"
           />
           <div>
-            <CardTitle className="text-2xl font-mono">{title}</CardTitle>
-            <CardDescription className="font-mono">{description}</CardDescription>
+            <CardTitle className="text-2xl">{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
           </div>
         </div>
-        <CardAction className="flex flex-col items-center font-mono font-semibold">
+        <CardAction className="flex flex-col items-center font-semibold">
           <span className="text-lg">{action}</span>
           <span className="text-sm font-normal text-gray-500">Plays</span>
         </CardAction>
