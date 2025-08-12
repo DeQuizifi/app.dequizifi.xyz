@@ -42,12 +42,17 @@
   --radius: 1.4rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
-  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 1px 2px -1px hsl(0 0% 0% / 0.16);
-  --shadow: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 1px 2px -1px hsl(0 0% 0% / 0.16);
-  --shadow-md: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 2px 4px -1px hsl(0 0% 0% / 0.16);
-  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 4px 6px -1px hsl(0 0% 0% / 0.16);
-  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 8px 10px -1px hsl(0 0% 0% / 0.16);
-  --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.40);
+  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.16);
+  --shadow: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.16);
+  --shadow-md: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 2px 4px -1px hsl(0 0% 0% / 0.16);
+  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 4px 6px -1px hsl(0 0% 0% / 0.16);
+  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 8px 10px -1px hsl(0 0% 0% / 0.16);
+  --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
   --tracking-normal: -0.025em;
   --spacing: 0.27rem;
 }
@@ -55,9 +60,9 @@
 .dark {
   --background: hsl(225 7.1429% 10.9804%);
   --foreground: hsl(0 0% 94.1176%);
-  --card: hsl(228.0000 6.8493% 14.3137%);
+  --card: hsl(228 6.8493% 14.3137%);
   --card-foreground: hsl(0 0% 94.1176%);
-  --popover: hsl(228.0000 6.8493% 14.3137%);
+  --popover: hsl(228 6.8493% 14.3137%);
   --popover-foreground: hsl(0 0% 94.1176%);
   --primary: hsl(257.6687 100% 68.0392%);
   --primary-foreground: hsl(0 0% 100%);
@@ -65,12 +70,12 @@
   --secondary-foreground: hsl(0 0% 94.1176%);
   --muted: hsl(226.6667 9.6774% 18.2353%);
   --muted-foreground: hsl(0 0% 62.7451%);
-  --accent: hsl(217.2414 32.5843% 17.4510%);
-  --accent-foreground: hsl(208.2090 100.0000% 73.7255%);
-  --destructive: hsl(0 90.6040% 70.7843%);
+  --accent: hsl(217.2414 32.5843% 17.451%);
+  --accent-foreground: hsl(208.209 100% 73.7255%);
+  --destructive: hsl(0 90.604% 70.7843%);
   --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(222.8571 6.4220% 21.3725%);
-  --input: hsl(222.8571 6.4220% 21.3725%);
+  --border: hsl(222.8571 6.422% 21.3725%);
+  --input: hsl(222.8571 6.422% 21.3725%);
   --ring: hsl(257.6687 100% 68.0392%);
   --chart-1: hsl(141.8919 69.1589% 58.0392%);
   --chart-2: hsl(257.6687 100% 68.0392%);
@@ -83,7 +88,7 @@
   --sidebar-primary-foreground: hsl(0 0% 100%);
   --sidebar-accent: hsl(226.6667 9.6774% 18.2353%);
   --sidebar-accent-foreground: hsl(257.6687 100% 68.0392%);
-  --sidebar-border: hsl(222.8571 6.4220% 21.3725%);
+  --sidebar-border: hsl(222.8571 6.422% 21.3725%);
   --sidebar-ring: hsl(257.6687 100% 68.0392%);
   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
@@ -91,12 +96,17 @@
   --radius: 1.4rem;
   --shadow-2xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
   --shadow-xs: 0px 2px 3px 0px hsl(0 0% 0% / 0.08);
-  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 1px 2px -1px hsl(0 0% 0% / 0.16);
-  --shadow: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 1px 2px -1px hsl(0 0% 0% / 0.16);
-  --shadow-md: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 2px 4px -1px hsl(0 0% 0% / 0.16);
-  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 4px 6px -1px hsl(0 0% 0% / 0.16);
-  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16), 0px 8px 10px -1px hsl(0 0% 0% / 0.16);
-  --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.40);
+  --shadow-sm: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.16);
+  --shadow: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 1px 2px -1px hsl(0 0% 0% / 0.16);
+  --shadow-md: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 2px 4px -1px hsl(0 0% 0% / 0.16);
+  --shadow-lg: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 4px 6px -1px hsl(0 0% 0% / 0.16);
+  --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
+    0px 8px 10px -1px hsl(0 0% 0% / 0.16);
+  --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
 }
 
 @theme inline {
@@ -169,5 +179,55 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Bottom Navigation Custom Styles */
+@layer components {
+  .bottom-navbar {
+    /* Ensure navbar is always visible and above content */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    /* Smooth slide-up animation */
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Ensure safe area padding for devices with home indicator */
+  @supports (padding: max(0px)) {
+    .bottom-navbar {
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Enhanced focus styles for better accessibility */
+  .nav-item:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 640px) {
+  .nav-item-text {
+    font-size: 0.625rem; /* 10px */
+    line-height: 0.75rem; /* 12px */
+  }
+}
+
+@media (min-width: 768px) {
+  .bottom-navbar {
+    /* On larger screens, you might want to position differently or hide */
+    /* For now, keeping it consistent across all screen sizes */
   }
 }
