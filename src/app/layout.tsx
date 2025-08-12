@@ -28,9 +28,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="min-h-screen flex flex-col">
+        <div className="max-h-screen flex flex-col">
           {/* Main content area with bottom padding for navbar */}
-          <main className="flex-1 pb-20">{children}</main>
+          <main className="flex-1">{children}</main>
           {/* Bottom Navigation */}
           <BottomNavbar />
         </div>

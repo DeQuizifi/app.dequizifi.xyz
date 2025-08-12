@@ -63,8 +63,7 @@ export default function BottomNavbar() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-t border-border bottom-navbar rounded-t-2xl shadow-lg "
-      role="navigation"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60 border-t border-border bottom-navbar rounded-t-2xl shadow-lg "
       aria-label="Main navigation"
     >
       <div className="flex items-center justify-around gap-3 px-4 py-4 max-w-screen-xl mx-auto">
