@@ -5,10 +5,13 @@ import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
 import { cn } from "@/lib/utils";
+import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [displayedUsers, setDisplayedUsers] = useState<number>(6); // Initially show 6 users (3 top + 3 in list)
 
   // Mock leaderboard data
   const mockLeaderboardData = {
@@ -19,6 +22,12 @@ export default function LeaderboardPage() {
       { id: "4", rank: 4, username: "Jessica", points: 223 },
       { id: "5", rank: 5, username: "Elsa", points: 160 },
       { id: "6", rank: 6, username: "Knelson", points: 140 },
+      { id: "7", rank: 7, username: "Michael", points: 135 },
+      { id: "8", rank: 8, username: "Sarah", points: 130 },
+      { id: "9", rank: 9, username: "John", points: 125 },
+      { id: "10", rank: 10, username: "Emma", points: 120 },
+      { id: "11", rank: 11, username: "Ryan", points: 115 },
+      { id: "12", rank: 12, username: "Lisa", points: 110 },
     ],
     allTime: [
       { id: "1", rank: 1, username: "David", points: 1250 },
@@ -27,11 +36,28 @@ export default function LeaderboardPage() {
       { id: "4", rank: 4, username: "Grace", points: 890 },
       { id: "5", rank: 5, username: "Henry", points: 750 },
       { id: "6", rank: 6, username: "Iris", points: 620 },
+      { id: "7", rank: 7, username: "Jack", points: 580 },
+      { id: "8", rank: 8, username: "Kate", points: 540 },
+      { id: "9", rank: 9, username: "Leo", points: 500 },
+      { id: "10", rank: 10, username: "Maya", points: 460 },
+      { id: "11", rank: 11, username: "Nick", points: 420 },
+      { id: "12", rank: 12, username: "Olivia", points: 380 },
     ],
   };
 
   const currentLeaderboard = mockLeaderboardData[activeTab];
   const top3Users = currentLeaderboard.slice(0, 3);
+  const remainingUsers = currentLeaderboard.slice(3, displayedUsers);
+  const hasMore = displayedUsers < currentLeaderboard.length;
+
+  const handleLoadMore = () => {
+    setLoading(true);
+    // Simulate loading delay
+    setTimeout(() => {
+      setDisplayedUsers(prev => Math.min(prev + 3, currentLeaderboard.length));
+      setLoading(false);
+    }, 1000);
+  };
 
   // Calculate time remaining in the week
   useEffect(() => {
@@ -63,6 +89,7 @@ export default function LeaderboardPage() {
 
   const handleTabChange = (tab: "week" | "allTime") => {
     setActiveTab(tab);
+    setDisplayedUsers(6); // Reset to show initial 6 users when tab changes
     // In a real implementation, here we would fetch the appropriate leaderboard data
   };
 
@@ -154,20 +181,19 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Top 3 Ranks Section */}
-          <div className="mt-6">
+          <div className="mt-6 relative" style={{ paddingBottom: '100px' }}>
             <Top3Ranks top3Users={top3Users} />
           </div>
 
-          {/* Placeholder for scrollable list of other users */}
-          <div className="mt-8">
-            {activeTab === "week" ? (
-              <div className="text-black/70">
-                {/* Weekly leaderboard scrollable list will go here */}
-              </div>
-            ) : (
-              <div className="text-black/70">
-                {/* All-time leaderboard scrollable list will go here */}
-              </div>
+          {/* Scrollable List of Other Users */}
+          <div className="mx-[-3rem]" style={{ marginTop: '-100px' }}>
+            {remainingUsers.length > 0 && (
+              <LeaderboardList
+                users={remainingUsers}
+                onLoadMore={handleLoadMore}
+                hasMore={hasMore}
+                loading={loading}
+              />
             )}
           </div>
         </div>
