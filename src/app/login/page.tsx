@@ -1,6 +1,5 @@
 import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
 
-import React from "react";
 
 function page() {
   return (
@@ -8,7 +7,7 @@ function page() {
       className="min-h-screen bg-no-repeat bg-cover flex flex-col-reverse  "
       style={{ backgroundImage: "url('/images/login-bg.svg')" }}
     >
-      <WalletLoginButton  />
+      <WalletLoginButton />
       <div className="container mx-auto text-white p-8">
         <h1 className="text-4xl font-bold mb-4">
           Welcome <br /> to DequiziFi

@@ -1,33 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
-import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
+import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import TrendingQuiz from "@/components/dashboard/TrendingQuiz";
-
-// Mock data for now - later will be replaced with actual API calls
-const mockUser = {
-  username: "CryptoEnthusiast",
-};
-
-const mockBalance = 60.25;
-
-const mockRecentQuiz = {
-  id: "1",
-  title: "Know Your Crypto Lingo",
-  progress: 69,
-};
+import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import {
+  mockBalance,
+  mockRecentQuiz,
+  mockUser,
+  type RecentQuiz,
+  type User,
+} from "@/lib/data/mockData";
+import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<{ username: string } | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [balance, setBalance] = useState(0);
-  const [recentQuiz, setRecentQuiz] = useState<{
-    id: string;
-    title: string;
-    progress: number;
-  } | null>(null);
+  const [recentQuiz, setRecentQuiz] = useState<RecentQuiz | null>(null);
 
   useEffect(() => {
     // Simulate loading user data
@@ -89,7 +79,7 @@ export default function DashboardPage() {
           }}
         />
 
-        <TrendingQuiz/>
+        <TrendingQuiz />
       </div>
     </main>
   );

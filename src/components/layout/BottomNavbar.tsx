@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
   {
     id: "home",
     label: "Home",
-    href: "/",
+    href: "/dashboard",
     icon: House,
   },
   {
