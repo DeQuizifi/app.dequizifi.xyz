@@ -1,49 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
-import Top3Ranks from "@/components/leaderboard/Top3Ranks";
-import { cn } from "@/lib/utils";
+import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
+import Top3Ranks from "@/components/leaderboard/Top3Ranks";
+import {
+  mockLeaderboardData,
+  mockBalance,
+  mockUser,
+} from "@/lib/data/mockData";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [displayedUsers, setDisplayedUsers] = useState<number>(6); // Initially show 6 users (3 top + 3 in list)
-
-  // Mock leaderboard data
-  const mockLeaderboardData = {
-    week: [
-      { id: "1", rank: 1, username: "Alice", points: 453 },
-      { id: "2", rank: 2, username: "Bob", points: 442 },
-      { id: "3", rank: 3, username: "Charlie", points: 433 },
-      { id: "4", rank: 4, username: "Jessica", points: 223 },
-      { id: "5", rank: 5, username: "Elsa", points: 160 },
-      { id: "6", rank: 6, username: "Knelson", points: 140 },
-      { id: "7", rank: 7, username: "Michael", points: 135 },
-      { id: "8", rank: 8, username: "Sarah", points: 130 },
-      { id: "9", rank: 9, username: "John", points: 125 },
-      { id: "10", rank: 10, username: "Emma", points: 120 },
-      { id: "11", rank: 11, username: "Ryan", points: 115 },
-      { id: "12", rank: 12, username: "Lisa", points: 110 },
-    ],
-    allTime: [
-      { id: "1", rank: 1, username: "David", points: 1250 },
-      { id: "2", rank: 2, username: "Emma", points: 1180 },
-      { id: "3", rank: 3, username: "Frank", points: 1120 },
-      { id: "4", rank: 4, username: "Grace", points: 890 },
-      { id: "5", rank: 5, username: "Henry", points: 750 },
-      { id: "6", rank: 6, username: "Iris", points: 620 },
-      { id: "7", rank: 7, username: "Jack", points: 580 },
-      { id: "8", rank: 8, username: "Kate", points: 540 },
-      { id: "9", rank: 9, username: "Leo", points: 500 },
-      { id: "10", rank: 10, username: "Maya", points: 460 },
-      { id: "11", rank: 11, username: "Nick", points: 420 },
-      { id: "12", rank: 12, username: "Olivia", points: 380 },
-    ],
-  };
 
   const currentLeaderboard = mockLeaderboardData[activeTab];
   const top3Users = currentLeaderboard.slice(0, 3);
@@ -54,7 +27,9 @@ export default function LeaderboardPage() {
     setLoading(true);
     // Simulate loading delay
     setTimeout(() => {
-      setDisplayedUsers(prev => Math.min(prev + 3, currentLeaderboard.length));
+      setDisplayedUsers((prev) =>
+        Math.min(prev + 3, currentLeaderboard.length)
+      );
       setLoading(false);
     }, 1000);
   };
@@ -107,8 +82,8 @@ export default function LeaderboardPage() {
       <div className="relative z-10 p-6">
         {/* Header Section with Welcome and Balance */}
         <div className="flex items-start justify-between mb-8">
-          <WelcomeHeader name="Arion Loveless" />
-          <BalanceCard amount={602} />
+          <WelcomeHeader name={mockUser.username} />
+          <BalanceCard amount={mockBalance} />
         </div>
 
         {/* Leaderboard Content Area */}
@@ -181,12 +156,12 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Top 3 Ranks Section */}
-          <div className="mt-6 relative" style={{ paddingBottom: '100px' }}>
+          <div className="mt-6 relative" style={{ paddingBottom: "100px" }}>
             <Top3Ranks top3Users={top3Users} />
           </div>
 
           {/* Scrollable List of Other Users */}
-          <div className="mx-[-3rem]" style={{ marginTop: '-100px' }}>
+          <div className="mx-[-3rem]" style={{ marginTop: "-100px" }}>
             {remainingUsers.length > 0 && (
               <LeaderboardList
                 users={remainingUsers}
