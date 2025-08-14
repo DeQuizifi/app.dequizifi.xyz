@@ -98,3 +98,44 @@ export const mockProfileStats: ProfileStats = {
     { category: "Crypto Mining", quizzesWon: 3, totalQuizzes: 4 },
   ],
 };
+
+// Rewards mock data
+export interface RewardsData {
+  xpLevel: number;
+  xpPointsToNext: number;
+  xpCurrentPoints: number;
+  rank: string;
+  nextRankUnlockLevel: number;
+  points: number;
+  trophies: Array<{
+    name: string;
+    unlocked: boolean;
+    icon: string;
+  }>;
+}
+
+export const mockRewardsData: RewardsData = {
+  xpLevel: 3,
+  xpPointsToNext: 368,
+  xpCurrentPoints: 0, // Not shown, but can be used for progress bar
+  rank: "Newbie",
+  nextRankUnlockLevel: 5,
+  points: 1742,
+  trophies: [
+    {
+      name: "Starter",
+      unlocked: true,
+      icon: "/public/images/dashboard.svg", // Example icon path
+    },
+    {
+      name: "Locked Trophy 1",
+      unlocked: false,
+      icon: "/public/images/rank2Crown.svg",
+    },
+    {
+      name: "Locked Trophy 2",
+      unlocked: false,
+      icon: "/public/images/rank3Crown.svg",
+    },
+  ],
+};
