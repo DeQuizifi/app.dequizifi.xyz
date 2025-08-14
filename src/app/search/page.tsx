@@ -1,6 +1,7 @@
-import SearchBar from "@/components/custom/searchpage/SearchBar";
+import SearchBar from "@/components/searchpage/SearchBar";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import Tab from "@/components/searchpage/Tabs";
 
 export default function SearchQuiz(){
     return(
@@ -22,6 +23,11 @@ export default function SearchQuiz(){
 
                         {/* Search Bar */}
                         <SearchBar/>
+
+                        <div className="bg-background h-screen rounded-t-3xl">
+                          {/* Tabs */}
+                        <Tab/>
+                        </div>
             </div>
 
         </main>
