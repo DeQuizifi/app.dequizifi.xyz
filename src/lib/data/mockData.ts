@@ -3,6 +3,9 @@
 
 export interface User {
   username: string;
+  walletAddress?: string;
+  joinedDate?: string;
+  favQuizTopic?: string;
 }
 
 export interface RecentQuiz {
@@ -32,6 +35,9 @@ export interface ProfileStats {
 // Dashboard mock data
 export const mockUser: User = {
   username: "CryptoEnthusiast",
+  walletAddress: "0x017... 9aaB",
+  joinedDate: "4th August, 2024",
+  favQuizTopic: "DeFi",
 };
 
 export const mockBalance = 60.25;
@@ -73,7 +79,6 @@ export const mockLeaderboardData: LeaderboardData = {
     { id: "12", rank: 12, username: "Olivia", points: 380 },
   ],
 };
-
 
 export const mockProfileStats: ProfileStats = {
   points: 1742,

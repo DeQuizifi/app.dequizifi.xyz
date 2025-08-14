@@ -1,12 +1,8 @@
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import { Card, CardDescription } from "@/components/ui/card";
-
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProfileWelcomeHeader from "@/components/dashboard/ProfileWelcomeHeader";
-import {
-  mockBalance,
-  mockProfileStats,
-  mockUser,
-} from "@/lib/data/mockData";
+import { mockBalance, mockProfileStats, mockUser } from "@/lib/data/mockData";
 import { CiCalendar } from "react-icons/ci";
 import { IoMedalOutline } from "react-icons/io5";
 import { LuCoins } from "react-icons/lu";
@@ -65,6 +61,42 @@ export default function ProfilePage() {
               </p>
             </div>
           </Card>
+        </div>
+
+        {/* Tabs Section */}
+        <div className="px-6">
+          <Tabs defaultValue="details" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 bg-white/80 backdrop-blur-sm">
+              <TabsTrigger value="details" className="text-sm">
+                Details
+              </TabsTrigger>
+              <TabsTrigger value="statistics" className="text-sm">
+                Statistics
+              </TabsTrigger>
+              <TabsTrigger value="rewards" className="text-sm">
+                Rewards
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="text-sm">
+                Settings
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="details" className="mt-6">
+              {/* Details component is Already implemented. Import Here */}
+            </TabsContent>
+
+            <TabsContent value="statistics" className="mt-6">
+              {/* Statistics component will be implemented later */}
+            </TabsContent>
+
+            <TabsContent value="rewards" className="mt-6">
+              {/* Rewards component will be implemented later */}
+            </TabsContent>
+
+            <TabsContent value="settings" className="mt-6">
+              {/* Settings component will be implemented later */}
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </main>
