@@ -30,6 +30,13 @@ export interface ProfileStats {
   points: number;
   bestRank: string;
   weekStatus: string;
+  quizzesWonThisWeek: number;
+  totalQuizzesThisWeek: number;
+  topCategoriesThisWeek: Array<{
+    category: string;
+    quizzesWon: number;
+    totalQuizzes: number;
+  }>;
 }
 
 // Dashboard mock data
@@ -84,4 +91,10 @@ export const mockProfileStats: ProfileStats = {
   points: 1742,
   bestRank: "#3",
   weekStatus: "Unranked",
+  quizzesWonThisWeek: 13,
+  totalQuizzesThisWeek: 15,
+  topCategoriesThisWeek: [
+    { category: "DeFi", quizzesWon: 4, totalQuizzes: 4 },
+    { category: "Crypto Mining", quizzesWon: 3, totalQuizzes: 4 },
+  ],
 };
