@@ -1,7 +1,9 @@
 import React from "react";
+import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import BalanceCard from "@/components/dashboard/BalanceCard";
+import { mockBalance, mockUser } from "@/lib/data/mockData";
 
 // Import statements will be added here as components are created:
-// import ProfileWelcomeHeader from '@/components/dashboard/ProfileWelcomeHeader';
 // import PlayTodaySection from '@/components/play/PlayTodaySection';
 // import UnfinishedQuizzesSection from '@/components/play/UnfinishedQuizzesSection';
 
@@ -20,10 +22,13 @@ function PlayPage() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-md mx-auto space-y-6 p-4">
-        {/* Header Section */}
-        <div className="pt-4">
-          {/* ProfileWelcomeHeader component will be imported here */}
+      <div className="relative z-10 pb-safe-area-bottom">
+        {/* Header Section with Welcome and Balance */}
+        <div className="px-6 pt-12 pb-8">
+          <div className="flex items-start justify-between gap-4">
+            <WelcomeHeader name={mockUser.username} />
+            <BalanceCard amount={mockBalance} />
+          </div>
         </div>
 
         {/* What would you like to play today? Section */}
