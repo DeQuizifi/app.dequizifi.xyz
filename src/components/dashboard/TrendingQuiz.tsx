@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import Image from "next/image";
 
 export default function TrendingQuiz() {
@@ -22,16 +22,23 @@ export default function TrendingQuiz() {
         action="1204"
       />
     </div>
-  )
+  );
 }
 
-export function ReusableCard({ title, description, action }: { title: string; description: string; action: string }) {
+export function ReusableCard({
+  title,
+  description,
+  action,
+}: {
+  title: string;
+  description: string;
+  action: string;
+}) {
   return (
-    <Card className="my-2">
-      <CardHeader className="flex items-center justify-between">
+    <Card className="my-2 w-[370px] h-[110px]">
+      <CardHeader className="flex items-center justify-between h-full">
         <div className="flex items-start gap-3">
-          
-         <Image
+          <Image
             src="/cube1.svg"
             alt="cube"
             width={48}
@@ -49,6 +56,5 @@ export function ReusableCard({ title, description, action }: { title: string; de
         </CardAction>
       </CardHeader>
     </Card>
-  )
+  );
 }
-

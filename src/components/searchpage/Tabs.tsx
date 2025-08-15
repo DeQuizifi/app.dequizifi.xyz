@@ -1,5 +1,9 @@
 // import {Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import LatestTab from "./LatestTab";
+import QuizTab from "./QuizTab";
+import ContestTab from "./ContestTab";
+import FriendsTab from "./FriendsTab";
 
 export default function Tab() {
   return (
@@ -12,7 +16,32 @@ export default function Tab() {
           <TabsTrigger value="friends" className="text-lg rounded-none">Friends</TabsTrigger>
         </TabsList>
 
-      </Tabs>
+
+        <TabsContent value="latest">
+          <div>
+            <LatestTab/>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="quiz">
+          <div>
+            <QuizTab/>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="contest">
+          <div>
+            <ContestTab/>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="friends">
+          <div>
+            <FriendsTab/>
+          </div>
+        </TabsContent>
+
+        </Tabs>
     </div>
   );
 }
