@@ -36,7 +36,7 @@
   --sidebar-accent-foreground: hsl(0 0% 0%);
   --sidebar-border: hsl(0 0% 92.1569%);
   --sidebar-ring: hsl(0 0% 0%);
-  --font-sans: Plus Jakarta Sans, sans-serif;
+  --progress-bar-playtoday: #af7ee7;
   --font-serif: Lora, serif;
   --font-mono: IBM Plex Mono, monospace;
   --radius: 1.4rem;
@@ -230,4 +230,14 @@ body {
     /* On larger screens, you might want to position differently or hide */
     /* For now, keeping it consistent across all screen sizes */
   }
+}
+
+/* Utility to hide scrollbars while maintaining scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }

@@ -1,11 +1,8 @@
 import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
-import { mockBalance, mockUser } from "@/lib/data/mockData";
-
-// Import statements will be added here as components are created:
-// import PlayTodaySection from '@/components/play/PlayTodaySection';
-// import UnfinishedQuizzesSection from '@/components/play/UnfinishedQuizzesSection';
+import PlayToday from "@/components/play/playToday";
+import { mockBalance, mockUser, playToday } from "@/lib/data/mockData";
 
 function PlayPage() {
   return (
@@ -31,14 +28,21 @@ function PlayPage() {
           </div>
         </div>
 
-        {/* What would you like to play today? Section */}
-        <div className="space-y-4">
-          {/* PlayTodaySection component will be imported here */}
-        </div>
+        {/* Main Card Container for PlayToday and UnfinishedQuizzesSection */}
+        <div className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between">
+          <div>
+            {/* What would you like to play today? Section */}
+            <div className="space-y-4">
+              <PlayToday quizzes={playToday} />
+            </div>
 
-        {/* Your Unfinished Quizzes Section */}
-        <div className="space-y-4">
-          {/* UnfinishedQuizzesSection component will be imported here */}
+            {/* Your Unfinished Quizzes Section */}
+            <div className="space-y-4">
+              {/* UnfinishedQuizzesSection component will be imported here */}
+            </div>
+          </div>
+          {/* This empty div ensures the container stretches to the bottom */}
+          <div></div>
         </div>
       </div>
     </main>
