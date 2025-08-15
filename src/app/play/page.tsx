@@ -2,7 +2,13 @@ import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlayToday from "@/components/play/playToday";
-import { mockBalance, mockUser, playToday } from "@/lib/data/mockData";
+import {
+  mockBalance,
+  mockUser,
+  playToday,
+  playUnfinishedQuizzes,
+} from "@/lib/data/mockData";
+import UnfinishedQuizzes from "@/components/play/unfinishedQuizzes";
 
 function PlayPage() {
   return (
@@ -38,7 +44,7 @@ function PlayPage() {
 
             {/* Your Unfinished Quizzes Section */}
             <div className="space-y-4">
-              {/* UnfinishedQuizzesSection component will be imported here */}
+              <UnfinishedQuizzes quizzes={playUnfinishedQuizzes} />
             </div>
           </div>
           {/* This empty div ensures the container stretches to the bottom */}
