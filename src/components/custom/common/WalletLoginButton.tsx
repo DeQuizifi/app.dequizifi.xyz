@@ -1,12 +1,23 @@
-import { Button } from "@/components/ui/button";
+"use client";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React from "react";
 
 function WalletLoginButton() {
   return (
-    <div className="px-4 ">
-      <Button className="w-full cursor-pointer bg-white text-black rounded-full shadow-lg shadow-white hover:bg-gray-100 mb-12 py-8 text-lg ">
-        Login with Wallet
-      </Button>
+    <div className="px-4 mt-40"> {/* or mt-40 for spacing */}
+      <ConnectButton.Custom>
+        {({ account, chain, openConnectModal, mounted }) => {
+          return (
+            <button
+              onClick={openConnectModal}
+              disabled={!mounted}
+              className="w-full bg-white text-black rounded-full shadow-lg hover:bg-gray-100 py-4 text-lg font-semibold transition"
+            >
+              {account ? `Connected: ${account.displayName}` : "Login with Wallet"}
+            </button>
+          );
+        }}
+      </ConnectButton.Custom>
     </div>
   );
 }
