@@ -139,3 +139,63 @@ export const mockRewardsData: RewardsData = {
     },
   ],
 };
+
+// Types for Play Today and Unfinished Quizzes
+export interface PlayTodayQuiz {
+  id: string;
+  title: string;
+  questions: number;
+  hoursLeft: number;
+  image: string;
+}
+
+export interface UnfinishedQuiz {
+  id: string;
+  title: string;
+  questions: number;
+  progress: number;
+  image: string;
+}
+
+// Mock data for Play Today section
+export const playToday: PlayTodayQuiz[] = [
+  {
+    id: "stablecoins-1",
+    title: "Algorithmic Stablecoins",
+    questions: 20,
+    hoursLeft: 18,
+    image: "/public/images/dashboard.svg",
+  },
+  {
+    id: "stablecoins-2",
+    title: "Algorithmic Stablecoins",
+    questions: 20,
+    hoursLeft: 18,
+    image: "/public/images/dashboard.svg",
+  },
+];
+
+// Mock data for Unfinished Quizzes section
+export const playUnfinishedQuizzes: UnfinishedQuiz[] = [
+  {
+    id: "dex-cex-1",
+    title: "DEX vs CEX",
+    questions: 20,
+    progress: 60,
+    image: "/public/images/playQuizImage.svg",
+  },
+  {
+    id: "unstable-coin-1",
+    title: "Unstable Coin",
+    questions: 20,
+    progress: 60,
+    image: "/public/images/playQuizImage.svg",
+  },
+  {
+    id: "dex-cex-2",
+    title: "DEX vs CEX",
+    questions: 20,
+    progress: 99,
+    image: "/public/images/playQuizImage.svg",
+  },
+];
