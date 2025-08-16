@@ -205,4 +205,25 @@ export const playUnfinishedQuizzes: UnfinishedQuiz[] = [
     progress: 99,
     image: "/public/images/playQuizImage.svg",
   },
+  {
+    id: "crypto-basics-1",
+    title: "Crypto Basics",
+    questions: 15,
+    progress: 30,
+    image: "/public/images/playQuizImage.svg",
+  },
+  {
+    id: "blockchain-101",
+    title: "Blockchain 101",
+    questions: 25,
+    progress: 85,
+    image: "/public/images/playQuizImage.svg",
+  },
+  {
+    id: "defi-fundamentals",
+    title: "DeFi Fundamentals",
+    questions: 18,
+    progress: 40,
+    image: "/public/images/playQuizImage.svg",
+  },
 ];

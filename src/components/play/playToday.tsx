@@ -9,7 +9,10 @@ export default function PlayToday({ quizzes }: PlayTodayProps) {
   return (
     <div className="space-y-4">
       {/* Section Title */}
-      <h2 className="text-lg font-bold px-6" style={{ color: 'var(--card-foreground)' }}>
+      <h2
+        className="text-2xl font-bold px-6"
+        style={{ color: "var(--card-foreground)" }}
+      >
         What would you like to play <br /> today?
       </h2>
 
