@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import BottomNavbar from "@/components/layout/BottomNavbar";
 import "./globals.css";
+import RainbowKitProviderWrapper from "@/providers/RainbowKitProviderWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,12 +29,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <RainbowKitProviderWrapper>
         <div className="max-h-screen flex flex-col">
           {/* Main content area with bottom padding for navbar */}
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            {children}
+          </main>
           {/* Bottom Navigation */}
           <BottomNavbar />
         </div>
+        </RainbowKitProviderWrapper>
       </body>
     </html>
   );
