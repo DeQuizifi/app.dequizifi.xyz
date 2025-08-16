@@ -173,6 +173,13 @@ export const playToday: PlayTodayQuiz[] = [
     hoursLeft: 18,
     image: "/public/images/dashboard.svg",
   },
+  {
+    id: "defi-basics",
+    title: "DeFi Fundamentals",
+    questions: 15,
+    hoursLeft: 12,
+    image: "/public/images/dashboard.svg",
+  },
 ];
 
 // Mock data for Unfinished Quizzes section
