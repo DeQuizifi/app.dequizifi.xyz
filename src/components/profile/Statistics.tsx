@@ -15,6 +15,8 @@ interface StatisticsProps {
 }
 
 function Statistics({ data }: StatisticsProps) {
+
+  
   const { quizzesWonThisWeek, totalQuizzesThisWeek, topCategoriesThisWeek } =
     data;
   const winPercentage = (quizzesWonThisWeek / totalQuizzesThisWeek) * 100;
