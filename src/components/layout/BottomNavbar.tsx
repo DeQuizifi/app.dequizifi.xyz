@@ -15,7 +15,8 @@ interface NavItem {
   id: string;
   label: string;
   href: string;
-  icon: React.ComponentType<{ className?: string }>;
+  // allow passing SVG props (style, aria-hidden, etc.) to icons
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 const navItems: NavItem[] = [
@@ -75,26 +76,34 @@ export default function BottomNavbar() {
             <Link
               key={item.id}
               href={item.href}
+              // remove hover and focus visual effects for bottom nav
               className={cn(
                 "nav-item flex flex-col items-center justify-center min-w-0 flex-1 py-4 px-3 transition-all duration-200 rounded-lg",
-                "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
-                "hover:bg-accent hover:text-accent-foreground",
+                "focus:outline-none focus-visible:outline-none focus:ring-0",
                 "active:scale-95 transition-transform",
-                active
-                  ? "text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground"
+                active ? "text-primary font-medium" : "text-muted-foreground"
               )}
               aria-label={`Navigate to ${item.label}`}
               aria-current={active ? "page" : undefined}
-              style={{ minHeight: "44px", minWidth: "44px" }} // Ensure minimum tap target
+              style={{ minHeight: "44px", minWidth: "44px", outline: "none" }} // Ensure minimum tap target
             >
-              <Icon
-                className={cn(
-                  "h-6 w-6 transition-colors duration-200",
-                  active ? "text-primary" : "text-muted-foreground"
-                )}
-                aria-hidden="true"
-              />
+              <span
+                className="inline-flex items-center justify-center h-9 w-9 rounded-full"
+                style={
+                  active
+                    ? { backgroundColor: "var(--progress-bar-playtoday)" }
+                    : undefined
+                }
+              >
+                <Icon
+                  className={cn(
+                    "h-6 w-6 transition-colors duration-200",
+                    !active && "text-muted-foreground"
+                  )}
+                  style={active ? { color: "var(--foreground)" } : undefined}
+                  aria-hidden="true"
+                />
+              </span>
             </Link>
           );
         })}
