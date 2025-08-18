@@ -11,16 +11,19 @@ export default function TrendingQuiz() {
   return (
     <div className="border border-gray-200 bg-white rounded-t-xl p-4 shadow-sm">
       <h1 className="text-2xl font-semibold mx-2 my-2">Trending Quizzes</h1>
-      <ReusableCard
-        title="DEX vs CEX"
-        description="20 questions"
-        action="1234"
-      />
-      <ReusableCard
-        title="Unstable Coin"
-        description="20 questions"
-        action="1204"
-      />
+      {/* center the card list so each card can use mx-auto / max-w on small screens */}
+      <div className="flex flex-col items-center">
+        <ReusableCard
+          title="DEX vs CEX"
+          description="20 questions"
+          action="1234"
+        />
+        <ReusableCard
+          title="Unstable Coin"
+          description="20 questions"
+          action="1204"
+        />
+      </div>
     </div>
   );
 }
@@ -35,7 +38,7 @@ export function ReusableCard({
   action: string;
 }) {
   return (
-    <Card className="my-2 w-[370px] h-[110px]">
+    <Card className="my-2 w-full max-w-[370px] h-[110px] mx-auto">
       <CardHeader className="flex items-center justify-between h-full">
         <div className="flex items-start gap-3">
           <Image
@@ -46,7 +49,7 @@ export function ReusableCard({
             className="rounded"
           />
           <div>
-            <CardTitle className="text-2xl">{title}</CardTitle>
+            <CardTitle className="text-lg sm:text-2xl">{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
         </div>
