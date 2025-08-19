@@ -3,7 +3,7 @@ import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
 function page() {
   return (
     <div
-      className="min-h-screen bg-no-repeat bg-cover flex flex-col "
+      className="h-screen bg-no-repeat bg-cover flex flex-col "
       style={{ backgroundImage: "url('/images/login-bg.svg')" }}
     >
       <div className="container mx-auto my-80 text-white p-8">
