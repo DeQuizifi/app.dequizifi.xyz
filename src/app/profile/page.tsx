@@ -2,20 +2,72 @@ import BalanceCard from "@/components/dashboard/BalanceCard";
 import { Card, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProfileWelcomeHeader from "@/components/dashboard/ProfileWelcomeHeader";
-import {
-  mockBalance,
-  mockProfileStats,
-  mockUser,
-  mockRewardsData,
-} from "@/lib/data/mockData";
-import Details from "@/components/profile/Details";
-import Statistics from "@/components/profile/Statistics";
-import Rewards from "@/components/profile/Rewards";
 import { CiCalendar } from "react-icons/ci";
 import { IoMedalOutline } from "react-icons/io5";
 import { LuCoins } from "react-icons/lu";
+import Details from "@/components/profile/Details";
+import { getRewards, getUser, getUserStats, profilePersonalStats, userWelcomeHeader } from "@/lib/profile/user";
+import Statistics from "@/components/profile/Statistics";
+import Rewards from "@/components/profile/Rewards";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  //UserInfo
+  const user = await getUser();
+  if (!user) {
+    return <div>User Not Found.</div>;
+  }
+
+
+ //UserStats
+  const userstats = (await getUserStats(user.id)) || [];
+
+  let quizzesWonThisWeek = 0;
+  let totalQuizzesThisWeek = 0;
+  let topCategoriesThisWeek: Array<{
+    category: string;
+    quizzesWon: number;
+    totalQuizzes: number;
+  }> = [];
+  if (userstats && userstats.length > 0) {
+    quizzesWonThisWeek = userstats.filter((g) => g.won).length;
+    totalQuizzesThisWeek = userstats.length;
+    const topCategoriesMap: Record<
+      string,
+      { quizzesWon: number; totalQuizzes: number }
+    > = {};
+    userstats.forEach((attempt) => {
+      const category = attempt.quiz.category;
+      if (!topCategoriesMap[category])
+        topCategoriesMap[category] = { quizzesWon: 0, totalQuizzes: 0 };
+      topCategoriesMap[category].totalQuizzes += 1;
+      if (attempt.won) topCategoriesMap[category].quizzesWon += 1;
+    });
+    topCategoriesThisWeek = Object.entries(topCategoriesMap).map(
+      ([category, stats]) => ({ category, ...stats })
+    );
+  }
+
+  //UserRewards
+
+  const userRewards = await getRewards(user.id);
+  if (!userRewards) {
+    return null;
+  }
+
+  //User Balance, Name and Address
+
+  const balance = await userWelcomeHeader(user.id);
+  if(!balance){
+    return null;
+  }
+
+  //User Points and Best Rank
+
+  const stat = await profilePersonalStats(user.id);
+  if(!stat){
+    return null;
+  }
+  
   return (
     <main
       className="min-h-screen bg-gray-50 relative overflow-x-hidden"
@@ -91,25 +143,31 @@ export default function ProfilePage() {
 
             <TabsContent value="details" className="mt-6">
               <Details
-                username={mockUser.username}
-                walletAddress={mockUser.walletAddress}
-                joinedDate={mockUser.joinedDate}
-                favQuizTopic={mockUser.favQuizTopic}
+                username={user.username}
+                walletAddress={user.walletAddress || "Not Set"}
+                joinedDate={user.joinedDate.toISOString()}
+                favQuizTopic={user.favQuizTopic || "None"}
               />
             </TabsContent>
 
             <TabsContent value="statistics" className="mt-6">
-              <Statistics
-                data={{
-                  quizzesWonThisWeek: mockProfileStats.quizzesWonThisWeek,
-                  totalQuizzesThisWeek: mockProfileStats.totalQuizzesThisWeek,
-                  topCategoriesThisWeek: mockProfileStats.topCategoriesThisWeek,
-                }}
-              />
+              {userstats && userstats.length > 0 ? (
+                <Statistics
+                  data={{
+                    quizzesWonThisWeek,
+                    totalQuizzesThisWeek,
+                    topCategoriesThisWeek,
+                  }}
+                />
+              ) : (
+                <div className="bg-white rounded-xl p-6 text-center text-gray-700 shadow flex items-center justify-center min-h-[500px] w-full">
+                  No Stats Found.
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="rewards" className="mt-6">
-              <Rewards data={mockRewardsData} />
+              <Rewards data={userRewards} />
             </TabsContent>
 
             <TabsContent value="settings" className="mt-6">
