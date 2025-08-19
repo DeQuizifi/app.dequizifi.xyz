@@ -36,8 +36,8 @@ export default function ProfilePage() {
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-center space-x-2 gap-4">
-            <ProfileWelcomeHeader name={mockUser.username} />
-            <BalanceCard amount={mockBalance} />
+            <ProfileWelcomeHeader name={user.username} walletaddress={user.walletAddress || ""} />
+            <BalanceCard amount={user.balance} />
           </div>
 
           <Card className="flex flex-row bg-purple-300 mt-10">
@@ -47,7 +47,7 @@ export default function ProfilePage() {
                 Points
               </CardDescription>
               <p className="text-background font-mono">
-                {mockProfileStats.points}
+                {stat.overallPoints}
               </p>
             </div>
             <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
@@ -56,7 +56,7 @@ export default function ProfilePage() {
                 Best Rank
               </CardDescription>
               <p className="text-background font-mono">
-                {mockProfileStats.bestRank}
+                {stat.bestRank}
               </p>
             </div>
             <div className="flex-1 p-4 flex flex-col justify-center items-center">
@@ -65,7 +65,7 @@ export default function ProfilePage() {
                 This week
               </CardDescription>
               <p className="text-background font-mono">
-                {mockProfileStats.weekStatus}
+                {stat.weekStatus}
               </p>
             </div>
           </Card>

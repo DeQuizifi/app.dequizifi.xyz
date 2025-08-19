@@ -2,10 +2,14 @@
 // This file contains all mock data used across different pages
 
 export interface User {
+  id: string;
   username: string;
   walletAddress?: string;
   joinedDate?: string;
   favQuizTopic?: string;
+  balance?: number;
+  attempts?: any[];
+  Rewards?: any[];
 }
 
 export interface RecentQuiz {
@@ -41,10 +45,14 @@ export interface ProfileStats {
 
 // Dashboard mock data
 export const mockUser: User = {
+  id: "1",
   username: "CryptoEnthusiast",
   walletAddress: "0x017... 9aaB",
-  joinedDate: "4th August, 2024",
+  joinedDate: "2024-08-04T00:00:00.000Z",
   favQuizTopic: "DeFi",
+  balance: 60.25,
+  attempts: [],
+  Rewards: [],
 };
 
 export const mockBalance = 60.25;

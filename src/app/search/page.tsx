@@ -2,6 +2,7 @@ import SearchBar from "@/components/searchpage/SearchBar";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import Tab from "@/components/searchpage/Tabs";
+import { mockBalance } from "@/lib/data/mockData";
 
 export default function SearchQuiz() {
   return (
@@ -19,7 +20,7 @@ export default function SearchQuiz() {
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
             <WelcomeHeader name="Arion Loveless" />
-            <BalanceCard amount={60.2} />
+            <BalanceCard amount={mockBalance} />
           </div>
         </div>
 

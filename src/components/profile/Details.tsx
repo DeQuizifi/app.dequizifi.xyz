@@ -1,3 +1,4 @@
+import { getUser } from "@/lib/profile/user";
 import React from "react";
 
 interface DetailsProps {
@@ -7,12 +8,17 @@ interface DetailsProps {
   favQuizTopic?: string;
 }
 
-function Details({
+async function Details({
   username,
   walletAddress,
   joinedDate,
   favQuizTopic,
 }: DetailsProps) {
+
+  const user = await getUser();
+  if(!user){
+    return <div>User Not Found.</div>
+  }
   return (
     <div className="bg-white rounded-t-3xl min-h-[60vh] p-6">
       <div className="space-y-6">
