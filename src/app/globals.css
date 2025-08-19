@@ -191,8 +191,10 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  /* Do not apply borders globally — add borders per-component where needed. */
+  /* Only show the outline for keyboard-focus-visible elements for accessibility */
+  :focus-visible {
+    @apply outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
