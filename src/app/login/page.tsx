@@ -1,4 +1,10 @@
-import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
+"use client";
+import dynamic from "next/dynamic";
+
+const WalletLoginButton = dynamic(
+  () => import("@/components/custom/common/WalletLoginButton"),
+  { ssr: false }
+);
 
 function page() {
   return (
