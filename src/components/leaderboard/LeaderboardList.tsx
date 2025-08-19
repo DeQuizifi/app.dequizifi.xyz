@@ -70,7 +70,7 @@ export default function LeaderboardList({
             <button
               onClick={onLoadMore}
               disabled={loading}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 mb-14"
               aria-label="Load more leaderboard entries"
             >
               {loading ? (
