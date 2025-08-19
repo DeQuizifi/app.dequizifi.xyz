@@ -19,7 +19,7 @@ function PlayPage() {
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url('/images/dashboard.svg')` }}
         aria-hidden="true"
       />
@@ -35,7 +35,10 @@ function PlayPage() {
         </div>
 
         {/* Main Card Container for PlayToday and UnfinishedQuizzesSection */}
-        <div className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between">
+        <div
+          className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between shadow-none border-0 outline-none"
+          style={{ boxShadow: "none", border: "none", outline: "none" }}
+        >
           <div>
             {/* What would you like to play today? Section */}
             <div className="space-y-4">
