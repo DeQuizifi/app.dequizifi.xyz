@@ -4,21 +4,71 @@ import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
-import {
-  mockLeaderboardData,
-  mockBalance,
-  mockUser,
-} from "@/lib/data/mockData";
+import { user } from "@/generated/prisma";
+import {mockUser } from "@/lib/data/mockData";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+
+type LeaderboardEntry = {
+  user: user | null;
+  points: number;
+  id: string;
+};
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [displayedUsers, setDisplayedUsers] = useState<number>(6); // Initially show 6 users (3 top + 3 in list)
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
+    []
+  );
+  const [balance, setBalance] = useState<number | null>(null);
+  const [header, setHeader] = useState<string | null>(null);
 
-  const currentLeaderboard = mockLeaderboardData[activeTab];
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const url =
+        activeTab === "week"
+          ? "/api/leaderboard/points"
+          : "/api/leaderboard/overallpoints";
+
+      const res = await fetch(url);
+      if (!res.ok) return;
+
+      const data = await res.json();
+      setLeaderboardData(data);
+    };
+
+    fetchLeaderboard();
+  }, [activeTab]);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const res = await fetch(`/api/headerandbalance/balance`);
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      setBalance(data.balance ?? 0);
+    };
+
+    fetchBalance();
+  }, []);
+  
+  useEffect(()=>{
+    const fetchHeader = async ()=>{
+      const res = await fetch(`/api/headerandbalance/header`);
+      if(!res.ok) return;
+      const data = await res.json();
+      setHeader(data.username ?? null);
+      };
+      fetchHeader();
+  },
+  []);
+
+  const currentLeaderboard = leaderboardData;
   const top3Users = currentLeaderboard.slice(0, 3);
   const remainingUsers = currentLeaderboard.slice(3, displayedUsers);
   const hasMore = displayedUsers < currentLeaderboard.length;
@@ -82,8 +132,8 @@ export default function LeaderboardPage() {
       <div className="relative z-10 p-6">
         {/* Header Section with Welcome and Balance */}
         <div className="flex items-start justify-between mb-8">
-          <WelcomeHeader name={mockUser.username} />
-          <BalanceCard amount={mockBalance} />
+          <WelcomeHeader name={header ?? undefined} />
+          <BalanceCard amount={balance ?? 0} />
         </div>
 
         {/* Leaderboard Content Area */}
@@ -157,14 +207,26 @@ export default function LeaderboardPage() {
 
           {/* Top 3 Ranks Section */}
           <div className="mt-6 relative" style={{ paddingBottom: "100px" }}>
-            <Top3Ranks top3Users={top3Users} />
+            <Top3Ranks
+              top3Users={top3Users.map((entry, idx) => ({
+                id: entry.id,
+                rank: idx + 1,
+                username: entry.user?.username ?? "Unknown",
+                points: entry.points, // or entry.overallPoints, depending on your schema
+              }))}
+            />
           </div>
 
           {/* Scrollable List of Other Users */}
           <div className="mx-[-3rem]" style={{ marginTop: "-100px" }}>
             {remainingUsers.length > 0 && (
               <LeaderboardList
-                users={remainingUsers}
+                users={remainingUsers.map((entry, idx) => ({
+                  id: entry.id,
+                  rank: idx + 4, // or your actual rank logic
+                  username: entry.user?.username ?? "Unknown",
+                  points: entry.points, // or entry.overallPoints, depending on your schema
+                }))}
                 onLoadMore={handleLoadMore}
                 hasMore={hasMore}
                 loading={loading}
