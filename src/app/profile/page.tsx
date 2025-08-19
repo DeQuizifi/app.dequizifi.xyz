@@ -2,7 +2,15 @@ import BalanceCard from "@/components/dashboard/BalanceCard";
 import { Card, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import ProfileWelcomeHeader from "@/components/dashboard/ProfileWelcomeHeader";
-import { mockBalance, mockProfileStats, mockUser } from "@/lib/data/mockData";
+import {
+  mockBalance,
+  mockProfileStats,
+  mockUser,
+  mockRewardsData,
+} from "@/lib/data/mockData";
+import Details from "@/components/profile/Details";
+import Statistics from "@/components/profile/Statistics";
+import Rewards from "@/components/profile/Rewards";
 import { CiCalendar } from "react-icons/ci";
 import { IoMedalOutline } from "react-icons/io5";
 import { LuCoins } from "react-icons/lu";
@@ -82,15 +90,26 @@ export default function ProfilePage() {
             </TabsList>
 
             <TabsContent value="details" className="mt-6">
-              {/* Details component is Already implemented. Import Here */}
+              <Details
+                username={mockUser.username}
+                walletAddress={mockUser.walletAddress}
+                joinedDate={mockUser.joinedDate}
+                favQuizTopic={mockUser.favQuizTopic}
+              />
             </TabsContent>
 
             <TabsContent value="statistics" className="mt-6">
-              {/* Statistics component will be implemented later */}
+              <Statistics
+                data={{
+                  quizzesWonThisWeek: mockProfileStats.quizzesWonThisWeek,
+                  totalQuizzesThisWeek: mockProfileStats.totalQuizzesThisWeek,
+                  topCategoriesThisWeek: mockProfileStats.topCategoriesThisWeek,
+                }}
+              />
             </TabsContent>
 
             <TabsContent value="rewards" className="mt-6">
-              {/* Rewards component will be implemented later */}
+              <Rewards data={mockRewardsData} />
             </TabsContent>
 
             <TabsContent value="settings" className="mt-6">
