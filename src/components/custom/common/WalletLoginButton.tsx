@@ -4,16 +4,18 @@ import React from "react";
 
 function WalletLoginButton() {
   return (
-    <div className="px-4 mt-40"> {/* or mt-40 for spacing */}
+    <div className="px-4 mt-40">
       <ConnectButton.Custom>
         {({ account, chain, openConnectModal, mounted }) => {
           return (
             <button
               onClick={openConnectModal}
               disabled={!mounted}
-              className="w-full bg-white text-black rounded-full shadow-lg hover:bg-gray-100 py-4 text-lg font-semibold transition"
+              className="w-full bg-white text-muted-foreground rounded-full shadow-lg hover:bg-gray-100 py-4 text-lg  transition"
             >
-              {account ? `Connected: ${account.displayName}` : "Login with Wallet"}
+              {account
+                ? `Connected: ${account.displayName}`
+                : "LOGIN WITH WALLET"}
             </button>
           );
         }}
