@@ -5,7 +5,6 @@ import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
 import { user } from "@/generated/prisma";
-import {mockUser } from "@/lib/data/mockData";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -27,7 +26,7 @@ export default function LeaderboardPage() {
   const [balance, setBalance] = useState<number | null>(null);
   const [header, setHeader] = useState<string | null>(null);
 
-  const {address, isConnected} = useAccount();
+  const { address, isConnected } = useAccount();
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -46,70 +45,74 @@ export default function LeaderboardPage() {
     fetchLeaderboard();
   }, [activeTab]);
 
- //fetching to header route
-useEffect(() => {
-  if (address && isConnected) {
-    const fetchHeader = async () => {
-      try {
-        const res = await fetch("/api/headerandbalance/header", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ walletAddress: address }),
-        });
+  //fetching to header route
+  useEffect(() => {
+    if (address && isConnected) {
+      const fetchHeader = async () => {
+        try {
+          const res = await fetch("/api/headerandbalance/header", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ walletAddress: address }),
+          });
 
-        const text = await res.text();
-        console.log("Raw response:", text);
+          const text = await res.text();
+          console.log("Raw response:", text);
 
-        if (!res.ok) {
-          throw new Error(`Bad response: ${res.status} - ${text}`);
+          if (!res.ok) {
+            throw new Error(`Bad response: ${res.status} - ${text}`);
+          }
+
+          if (!text) return;
+
+          const data = JSON.parse(text);
+          setHeader(data.username ?? null);
+        } catch (err) {
+          console.error(err);
         }
+      };
 
-        if (!text) return;
+      fetchHeader();
+    }
+  }, [address, isConnected]);
 
-        const data = JSON.parse(text);
-        setHeader(data.username ?? null);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  // Fetch balance from db
+  useEffect(() => {
+    if (address && isConnected) {
+      const fetchBalance = async () => {
+        try {
+          const res = await fetch("/api/headerandbalance/balance", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ walletAddress: address }),
+          });
 
-    fetchHeader();
-  }
-}, [address, isConnected]);
+          const text = await res.text();
+          console.log("Raw balance response:", text);
 
-//Fetch balance from db
+          if (!res.ok) {
+            throw new Error(`Bad response: ${res.status} - ${text}`);
+          }
 
-useEffect(()=>{
-  if(address && isConnected){
-    const fetchHeader = async () => {
-      try {
-        const res = await fetch("/api/headerandbalance/balance", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ walletAddress: address }),
-        });
+          if (!text) return;
 
-        const text = await res.text();
-        console.log("Raw response:", text);
-
-        if (!res.ok) {
-          throw new Error(`Bad response: ${res.status} - ${text}`);
+          const data = JSON.parse(text);
+          // Expecting { balance: number } from the API
+          if (
+            typeof data.balance === "number" &&
+            Number.isFinite(data.balance)
+          ) {
+            setBalance(data.balance);
+          } else {
+            setBalance(null);
+          }
+        } catch (err) {
+          console.error(err);
         }
-
-        if (!text) return;
-
-        const data = JSON.parse(text);
-        setHeader(data.username ?? null);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchHeader();
-  }
-}, [address, isConnected]);
-
-
+      };
+      fetchBalance();
+    }
+  }, [address, isConnected]);
 
   const currentLeaderboard = leaderboardData;
   const top3Users = currentLeaderboard.slice(0, 3);
