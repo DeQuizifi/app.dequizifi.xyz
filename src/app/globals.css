@@ -22,6 +22,13 @@
   --destructive-foreground: hsl(0 0% 100%);
   --border: hsl(240 17.0732% 91.9608%);
   --input: hsl(0 0% 92.1569%);
+  /* Background used for search / subtle input surfaces. Uses a lightly transparent mix of --input.
+    We provide a fallback to --input for older browsers that don't support color-mix. */
+  --search-input-bg: color-mix(
+    in srgb,
+    var(--input) 20%,
+    rgba(255, 255, 255, 0)
+  );
   --ring: hsl(0 0% 0%);
   --chart-1: hsl(148.0952 53.3898% 53.7255%);
   --chart-2: hsl(257.9412 100% 60%);
@@ -85,6 +92,8 @@
   --destructive-foreground: hsl(0 0% 100%);
   --border: hsl(222.8571 6.422% 21.3725%);
   --input: hsl(222.8571 6.422% 21.3725%);
+  /* Dark mode search background — slightly transparent mix of --input */
+  --search-input-bg: color-mix(in srgb, var(--input) 18%, rgba(0, 0, 0, 0));
   --ring: hsl(257.6687 100% 68.0392%);
   --chart-1: hsl(141.8919 69.1589% 58.0392%);
   --chart-2: hsl(257.6687 100% 68.0392%);
