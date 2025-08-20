@@ -1,8 +1,25 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAccount } from "wagmi";
 
 function WalletLoginButton() {
+
+  const {address, isConnected} = useAccount();
+
+  useEffect(()=>{
+    if(isConnected && address){
+      fetch("/api/walletlogin",{
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({walletAddress: address})
+      })
+      .then(res => res.json())
+      .then(data => console.log("User synced:", data))
+      .catch(err => console.error(err));
+    }
+  }, [isConnected, address])
+
   return (
     <div className="px-4 mt-40">
       <ConnectButton.Custom>
