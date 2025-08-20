@@ -4,21 +4,25 @@ import React, { useEffect } from "react";
 import { useAccount } from "wagmi";
 
 function WalletLoginButton() {
+  const { address, isConnected } = useAccount();
 
-  const {address, isConnected} = useAccount();
-
-  useEffect(()=>{
-    if(isConnected && address){
-      fetch("/api/walletlogin",{
+  useEffect(() => {
+    if (isConnected && address) {
+      //fetching to walletlogin route
+      fetch("/api/walletlogin", {
         method: "POST",
-        headers: {"Content-type": "application/json"},
-        body: JSON.stringify({walletAddress: address})
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ walletAddress: address }),
       })
-      .then(res => res.json())
-      .then(data => console.log("User synced:", data))
-      .catch(err => console.error(err));
+        .then(async (res) => {
+          const text = await res.text();
+          if (!text) return {};
+          return JSON.parse(text);
+        })
+        .then((data) => console.log("User synced:", data))
+        .catch((err) => console.error(err));
     }
-  }, [isConnected, address])
+  }, [isConnected, address]);
 
   return (
     <div className="px-4 mt-40">

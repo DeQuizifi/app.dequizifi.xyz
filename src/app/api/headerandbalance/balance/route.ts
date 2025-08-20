@@ -1,18 +1,28 @@
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(req:Request) {
   try {
-    const balance = await prisma.user.findUnique({
-      where: {
-        id: "user-1-id",
+    const {walletAddress} = await req.json()
+
+    if(!walletAddress){
+      return NextResponse.json({error: "Missing Wallet Address"},{status:400})
+    }
+    const user = await prisma.user.findUnique({
+      where:{
+        walletAddress,
       },
-      select: {
+      select:{
         balance: true,
-      },
+      }
     });
-    return NextResponse.json(balance);
+     if(!user){
+        return NextResponse.json({error: "User Not Found"},{status: 404})
+      }
+    return NextResponse.json({balance: user.balance},{status: 200})
+
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Failed to fetch user balance" }, { status: 500 });
   }
 }
