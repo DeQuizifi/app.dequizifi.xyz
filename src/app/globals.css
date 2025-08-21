@@ -71,6 +71,14 @@
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
   --tracking-normal: -0.025em;
   --spacing: 0.27rem;
+  /* Component-specific tokens (keeps the original visual colors) */
+  --welcome-foreground: #ffffff;
+  --welcome-foreground-90: color-mix(in srgb, var(--welcome-foreground) 90%, rgba(0,0,0,0));
+
+  --balance-card: #2B2356;
+  --balance-card-foreground: #ffffff;
+  --balance-icon: #ffffff;
+  --balance-icon-foreground: #2563eb;
 }
 
 .dark {
@@ -133,6 +141,14 @@
   --shadow-xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.16),
     0px 8px 10px -1px hsl(0 0% 0% / 0.16);
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
+  /* Dark-mode overrides for component-specific tokens */
+  --welcome-foreground: #ffffff;
+  --welcome-foreground-90: color-mix(in srgb, var(--welcome-foreground) 90%, rgba(0,0,0,0));
+
+  --balance-card: #2B2356;
+  --balance-card-foreground: #ffffff;
+  --balance-icon: #111827;
+  --balance-icon-foreground: #60a5fa;
 }
 
 @theme inline {
@@ -269,3 +285,16 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
 }
+
+/* Utilities used by components to read theme tokens */
+.bg-balance-card { background-color: var(--balance-card); }
+.text-balance-foreground { color: var(--balance-card-foreground); }
+.bg-balance-icon { background-color: var(--balance-icon); }
+.text-balance-icon-foreground { color: var(--balance-icon-foreground); }
+
+/* Welcome header text utilities */
+.text-welcome-foreground { color: var(--welcome-foreground); }
+.text-welcome-foreground-90 { color: var(--welcome-foreground-90); }
+
+/* Generic helper kept for other components */
+.text-foreground-90 { color: color-mix(in srgb, var(--color-foreground) 90%, rgba(0,0,0,0)); }
