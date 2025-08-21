@@ -44,6 +44,19 @@
   --sidebar-border: hsl(0 0% 92.1569%);
   --sidebar-ring: hsl(0 0% 0%);
   --progress-bar-playtoday: #af7ee7;
+  /* Circular progress colors */
+  --circular-bg: #2C2357;
+  --circular-fill: #D485F2;
+  --circular-text: #ffffff;
+
+  /* Invite banner colors */
+  --invite-banner-bg: rgba(124,58,237,0.08); /* violet-500 at ~8% */
+  --invite-close-icon: #ffffff;
+  --invite-title-color: #ffffff;
+  --invite-text-color: rgba(255,255,255,0.9);
+  --invite-button-bg: #ffffff;
+  --invite-button-bg-hover: rgba(255,255,255,0.9);
+  --invite-button-text: var(--foreground);
   --progress-low: #8b5cf6;
   --progress-medium: #f59e0b;
   --progress-high: #10b981;
@@ -112,6 +125,19 @@
   --progress-medium: #fbbf24;
   --progress-high: #34d399;
   --progress-bg: #374151;
+  /* Circular progress (dark mode) */
+  --circular-bg: #1b1336;
+  --circular-fill: #a78bfa;
+  --circular-text: #ffffff;
+
+  /* Invite banner (dark mode) */
+  --invite-banner-bg: rgba(124,58,237,0.12);
+  --invite-close-icon: #ffffff;
+  --invite-title-color: #ffffff;
+  --invite-text-color: rgba(255,255,255,0.9);
+  --invite-button-bg: #111827;
+  --invite-button-bg-hover: rgba(255,255,255,0.06);
+  --invite-button-text: var(--foreground);
   --quiz-card-bg: hsl(228 6.8493% 14.3137%);
   --quiz-card-border: hsl(222.8571 6.422% 21.3725%);
   --quiz-title-color: hsl(0 0% 94.1176%);

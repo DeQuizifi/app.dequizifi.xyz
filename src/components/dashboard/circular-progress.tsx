@@ -61,18 +61,18 @@ function CircularProgress({
           cx={radius}
           cy={radius}
           r={radius}
-          fill="#2C2357"
+          fill="var(--circular-bg)"
         />
         {/* Pie slice */}
         <path
           d={describePieSlice(radius, radius, radius, value)}
-          fill="#D485F2"
+          fill="var(--circular-fill)"
           className="transition-all duration-300 ease-in-out"
         />
       </svg>
       {showValue && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-semibold text-white">
+          <span className="text-sm font-semibold" style={{ color: "var(--circular-text)" }}>
             {Math.round(value)}%
           </span>
         </div>
