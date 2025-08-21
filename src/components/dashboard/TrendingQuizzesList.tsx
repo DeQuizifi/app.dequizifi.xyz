@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {
   Card,
@@ -6,21 +7,60 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useEffect, useState } from "react";
 
-export default function TrendingQuizzesList({
-  cards,
-}: {
-  cards: { title: string; description: string; action: string }[];
-}) {
+type QuizProps = {
+  title: string;
+  numberofquestions: number; // Match API response
+  numberofattempts: number; // Match API response
+};
+
+export default function TrendingQuizzesList() {
+  const [trending, setTrending] = useState<QuizProps[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchTrendingQuizzes = async () => {
+      try {
+        const res = await fetch("/api/dashboard/trendingquiz");
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "Something went wrong");
+        } else {
+          setTrending(data.result || []);
+        }
+      } catch (err) {
+        setError("Failed to fetch data");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTrendingQuizzes();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (trending.length === 0) {
+    return <div>No trending quizzes available.</div>;
+  }
+
   return (
     <div className="flex flex-col items-center">
-      {cards.map((c, i) => (
+      {trending.map((quiz, i) => (
         <TrendingCard
-          key={`${c.title}-${c.action}-${i}`}
-          title={c.title}
-          description={c.description}
-          action={c.action}
-          isLast={i === cards.length - 1}
+          key={`${quiz.title}-${i}`}
+          title={quiz.title}
+          description={`Questions: ${quiz.numberofquestions}`}
+          action={`${quiz.numberofattempts}`}
+          isLast={i === trending.length - 1}
         />
       ))}
     </div>
