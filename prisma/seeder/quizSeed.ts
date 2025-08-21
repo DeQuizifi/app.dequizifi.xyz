@@ -2,7 +2,7 @@ import { PrismaClient } from "../../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
-async function seedQuizzes() {
+export async function main() {
   await prisma.quiz.create({
     data: {
       title: "DEX vs CEX",
@@ -87,10 +87,70 @@ async function seedQuizzes() {
     },
   });
 
+  await prisma.quiz.create({
+    data: {
+      title: "Web3 Wallets",
+      category: "Wallets",
+      questions: {
+        create: Array.from({ length: 20 }, (_, i) => ({
+          text: `Web3 Wallets Question ${i + 1}`,
+        })),
+      },
+    },
+  });
+
+  await prisma.quiz.create({
+    data: {
+      title: "Tokenomics 101",
+      category: "Economics",
+      questions: {
+        create: Array.from({ length: 20 }, (_, i) => ({
+          text: `Tokenomics 101 Question ${i + 1}`,
+        })),
+      },
+    },
+  });
+
+  await prisma.quiz.create({
+    data: {
+      title: "Layer 2 Solutions",
+      category: "Scaling",
+      questions: {
+        create: Array.from({ length: 20 }, (_, i) => ({
+          text: `Layer 2 Solutions Question ${i + 1}`,
+        })),
+      },
+    },
+  });
+
+  await prisma.quiz.create({
+    data: {
+      title: "Regulation & Compliance",
+      category: "Legal",
+      questions: {
+        create: Array.from({ length: 20 }, (_, i) => ({
+          text: `Regulation & Compliance Question ${i + 1}`,
+        })),
+      },
+    },
+  });
+
+  await prisma.quiz.create({
+    data: {
+      title: "Crypto Mining",
+      category: "Mining",
+      questions: {
+        create: Array.from({ length: 20 }, (_, i) => ({
+          text: `Crypto Mining Question ${i + 1}`,
+        })),
+      },
+    },
+  });
+
   console.log("Quizzes seeded successfully.");
 }
 
-seedQuizzes()
+main()
   .catch((e) => {
     console.error(e);
     process.exit(1);

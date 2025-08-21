@@ -1,6 +1,7 @@
+import "./userSeed";
+import "./rewardSeed";
 import "./profileStatsSeed";
 import "./quizSeed";
-import "./rewardSeed";
-import "./userSeed";
+import "./quizAttemptSeed";
 
 console.log("All seeders executed.");
