@@ -62,8 +62,8 @@ export default function ContestTab({ contests }: ContestTabProps) {
               <div className="text-right flex flex-col items-end justify-center">
                 <div className="font-medium">{c.prize}</div>
                 <button
-                  className="text-xs text-muted-foreground mt-1 hover:underline focus:outline-none"
-                  aria-label={`Join ${c.name} contest`}
+                  type="button"
+                  className="text-xs text-muted-foreground mt-1 hover:underline focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background"
                 >
                   Join now
                 </button>
