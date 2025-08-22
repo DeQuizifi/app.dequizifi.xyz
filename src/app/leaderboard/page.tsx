@@ -193,7 +193,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Scrollable List of Other Users */}
-          <div className="mx-[-3rem]" style={{ marginTop: "-100px" }}>
+          <div className="mx-[-1.5rem]" style={{ marginTop: "-100px" }}>
             {remainingUsers.length > 0 && (
               <LeaderboardList
                 users={remainingUsers.map((entry, idx) => ({
