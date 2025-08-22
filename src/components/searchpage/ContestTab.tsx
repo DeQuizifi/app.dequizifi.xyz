@@ -37,12 +37,8 @@ export default function ContestTab({ contests }: ContestTabProps) {
     },
   ];
 
-  // Before:
-- const list = contests && contests.length > 0 ? contests : placeholder;
-  
-  // After:
+  // Use placeholder only when `contests` is nullish; keep [] as an explicit empty state.
   const list = contests ?? placeholder;
-
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-4 w-full max-w-md mx-auto">
