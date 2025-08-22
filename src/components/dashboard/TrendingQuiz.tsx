@@ -1,3 +1,4 @@
+
 import TrendingQuizzesList from "./TrendingQuizzesList";
 
 export default function TrendingQuiz() {
@@ -16,7 +17,7 @@ export default function TrendingQuiz() {
   return (
     <div className="border border-gray-200 bg-white rounded-t-xl p-4 shadow-sm">
       <h1 className="text-2xl font-semibold mx-2 my-2">Trending Quizzes</h1>
-      <TrendingQuizzesList cards={cards} />
+      <TrendingQuizzesList/>
     </div>
   );
 }
