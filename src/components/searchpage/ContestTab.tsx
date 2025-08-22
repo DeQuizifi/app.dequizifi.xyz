@@ -37,7 +37,11 @@ export default function ContestTab({ contests }: ContestTabProps) {
     },
   ];
 
-  const list = contests && contests.length > 0 ? contests : placeholder;
+  // Before:
+- const list = contests && contests.length > 0 ? contests : placeholder;
+  
+  // After:
+  const list = contests ?? placeholder;
 
   return (
     <div className="mt-4 px-4">
