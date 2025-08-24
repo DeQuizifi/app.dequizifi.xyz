@@ -20,15 +20,15 @@ export default function LeaderboardList({
   loading = false,
 }: LeaderboardListProps) {
   return (
-    <div 
-      className="bg-background pt-6 px-6 pb-4 relative z-10 overflow-hidden"
+    <div
+      className="bg-background pt-0 px-6 pb-4 relative z-10"
       style={{
-        borderTopLeftRadius: '24px !important',
-        borderTopRightRadius: '24px !important',
-        clipPath: 'inset(0px 0px 0px 0px round 24px 24px 0px 0px)'
+        borderTopLeftRadius: "24px",
+        borderTopRightRadius: "24px",
+        clipPath: "inset(0px 0px 0px 0px round 24px 24px 0px 0px)",
       }}
     >
-      <div className="space-y-3">
+      <div className="space-y-8">
         {/* Scrollable list container */}
         <div className="max-h-80 overflow-y-auto space-y-3 pr-2 scroll-smooth">
           {users.map((user) => (
