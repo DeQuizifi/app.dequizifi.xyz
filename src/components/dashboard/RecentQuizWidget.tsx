@@ -3,6 +3,8 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { CircularProgress } from "./circular-progress";
+import { useAccount } from "wagmi";
+import { useEffect, useState } from "react";
 
 interface RecentQuizWidgetProps {
   title: string;
@@ -11,12 +13,68 @@ interface RecentQuizWidgetProps {
   className?: string;
 }
 
+type RecentQuizProps = {
+  quizId: number;
+  quiz: {
+    title: string;
+  };
+};
+
+type RecentQuizScoreProps = {
+  quizId: number,
+  score: number,
+  quiz: {
+    title: string;
+  };
+}
+
 export default function RecentQuizWidget({
   title,
   progress,
   onClick,
   className,
 }: RecentQuizWidgetProps) {
+  //RecentQuizInformation
+  const { address, isConnected } = useAccount();
+  const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<RecentQuizProps | null>();
+  const [number, setNumber] = useState<RecentQuizScoreProps>();
+
+  useEffect(() => {
+    try {
+      if (!isConnected || !address) {
+        return setError("Can't find user");
+      }
+      const fetchrecentquizinfo = async () => {
+        const [resTitle, resScore] = await Promise.all([
+          fetch(`/api/dashboard/recentquiz?wallet=${address}`),
+          fetch(`/api/dashboard/recentquizscore?wallet=${address}`),
+        ]);
+        const [dataTitle, dataScore] = await Promise.all([
+          resTitle.json(),
+          resScore.json(),
+        ]);
+        //For Title
+        if (!resTitle.ok) {
+          return setError(dataTitle.error);
+        } else {
+          setInfo(dataTitle.recentquiz);
+        }
+
+        //For Score
+        if (!resScore.ok) {
+          return setError(dataScore.error);
+        } else {
+          setNumber(dataScore.recentquiz);
+        }
+      };
+      fetchrecentquizinfo();
+    } catch (error) {
+      console.error(error);
+      setError("Internal Server Error");
+    }
+  }, [address, isConnected]);
+
   return (
     <Card
       className={cn(
@@ -49,14 +107,14 @@ export default function RecentQuizWidget({
               Recent Quiz
             </h3>
             <h4 className="text-lg font-semibold text-white leading-tight">
-              {title}
+              {info?.quiz.title || "No Recent Quiz"}
             </h4>
           </div>
 
           {/* Right side - Circular progress */}
           <div className="flex-shrink-0">
             <CircularProgress
-              value={progress}
+              value={number?.score ?? 0}
               size={64}
               className="text-white"
             />

@@ -1,9 +1,25 @@
+
+import "@farcaster/auth-kit/styles.css";
+import { AuthKitProvider } from "@farcaster/auth-kit";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import RainbowKitProviderWrapper from "@/providers/RainbowKitProviderWrapper";
 import ConditionalNavbar from "@/components/layout/ConditionalNavbar";
 import { UserProvider } from "@/context/userContext";
+import ClientAppProvider from "@/components/custom/common/ClientAppProvider";
+
+type FarcasterAuthKitConfig = {
+  rpcUrl: string;
+  domain: string;
+  siweUri: string;
+};
+
+const config: FarcasterAuthKitConfig = {
+  rpcUrl: "https://mainnet.optimism.io",
+  domain: "example.com",
+  siweUri: "https://example.com/login",
+};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,25 +38,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <RainbowKitProviderWrapper>
-          <UserProvider>
-          <div className="max-h-screen flex flex-col">
-            {/* Main content area with bottom padding for navbar */}
-            <main className="flex-1">{children}</main>
-            {/* Conditional Bottom Navigation */}
-            <ConditionalNavbar />
-          </div>
-          </UserProvider>
-        </RainbowKitProviderWrapper>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ClientAppProvider>{children}</ClientAppProvider>
       </body>
-    </html>
-  );
-}
+      </html>
+    );
+  }

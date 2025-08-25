@@ -1,16 +1,17 @@
+"use client";
 import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlayToday from "@/components/play/playToday";
 import {
-  mockBalance,
-  mockUser,
   playToday,
   playUnfinishedQuizzes,
 } from "@/lib/data/mockData";
 import UnfinishedQuizzes from "@/components/play/unfinishedQuizzes";
+import { useUser } from "@/context/userContext";
 
 function PlayPage() {
+  const { username, balance } = useUser();
   return (
     <main
       className="min-h-screen relative overflow-x-hidden"
@@ -29,8 +30,8 @@ function PlayPage() {
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
-            <WelcomeHeader name={mockUser.username} />
-            <BalanceCard amount={mockBalance} />
+            <WelcomeHeader name={username ?? undefined} />
+            <BalanceCard amount={balance ?? 0} />
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
 import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import TrendingQuiz from "@/components/dashboard/TrendingQuiz";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import { useUser } from "@/context/userContext";
 import {
   mockBalance,
   mockRecentQuiz,
@@ -15,15 +16,12 @@ import {
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [balance, setBalance] = useState(0);
+  const { username, balance } = useUser();
   const [recentQuiz, setRecentQuiz] = useState<RecentQuiz | null>(null);
 
   useEffect(() => {
     // Simulate loading user data
     const timer = setTimeout(() => {
-      setUser(mockUser);
-      setBalance(mockBalance);
       setRecentQuiz(mockRecentQuiz);
     }, 100);
 
@@ -50,8 +48,8 @@ export default function DashboardPage() {
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
-            <WelcomeHeader name={user?.username} />
-            <BalanceCard amount={balance} />
+            <WelcomeHeader name={username ?? undefined} />
+            <BalanceCard amount={balance ?? 0} />
           </div>
         </div>
 
