@@ -6,6 +6,11 @@ const WalletLoginButton = dynamic(
   { ssr: false }
 );
 
+const FarcasterSignInButton = dynamic(
+  () => import("@/components/custom/common/FarcasterSignInButton"),
+  { ssr: false }
+);
+
 function page() {
   return (
     <div
@@ -23,7 +28,12 @@ function page() {
             Paced Quizzes
           </p>
         </div>
-        <WalletLoginButton />
+        <div className="flex flex-col gap-4 w-full max-w-sm mx-auto">
+          <WalletLoginButton />
+          <div className="flex justify-center">
+            <FarcasterSignInButton nonce="sample-nonce-value" />
+          </div>
+        </div>
       </div>
     </div>
   );
