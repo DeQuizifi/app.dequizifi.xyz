@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { SiweMessage } from "siwe";
 import prisma from "@/lib/prisma/prisma";
 
@@ -13,18 +14,23 @@ function generateUsername() {
 
 export async function POST(req: Request) {
   try {
-    const { message, signature, nonce, fid, username } = await req.json();
+    const { message, signature, fid, username } = await req.json();
+    const cookieStore = await cookies();
+    const expectedNonce = cookieStore.get("siwe_nonce")?.value;
 
-    if (!message || !signature || !nonce) {
+    if (!message || !signature || !expectedNonce) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Missing required fields (or nonce expired)" },
         { status: 400 }
       );
     }
 
     // Verify the SIWE message
     const siweMessage = new SiweMessage(message);
-    const result = await siweMessage.verify({ signature, nonce });
+    const result = await siweMessage.verify({
+      signature,
+      nonce: expectedNonce,
+    });
 
     if (!result.success) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
