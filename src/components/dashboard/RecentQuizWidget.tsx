@@ -37,8 +37,8 @@ export default function RecentQuizWidget({
   //RecentQuizInformation
   const { address, isConnected } = useAccount();
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<RecentQuizProps | null>();
-  const [number, setNumber] = useState<RecentQuizScoreProps>();
+  const [info, setInfo] = useState<RecentQuizProps | null>(null);
+  const [number, setNumber] = useState<RecentQuizScoreProps | null>(null);
 
   useEffect(() => {
     try {
@@ -107,7 +107,7 @@ export default function RecentQuizWidget({
               Recent Quiz
             </h3>
             <h4 className="text-lg font-semibold text-white leading-tight">
-              {info?.quiz.title || "No Recent Quiz"}
+              {info?.quiz?.title || "No Recent Quiz"}
             </h4>
           </div>
 
