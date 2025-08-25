@@ -37,6 +37,7 @@ export async function GET(req: Request) {
         }
       }
     });
+
     return NextResponse.json({ recentquiz });
   } catch {
     return NextResponse.json(
