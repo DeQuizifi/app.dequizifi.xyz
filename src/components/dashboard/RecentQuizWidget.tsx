@@ -21,12 +21,12 @@ type RecentQuizProps = {
 };
 
 type RecentQuizScoreProps = {
-  quizId: number,
-  score: number,
+  quizId: number;
+  score: number;
   quiz: {
     title: string;
   };
-}
+};
 
 export default function RecentQuizWidget({
   title,
@@ -38,7 +38,7 @@ export default function RecentQuizWidget({
   const { address, isConnected } = useAccount();
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<RecentQuizProps | null>(null);
-  const [number, setNumber] = useState<RecentQuizScoreProps | null>(null);
+  const [scoreData, setScoreData] = useState<RecentQuizScoreProps | null>(null);
 
   useEffect(() => {
     try {
@@ -65,7 +65,7 @@ export default function RecentQuizWidget({
         if (!resScore.ok) {
           return setError(dataScore.error);
         } else {
-          setNumber(dataScore.recentquiz);
+          setScoreData(dataScore.recentquiz);
         }
       };
       fetchrecentquizinfo();
@@ -114,7 +114,7 @@ export default function RecentQuizWidget({
           {/* Right side - Circular progress */}
           <div className="flex-shrink-0">
             <CircularProgress
-              value={number?.score ?? 0}
+              value={scoreData?.score ?? 0}
               size={64}
               className="text-white"
             />
