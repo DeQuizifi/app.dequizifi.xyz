@@ -3,13 +3,14 @@ import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
 //Extacting the username from farcaster account
-export async function getFarcasterUsername(walletAddress: string){
-   const res = await fetch(`https://api.farcaster.xyz/users/byWallet/${walletAddress}`);
+export async function getFarcasterUsername(walletAddress: string) {
+  const res = await fetch(
+    `https://api.farcaster.xyz/users/byWallet/${walletAddress}`
+  );
 
-   if(!res.ok) return null;
-   const data = await res.json();
-   return data.username;
-
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.username;
 }
 
 // Simple random username generator(just for now)
@@ -25,7 +26,10 @@ export async function POST(req: Request) {
   const { walletAddress } = await req.json();
 
   if (!walletAddress) {
-    return NextResponse.json({ error: "Missing Wallet Address" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing Wallet Address" },
+      { status: 400 }
+    );
   }
 
   // Check if user exists
@@ -44,10 +48,14 @@ export async function POST(req: Request) {
     });
   }
 
-    // ✅ Issue JWT inside the function
+  // ✅ Issue JWT inside the function
   const token = signToken(walletAddress);
 
-  return NextResponse.json({ success: true, user, token }, { status: 200 });
-
-  
+  // Set HttpOnly cookie with JWT
+  const response = NextResponse.json({ success: true, user }, { status: 200 });
+  response.headers.append(
+    "Set-Cookie",
+    `token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=604800`
+  );
+  return response;
 }

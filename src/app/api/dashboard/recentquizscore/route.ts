@@ -3,18 +3,21 @@ import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const authHeader = req.headers.get("authorization")
-    if(!authHeader?.startsWith("Bearer ")){
-      return NextResponse.json({error:"Unauthorized"},{status: 401})
-    }
-  
-    const token = authHeader.split(" ")[1];
-    const decoded = verifyToken(token);
-    if(!decoded){
-      return NextResponse.json({error:"Invalid or expired token"},{status:401})
-    }
-  
-    const wallet = decoded.wallet;
+  // Read JWT from cookie
+  const cookieHeader = req.headers.get("cookie") || "";
+  const match = cookieHeader.match(/token=([^;]+)/);
+  const token = match ? match[1] : null;
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const decoded = verifyToken(token);
+  if (!decoded) {
+    return NextResponse.json(
+      { error: "Invalid or expired token" },
+      { status: 401 }
+    );
+  }
+  const wallet = decoded.wallet;
   try {
     const username = await prisma.user.findUnique({
       where: {
@@ -31,18 +34,18 @@ export async function GET(req: Request) {
       where: {
         userId: username.id,
       },
-      orderBy:{
+      orderBy: {
         createdAt: "desc",
       },
-      select:{
+      select: {
         quizId: true,
-        score:true,
-        quiz:{
-            select:{
-                title:true,
-            }
-        }
-      }
+        score: true,
+        quiz: {
+          select: {
+            title: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json({ recentquiz });
