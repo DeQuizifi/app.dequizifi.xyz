@@ -21,12 +21,12 @@ type RecentQuizProps = {
 };
 
 type RecentQuizScoreProps = {
-  quizId: number,
-  score: number,
+  quizId: number;
+  score: number;
   quiz: {
     title: string;
   };
-}
+};
 
 export default function RecentQuizWidget({
   title,
@@ -37,43 +37,85 @@ export default function RecentQuizWidget({
   //RecentQuizInformation
   const { address, isConnected } = useAccount();
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<RecentQuizProps | null>();
-  const [number, setNumber] = useState<RecentQuizScoreProps>();
+  const [info, setInfo] = useState<RecentQuizProps | null>(null);
+  const [number, setNumber] = useState<RecentQuizScoreProps | null>(null);
+  const [token, setToken] = useState<string | null>(() => {
+    // Initialize token from localStorage if available
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("jwtToken");
+    }
+    return null;
+  });
+
+  // Watch for token changes in localStorage
+  useEffect(() => {
+    const checkToken = () => {
+      const storedToken = localStorage.getItem("jwtToken");
+      if (storedToken !== token) {
+        setToken(storedToken);
+      }
+    };
+
+    // Set up an interval to check periodically (for when token is set by login)
+    const interval = setInterval(checkToken, 500);
+
+    // Clean up interval
+    return () => clearInterval(interval);
+  }, [token]);
 
   useEffect(() => {
-    try {
+    const fetchrecentquizinfo = async () => {
       if (!isConnected || !address) {
-        return setError("Can't find user");
+        setError("Can't find user");
+        setInfo(null);
+        setNumber(null);
+        return;
       }
-      const fetchrecentquizinfo = async () => {
+      if (!token) {
+        setError("User not logged in");
+        setInfo(null);
+        setNumber(null);
+        return;
+      }
+      try {
         const [resTitle, resScore] = await Promise.all([
-          fetch(`/api/dashboard/recentquiz?wallet=${address}`),
-          fetch(`/api/dashboard/recentquizscore?wallet=${address}`),
+          fetch(`/api/dashboard/recentquiz`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }),
+          fetch(`/api/dashboard/recentquizscore`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }),
         ]);
         const [dataTitle, dataScore] = await Promise.all([
           resTitle.json(),
           resScore.json(),
         ]);
-        //For Title
-        if (!resTitle.ok) {
-          return setError(dataTitle.error);
+        let errorMsg = null;
+        if (!resTitle.ok && !resScore.ok) {
+          errorMsg =
+            dataTitle.error || dataScore.error || "Internal Server Error";
+          setInfo(null);
+          setNumber(null);
         } else {
-          setInfo(dataTitle.recentquiz);
+          setInfo(resTitle.ok ? dataTitle.recentquiz : null);
+          setNumber(resScore.ok ? dataScore.recentquiz : null);
         }
-
-        //For Score
-        if (!resScore.ok) {
-          return setError(dataScore.error);
-        } else {
-          setNumber(dataScore.recentquiz);
-        }
-      };
-      fetchrecentquizinfo();
-    } catch (error) {
-      console.error(error);
-      setError("Internal Server Error");
-    }
-  }, [address, isConnected]);
+        setError(errorMsg);
+      } catch (error) {
+        console.error(error);
+        setError("Internal Server Error");
+        setInfo(null);
+        setNumber(null);
+      }
+    };
+    fetchrecentquizinfo();
+  }, [address, isConnected, token]);
 
   return (
     <Card
@@ -107,17 +149,22 @@ export default function RecentQuizWidget({
               Recent Quiz
             </h3>
             <h4 className="text-lg font-semibold text-white leading-tight">
-              {info?.quiz.title || "No Recent Quiz"}
+              {error
+                ? error
+                : info?.quiz?.title
+                ? info.quiz.title
+                : "No Recent Quiz"}
             </h4>
           </div>
 
           {/* Right side - Circular progress */}
           <div className="flex-shrink-0">
             <CircularProgress
-              value={number?.score ?? 0}
+              value={typeof number?.score === "number" ? number.score : 0}
               size={64}
               className="text-white"
             />
+            {error && <div className="text-xs text-red-400 mt-2">{error}</div>}
           </div>
         </div>
       </div>

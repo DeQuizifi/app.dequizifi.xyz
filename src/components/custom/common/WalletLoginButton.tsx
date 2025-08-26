@@ -8,7 +8,6 @@ function WalletLoginButton() {
 
   useEffect(() => {
     if (isConnected && address) {
-      //fetching to walletlogin route
       fetch("/api/walletlogin", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -19,7 +18,12 @@ function WalletLoginButton() {
           if (!text) return {};
           return JSON.parse(text);
         })
-        .then((data) => console.log("User synced:", data))
+        .then((data) => {
+          if (data.token) {
+            localStorage.setItem("jwtToken", data.token);
+          }
+          console.log("User synced:", data);
+        })
         .catch((err) => console.error(err));
     }
   }, [isConnected, address]);
