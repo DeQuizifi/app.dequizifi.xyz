@@ -1,6 +1,14 @@
 import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET!; // keep this safe in .env
+// Resolve and validate the JWT secret once at module load
+const SECRET_ENV = process.env.JWT_SECRET;
+if (!SECRET_ENV || !SECRET_ENV.trim()) {
+  // Fail fast with a descriptive message to avoid signing/verifying with undefined
+  throw new Error(
+    "JWT_SECRET is not set. Define it in the server environment."
+  );
+}
+const SECRET = SECRET_ENV;
 
 // Create JWT with wallet address
 export function signToken(wallet: string) {
