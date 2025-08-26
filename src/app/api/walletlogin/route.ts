@@ -1,3 +1,4 @@
+import { signToken } from "@/lib/auth";
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
@@ -43,5 +44,10 @@ export async function POST(req: Request) {
     });
   }
 
-  return NextResponse.json({ success: true, user }, { status: 200 });
+    // ✅ Issue JWT inside the function
+  const token = signToken(walletAddress);
+
+  return NextResponse.json({ success: true, user, token }, { status: 200 });
+
+  
 }
