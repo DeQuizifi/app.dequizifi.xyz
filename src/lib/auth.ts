@@ -12,7 +12,8 @@ const SECRET = SECRET_ENV;
 
 // Create JWT with wallet address
 export function signToken(wallet: string) {
-  return jwt.sign({ wallet }, SECRET, { expiresIn: "1h" }); // token expires in 1 hour
+  // Align with cookie Max-Age (7 days). Consider short-lived access + refresh in future.
+  return jwt.sign({ wallet }, SECRET, { expiresIn: "7d" });
 }
 
 // Verify and decode JWT

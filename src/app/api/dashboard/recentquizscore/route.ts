@@ -1,12 +1,17 @@
 import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET(req: Request) {
-  // Read JWT from cookie
-  const cookieHeader = req.headers.get("cookie") || "";
-  const match = cookieHeader.match(/token=([^;]+)/);
-  const token = match ? match[1] : null;
+  // Read JWT from Authorization header (preferred) or cookie
+  const authHeader = req.headers.get("authorization") || "";
+  const tokenFromHeader = authHeader.startsWith("Bearer ")
+    ? authHeader.slice(7).trim()
+    : null;
+  const cookieStore = await cookies();
+  const tokenFromCookie = cookieStore.get("token")?.value ?? null;
+  const token = tokenFromHeader ?? tokenFromCookie;
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
