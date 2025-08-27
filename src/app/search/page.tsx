@@ -1,10 +1,12 @@
+"use client";
 import SearchBar from "@/components/searchpage/SearchBar";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import Tab from "@/components/searchpage/Tabs";
-import { mockBalance } from "@/lib/data/mockData";
+import { useUser } from "@/context/userContext";
 
 export default function SearchQuiz() {
+   const { username, balance } = useUser();
   return (
     <main>
       <div
@@ -19,8 +21,8 @@ export default function SearchQuiz() {
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
-            <WelcomeHeader name="Arion Loveless" />
-            <BalanceCard amount={mockBalance} />
+            <WelcomeHeader name={username ?? undefined} />
+            <BalanceCard amount={balance ?? 0} />
           </div>
         </div>
 

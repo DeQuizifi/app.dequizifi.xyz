@@ -10,19 +10,18 @@ function WalletLoginButton() {
     if (isConnected && address) {
       fetch("/api/walletlogin", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ walletAddress: address }),
       })
         .then(async (res) => {
-          const text = await res.text();
-          if (!text) return {};
-          return JSON.parse(text);
-        })
-        .then((data) => {
-          if (data.token) {
-            localStorage.setItem("jwtToken", data.token);
+          if (!res.ok) {
+            const errText = await res.text().catch(() => "");
+            throw new Error(`Wallet login failed: ${res.status} ${errText}`);
           }
-          console.log("User synced:", data);
+          // Token is set via HttpOnly cookie by the server.
+          console.log("Wallet synced.");
+          return res.json().catch(() => ({}));
         })
         .catch((err) => console.error(err));
     }
