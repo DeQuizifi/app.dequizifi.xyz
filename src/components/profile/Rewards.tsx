@@ -31,37 +31,40 @@ function Rewards() {
   const [xpProgress, setXpProgress] = useState(0);
 
   useEffect(() => {
-  if (!address || !isConnected) {
-    setError("Wallet is not connected");
-    setRewards(null);
-    return;
-  }
-
-  const fetchRewards = async () => {
-    try {
-      const res = await fetch(`/api/profile/rewards?address=${address}`);
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to fetch rewards");
-        setRewards(null);
-        return;
-      }
-
-      const fetchedRewards = data.userrewards || data;
-      setRewards(fetchedRewards);
-      console.log("Fetched Rewards:", fetchedRewards);
-      setXpProgress(((1000 - fetchedRewards.xpPointsToNext) / 1000) * 100);
-      setError(null);
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "Failed to fetch details");
+    if (!address || !isConnected) {
+      setError("Wallet is not connected");
+      setRewards(null);
+      return;
     }
-  };
-
-  fetchRewards();
-}, [address, isConnected]);
-
+    const ac = new AbortController();
+    const fetchRewards = async () => {
+      try {
+        const res = await fetch(`/api/profile/rewards?address=${address}`, {
+          signal: ac.signal,
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "Failed to fetch rewards");
+          setRewards(null);
+          return;
+        }
+        const fetchedRewards = data.userrewards || data;
+        setRewards(fetchedRewards);
+        setXpProgress(((1000 - fetchedRewards.xpPointsToNext) / 1000) * 100);
+        setError(null);
+      } catch (error: unknown) {
+        if ((error as Error & { name?: string })?.name === "AbortError") return;
+        console.error(error);
+        setError(
+          error instanceof Error
+            ? error.message || "Failed to fetch rewards"
+            : "Failed to fetch rewards"
+        );
+      }
+    };
+    fetchRewards();
+    return () => ac.abort();
+  }, [address, isConnected]);
 
   if (error) {
     return <div className="text-destructive">{error}</div>;

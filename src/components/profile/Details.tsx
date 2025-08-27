@@ -19,35 +19,38 @@ function Details({
   const [error, setError] = useState<string | null>(null);
   const [details, setDetails] = useState<DetailsProps | null>(null);
 
-useEffect(() => {
-  if (!isConnected) {
-    setError("Wallet is not connected");
-    setDetails(null);
-    return;
-  }
-
-  const fetchDetails = async () => {
-    try {
-      const res = await fetch(`/api/profile/details?address=${address}`);
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to fetch details");
-        setDetails(null);
-        return;
-      }
-
-      setDetails(data.user || data);
-      setError(null);
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "Failed to fetch details");
+  useEffect(() => {
+    if (!isConnected) {
+      setError("Wallet is not connected");
+      setDetails(null);
+      return;
     }
-  };
-
-  fetchDetails();
-}, [address, isConnected]);
-
+    const controller = new AbortController();
+    const run = async () => {
+      try {
+        const res = await fetch(`/api/profile/details?address=${address}`, {
+          signal: controller.signal,
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setError(data?.error ?? "Failed to fetch details");
+          setDetails(null);
+          return;
+        }
+        setDetails(data.user || data);
+        setError(null);
+      } catch (err: unknown) {
+        if ((err as Error & { name?: string })?.name === "AbortError") return;
+        console.error(err);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch details"
+        );
+        setDetails(null);
+      }
+    };
+    run();
+    return () => controller.abort();
+  }, [address, isConnected]);
 
   if (error) {
     return <div className="text-destructive">{error}</div>;
