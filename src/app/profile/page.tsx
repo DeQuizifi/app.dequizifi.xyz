@@ -16,46 +16,12 @@ export default async function ProfilePage() {
   if (!user) {
     return <div>User Not Found.</div>;
   }
-
-
+  
  //UserStats
-  const userstats = (await getUserStats(user.id)) || [];
+   const userstats = (await getUserStats(user.id)) || [];
 
-  let quizzesWonThisWeek = 0;
-  let totalQuizzesThisWeek = 0;
-  let topCategoriesThisWeek: Array<{
-    category: string;
-    quizzesWon: number;
-    totalQuizzes: number;
-  }> = [];
-  if (userstats && userstats.length > 0) {
-    quizzesWonThisWeek = userstats.filter((g) => g.won).length;
-    totalQuizzesThisWeek = userstats.length;
-    const topCategoriesMap: Record<
-      string,
-      { quizzesWon: number; totalQuizzes: number }
-    > = {};
-    userstats.forEach((attempt) => {
-      const category = attempt.quiz.category;
-      if (!topCategoriesMap[category])
-        topCategoriesMap[category] = { quizzesWon: 0, totalQuizzes: 0 };
-      topCategoriesMap[category].totalQuizzes += 1;
-      if (attempt.won) topCategoriesMap[category].quizzesWon += 1;
-    });
-    topCategoriesThisWeek = Object.entries(topCategoriesMap).map(
-      ([category, stats]) => ({ category, ...stats })
-    );
-  }
-
-  //UserRewards
-
-  const userRewards = await getRewards(user.id);
-  if (!userRewards) {
-    return null;
-  }
 
   //User Balance, Name and Address
-
   const balance = await userWelcomeHeader(user.id);
   if(!balance){
     return null;
@@ -152,13 +118,7 @@ export default async function ProfilePage() {
 
             <TabsContent value="statistics" className="mt-6">
               {userstats && userstats.length > 0 ? (
-                <Statistics
-                  data={{
-                    quizzesWonThisWeek,
-                    totalQuizzesThisWeek,
-                    topCategoriesThisWeek,
-                  }}
-                />
+                <Statistics/>
               ) : (
                 <div className="bg-white rounded-xl p-6 text-center text-gray-700 shadow flex items-center justify-center min-h-[500px] w-full">
                   No Stats Found.
@@ -167,7 +127,7 @@ export default async function ProfilePage() {
             </TabsContent>
 
             <TabsContent value="rewards" className="mt-6">
-              <Rewards data={userRewards} />
+              <Rewards/>
             </TabsContent>
 
             <TabsContent value="settings" className="mt-6">

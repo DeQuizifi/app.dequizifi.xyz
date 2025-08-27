@@ -1,24 +1,66 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 interface StatisticsData {
   quizzesWonThisWeek: number;
   totalQuizzesThisWeek: number;
-  topCategoriesThisWeek: Array<{
+  topCategories: Array<{
     category: string;
     quizzesWon: number;
     totalQuizzes: number;
   }>;
 }
 
-interface StatisticsProps {
-  data: StatisticsData;
+function Statistics() {
+
+
+const {address,isConnected} = useAccount();
+const [error,setError] = useState<string | null>(null);
+const [statistics,setStatistics] = useState<StatisticsData | null>(null);
+
+
+useEffect(() => {
+  const fetchstats = async () => {
+    try {
+      if (!address || !isConnected) {
+        setError("Wallet is not connected");
+        setStatistics(null);
+        return;
+      }
+      const res = await fetch(`/api/profile/statistics?address=${address}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to fetch details");
+        setStatistics(null);
+        return;
+      }
+      setStatistics(data.userStats);
+      console.log("Fetched Statistics:", data);
+      setError(null);
+    } catch (error: unknown) {
+      console.error(error);
+      if (error instanceof Error) {
+        setError(error.message || "Failed to fetch details");
+      } else {
+        setError("Failed to fetch details");
+      }
+    }
+  };
+
+  fetchstats();
+}, [address, isConnected]);
+
+if(error){
+  return <div className="text-destructive">Error: {error}</div>;
 }
-
-function Statistics({ data }: StatisticsProps) {
-
+if(!statistics){
+  return null;
+}
   
-  const { quizzesWonThisWeek, totalQuizzesThisWeek, topCategoriesThisWeek } =
-    data;
+  const { quizzesWonThisWeek, totalQuizzesThisWeek, topCategories } =
+    statistics;
   const winPercentage = (quizzesWonThisWeek / totalQuizzesThisWeek) * 100;
 
   // Calculate the stroke offset for the circular progress
@@ -42,7 +84,7 @@ function Statistics({ data }: StatisticsProps) {
             <p className="text-gray-600 text-lg mb-1">You have won a total</p>
             <p className="text-2xl font-bold">
               <span className="text-purple-500">
-                {quizzesWonThisWeek} quizzes
+                {statistics.quizzesWonThisWeek} quizzes
               </span>{" "}
               <span className="text-gray-700">this week</span>
             </p>
@@ -95,7 +137,7 @@ function Statistics({ data }: StatisticsProps) {
               {/* Center text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-2xl font-bold text-gray-800">
-                  {quizzesWonThisWeek}/{totalQuizzesThisWeek}
+                  {statistics.quizzesWonThisWeek}/{statistics.totalQuizzesThisWeek}
                 </div>
                 <div className="text-sm text-gray-500">quizzes won</div>
               </div>
@@ -110,7 +152,7 @@ function Statistics({ data }: StatisticsProps) {
           </h3>
 
           <div className="space-y-3 ">
-            {topCategoriesThisWeek.map((category, index) => {
+            {topCategories.map((category, index) => {
               const categoryPercentage =
                 (category.quizzesWon / category.totalQuizzes) * 100;
 
