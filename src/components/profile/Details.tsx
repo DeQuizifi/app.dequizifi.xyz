@@ -19,32 +19,35 @@ function Details({
   const [error, setError] = useState<string | null>(null);
   const [details, setDetails] = useState<DetailsProps | null>(null);
 
-  useEffect(() => {
-    try {
-      if (!isConnected) {
-        return setError("Wallet is not connected");
-      }
-      const fetchdetails = async () => {
-        const res = await fetch(`/api/profile/details?address=${address}`);
-        const data = await res.json();
+useEffect(() => {
+  if (!isConnected) {
+    setError("Wallet is not connected");
+    setDetails(null);
+    return;
+  }
 
-        if (!res.ok) {
-          setError(data.error);
-          setDetails(null);
-        }
-        setDetails(data.user || data);
-        setError(null);
-      };
-      fetchdetails();
-    } catch (error: unknown) {
-      console.error(error);
-      if (error instanceof Error) {
-        setError(error.message || "Failed to fetch details");
-      } else {
-        setError("Failed to fetch details");
+  const fetchDetails = async () => {
+    try {
+      const res = await fetch(`/api/profile/details?address=${address}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to fetch details");
+        setDetails(null);
+        return;
       }
+
+      setDetails(data.user || data);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : "Failed to fetch details");
     }
-  }, [address, isConnected]);
+  };
+
+  fetchDetails();
+}, [address, isConnected]);
+
 
   if (error) {
     return <div className="text-destructive">{error}</div>;

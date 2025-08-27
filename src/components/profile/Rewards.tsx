@@ -31,36 +31,37 @@ function Rewards() {
   const [xpProgress, setXpProgress] = useState(0);
 
   useEffect(() => {
-    if (!address || !isConnected) {
-      setError("Wallet is not connected");
-      setRewards(null);
-      return;
-    }
-    try {
-      const fetchRewards = async () => {
-        const res = await fetch(`/api/profile/rewards?address=${address}`);
-        const data = await res.json();
+  if (!address || !isConnected) {
+    setError("Wallet is not connected");
+    setRewards(null);
+    return;
+  }
 
-        if (!res.ok) {
-          setError(data.error);
-          setRewards(null);
-        }
-        const fetchedRewards = data.userrewards || data;
-        setRewards(fetchedRewards);
-        console.log("Fetched Rewards:", fetchedRewards);
-        setXpProgress(((1000 - fetchedRewards.xpPointsToNext) / 1000) * 100);
-        setError(null);
-      };
-      fetchRewards();
-    } catch (error: unknown) {
-      console.error(error);
-      if (error instanceof Error) {
-        setError(error.message || "Failed to fetch details");
-      } else {
-        setError("Failed to fetch details");
+  const fetchRewards = async () => {
+    try {
+      const res = await fetch(`/api/profile/rewards?address=${address}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to fetch rewards");
+        setRewards(null);
+        return;
       }
+
+      const fetchedRewards = data.userrewards || data;
+      setRewards(fetchedRewards);
+      console.log("Fetched Rewards:", fetchedRewards);
+      setXpProgress(((1000 - fetchedRewards.xpPointsToNext) / 1000) * 100);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError(err instanceof Error ? err.message : "Failed to fetch details");
     }
-  }, [address, isConnected]);
+  };
+
+  fetchRewards();
+}, [address, isConnected]);
+
 
   if (error) {
     return <div className="text-destructive">{error}</div>;
