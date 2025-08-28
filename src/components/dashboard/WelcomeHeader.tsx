@@ -15,6 +15,12 @@ export default function WelcomeHeader({
   const formatAddress = (addr?: string) =>
     addr ? `${addr.slice(0, 6)}...${addr.slice(-4)}` : "000000...0000";
 
+  // Track if component is mounted (client-side)
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex-1">
       <div className="space-y-1">
@@ -28,7 +34,7 @@ export default function WelcomeHeader({
           {name}
         </h1>
         <p className="text-white font-bold text-s">
-          {address ? (
+          {mounted && address ? (
             formatAddress(address)
           ) : (
             <span className="opacity-0">000000...0000</span>

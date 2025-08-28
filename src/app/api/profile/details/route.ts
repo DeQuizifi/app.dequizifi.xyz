@@ -1,18 +1,27 @@
+import { verifyToken } from "@/lib/auth";
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(req:Request){
-    try{
-        const {searchParams} = new URL(req.url);
-        const walletAddress = searchParams.get("address");
 
-        if(!walletAddress){
-            return NextResponse.json({error:"Address Missing"},{status: 400})
-        }
+    const cookieHeader = req.headers.get("cookie") || "";
+    const match = cookieHeader.match(/token=([^;]+)/);
+    const token = match ? match[1] : null;
+
+    if(!token){
+        return NextResponse.json({error:"Unauthorised"},{status: 401})
+    }
+    const decoded = verifyToken(token);
+    if(!decoded){
+        return NextResponse.json({error:"Token is expired"},{status: 401})
+    }
+    const wallet = decoded.wallet
+
+    try{
 
         const user = await prisma.user.findUnique({
             where:{
-                walletAddress: walletAddress,
+                walletAddress: wallet,
             },
             select:{
                username:true,
