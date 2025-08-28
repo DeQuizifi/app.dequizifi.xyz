@@ -97,6 +97,7 @@ export default function RecentQuizWidget({
           resScore.json(),
         ]);
         let errorMsg = null;
+        console.log(dataTitle, dataScore);
         if (!resTitle.ok && !resScore.ok) {
           errorMsg =
             dataTitle.error || dataScore.error || "Internal Server Error";

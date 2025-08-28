@@ -4,14 +4,13 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function GET(req: Request) {
-  // Read JWT from Authorization header (preferred) or cookie
+  // Prefer HttpOnly cookie; fall back to Authorization: Bearer
+  const cookieToken = (await cookies()).get("token")?.value;
   const authHeader = req.headers.get("authorization") || "";
-  const tokenFromHeader = authHeader.startsWith("Bearer ")
-    ? authHeader.slice(7).trim()
+  const bearerToken = authHeader.startsWith("Bearer ")
+    ? authHeader.slice(7)
     : null;
-  const cookieStore = await cookies();
-  const tokenFromCookie = cookieStore.get("token")?.value ?? null;
-  const token = tokenFromHeader ?? tokenFromCookie;
+  const token = cookieToken ?? bearerToken;
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
