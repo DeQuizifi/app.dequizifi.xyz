@@ -1,39 +1,17 @@
+"use client";
 import BalanceCard from "@/components/dashboard/BalanceCard";
-import { Card, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import ProfileWelcomeHeader from "@/components/dashboard/ProfileWelcomeHeader";
-import { CiCalendar } from "react-icons/ci";
-import { IoMedalOutline } from "react-icons/io5";
-import { LuCoins } from "react-icons/lu";
+import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import OverallStatistics from "@/components/profile/OverallStatistics";
 import Details from "@/components/profile/Details";
-import { getRewards, getUser, getUserStats, profilePersonalStats, userWelcomeHeader } from "@/lib/profile/user";
+import { useUser } from "@/context/userContext";
 import Statistics from "@/components/profile/Statistics";
 import Rewards from "@/components/profile/Rewards";
 
-export default async function ProfilePage() {
-  //UserInfo
-  const user = await getUser();
-  if (!user) {
-    return <div>User Not Found.</div>;
-  }
-  
- //UserStats
-   const userstats = (await getUserStats(user.id)) || [];
+export default function ProfilePage() {
+  // Get dynamic user info from context
+  const { username, balance, address } = useUser();
 
-
-  //User Balance, Name and Address
-  const balance = await userWelcomeHeader(user.id);
-  if(!balance){
-    return null;
-  }
-
-  //User Points and Best Rank
-
-  const stat = await profilePersonalStats(user.id);
-  if(!stat){
-    return null;
-  }
-  
   return (
     <main
       className="min-h-screen bg-gray-50 relative overflow-x-hidden"
@@ -54,39 +32,13 @@ export default async function ProfilePage() {
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-center space-x-2 gap-4">
-            <ProfileWelcomeHeader name={user.username} walletaddress={user.walletAddress || ""} />
-            <BalanceCard amount={user.balance} />
+            {/* Dynamic name, address, and balance from context */}
+            <WelcomeHeader name={username || "User"} address={address ?? ""} />
+            <BalanceCard amount={balance ?? 0} />
           </div>
 
-          <Card className="flex flex-row bg-purple-300 mt-10">
-            <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
-              <LuCoins size={32} color="white" />
-              <CardDescription className="text-background">
-                Points
-              </CardDescription>
-              <p className="text-background font-mono">
-                {stat.overallPoints}
-              </p>
-            </div>
-            <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
-              <IoMedalOutline size={32} color="white" />
-              <CardDescription className="text-background">
-                Best Rank
-              </CardDescription>
-              <p className="text-background font-mono">
-                {stat.bestRank}
-              </p>
-            </div>
-            <div className="flex-1 p-4 flex flex-col justify-center items-center">
-              <CiCalendar size={32} color="white" />
-              <CardDescription className="text-background">
-                This week
-              </CardDescription>
-              <p className="text-background font-mono">
-                {stat.weekStatus}
-              </p>
-            </div>
-          </Card>
+          {/* You may need to update OverallStatistics to fetch its own data or use context */}
+          <OverallStatistics />
         </div>
 
         {/* Tabs Section */}
@@ -109,25 +61,20 @@ export default async function ProfilePage() {
 
             <TabsContent value="details" className="mt-6">
               <Details
-                username={user.username}
-                walletAddress={user.walletAddress || "Not Set"}
-                joinedDate={user.joinedDate.toISOString()}
-                favQuizTopic={user.favQuizTopic || "None"}
+                username={username || "User"}
+                walletAddress={address ?? "Not Set"}
+                joinedDate={""}
+                favQuizTopic={"None"}
               />
             </TabsContent>
 
             <TabsContent value="statistics" className="mt-6">
-              {userstats && userstats.length > 0 ? (
-                <Statistics/>
-              ) : (
-                <div className="bg-white rounded-xl p-6 text-center text-gray-700 shadow flex items-center justify-center min-h-[500px] w-full">
-                  No Stats Found.
-                </div>
-              )}
+              {/* You may want to fetch userstats in a client-side hook and pass to Statistics */}
+              <Statistics />
             </TabsContent>
 
             <TabsContent value="rewards" className="mt-6">
-              <Rewards/>
+              <Rewards />
             </TabsContent>
 
             <TabsContent value="settings" className="mt-6">
