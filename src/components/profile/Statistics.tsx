@@ -28,7 +28,7 @@ useEffect(() => {
         setStatistics(null);
         return;
       }
-      const res = await fetch(`/api/profile/statistics?address=${address}`);
+      const res = await fetch(`/api/profile/statistics`);
       const data = await res.json();
 
       if (!res.ok) {

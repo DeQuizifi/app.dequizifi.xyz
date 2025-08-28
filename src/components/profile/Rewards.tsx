@@ -39,7 +39,7 @@ function Rewards() {
     const ac = new AbortController();
     const fetchRewards = async () => {
       try {
-        const res = await fetch(`/api/profile/rewards?address=${address}`, {
+        const res = await fetch(`/api/profile/rewards`, {
           signal: ac.signal,
         });
         const data = await res.json();

@@ -28,7 +28,7 @@ function Details({
     const controller = new AbortController();
     const run = async () => {
       try {
-        const res = await fetch(`/api/profile/details?address=${address}`, {
+        const res = await fetch(`/api/profile/details`, {
           signal: controller.signal,
         });
         const data = await res.json().catch(() => ({}));
