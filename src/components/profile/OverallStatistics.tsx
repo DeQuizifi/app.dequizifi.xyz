@@ -7,10 +7,9 @@ import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 interface OverallStatisticsProps {
-  
-    overallPoints: number;
-    bestRank: string | number;
-    weekStatus: string | number;
+  overallPoints: number;
+  bestRank: string | number;
+  weekStatus: string | number;
 }
 
 function OverallStatistics() {
@@ -28,27 +27,39 @@ function OverallStatistics() {
       return;
     }
     setLoading(true);
-    const fetchoverallstats = async () => {
+    setError(null);
+    const controller = new AbortController();
+    const { signal } = controller;
+    const fetchOverallStats = async () => {
       try {
         const res = await fetch(
-          `/api/profile/overallstatistics?address=${address}`
+          `/api/profile/overallstatistics?address=${encodeURIComponent(
+            address as string
+          )}`,
+          { signal }
         );
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || error);
+          setError(data?.error ?? "Failed to fetch overall statistics");
           setAllStats(null);
+          setLoading(false);
+          return;
         }
         setAllStats(data.overallstats);
+        setError(null);
         setLoading(false);
-      } catch (err) {
+      } catch (err: unknown) {
+        if ((err as Error)?.name === "AbortError") return;
         console.error(err);
         setError("Internal Server Error");
         setAllStats(null);
+        setLoading(false);
       }
     };
-    fetchoverallstats();
-  }, [address, isConnected, error]);
+    fetchOverallStats();
+    return () => controller.abort();
+  }, [address, isConnected]);
 
   if (error) {
     return <div className="text-destructive">No Statistics Found</div>;
@@ -59,9 +70,7 @@ function OverallStatistics() {
       <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
         <LuCoins size={32} color="white" />
         <CardDescription className="text-background">Points</CardDescription>
-        <p className="text-background font-mono">
-          {allstats?.overallPoints}
-        </p>
+        <p className="text-background font-mono">{allstats?.overallPoints}</p>
       </div>
       <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
         <IoMedalOutline size={32} color="white" />
