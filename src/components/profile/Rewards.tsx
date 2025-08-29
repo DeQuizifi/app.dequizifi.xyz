@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trophy, Lock } from "lucide-react";
 import { useAccount } from "wagmi";
+import Spinner from "@/components/ui/Spinner";
 
 interface RewardsProps {
   xpLevel: number;
@@ -70,7 +71,11 @@ function Rewards() {
     return <div className="text-destructive">{error}</div>;
   }
   if (!rewards) {
-    return null;
+    return (
+      <div className="flex justify-center items-center min-h-[30vh]">
+        <Spinner size={64} color="#fff" />
+      </div>
+    );
   }
   return (
     <div className="bg-white rounded-t-3xl min-h-[60vh] p-6">

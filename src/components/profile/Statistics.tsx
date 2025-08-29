@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import Spinner from "@/components/ui/Spinner";
 
 interface StatisticsData {
   quizzesWonThisWeek: number;
@@ -13,52 +14,53 @@ interface StatisticsData {
 }
 
 function Statistics() {
+  const { address, isConnected } = useAccount();
+  const [error, setError] = useState<string | null>(null);
+  const [statistics, setStatistics] = useState<StatisticsData | null>(null);
 
+  useEffect(() => {
+    const fetchstats = async () => {
+      try {
+        if (!address || !isConnected) {
+          setError("Wallet is not connected");
+          setStatistics(null);
+          return;
+        }
+        const res = await fetch(`/api/profile/statistics`);
+        const data = await res.json();
 
-const {address,isConnected} = useAccount();
-const [error,setError] = useState<string | null>(null);
-const [statistics,setStatistics] = useState<StatisticsData | null>(null);
-
-
-useEffect(() => {
-  const fetchstats = async () => {
-    try {
-      if (!address || !isConnected) {
-        setError("Wallet is not connected");
-        setStatistics(null);
-        return;
+        if (!res.ok) {
+          setError(data.error || "Failed to fetch details");
+          setStatistics(null);
+          return;
+        }
+        setStatistics(data.userStats);
+        console.log("Fetched Statistics:", data);
+        setError(null);
+      } catch (error: unknown) {
+        console.error(error);
+        if (error instanceof Error) {
+          setError(error.message || "Failed to fetch details");
+        } else {
+          setError("Failed to fetch details");
+        }
       }
-      const res = await fetch(`/api/profile/statistics`);
-      const data = await res.json();
+    };
 
-      if (!res.ok) {
-        setError(data.error || "Failed to fetch details");
-        setStatistics(null);
-        return;
-      }
-      setStatistics(data.userStats);
-      console.log("Fetched Statistics:", data);
-      setError(null);
-    } catch (error: unknown) {
-      console.error(error);
-      if (error instanceof Error) {
-        setError(error.message || "Failed to fetch details");
-      } else {
-        setError("Failed to fetch details");
-      }
-    }
-  };
+    fetchstats();
+  }, [address, isConnected]);
 
-  fetchstats();
-}, [address, isConnected]);
+  if (error) {
+    return <div className="text-destructive">Error: {error}</div>;
+  }
+  if (!statistics) {
+    return (
+      <div className="flex justify-center items-center min-h-[30vh]">
+        <Spinner size={64} color="#fff" />
+      </div>
+    );
+  }
 
-if(error){
-  return <div className="text-destructive">Error: {error}</div>;
-}
-if(!statistics){
-  return null;
-}
-  
   const { quizzesWonThisWeek, totalQuizzesThisWeek, topCategories } =
     statistics;
   const winPercentage = (quizzesWonThisWeek / totalQuizzesThisWeek) * 100;
@@ -137,7 +139,8 @@ if(!statistics){
               {/* Center text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-2xl font-bold text-gray-800">
-                  {statistics.quizzesWonThisWeek}/{statistics.totalQuizzesThisWeek}
+                  {statistics.quizzesWonThisWeek}/
+                  {statistics.totalQuizzesThisWeek}
                 </div>
                 <div className="text-sm text-gray-500">quizzes won</div>
               </div>

@@ -5,6 +5,7 @@ import { IoMedalOutline } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import Spinner from "@/components/ui/Spinner";
 
 interface OverallStatisticsProps {
   overallPoints: number;
@@ -32,10 +33,7 @@ function OverallStatistics() {
     const { signal } = controller;
     const fetchOverallStats = async () => {
       try {
-        const res = await fetch(
-          `/api/profile/overallstatistics`,
-          { signal }
-        );
+        const res = await fetch(`/api/profile/overallstatistics`, { signal });
         const data = await res.json();
 
         if (!res.ok) {
@@ -59,7 +57,13 @@ function OverallStatistics() {
     return () => controller.abort();
   }, [address, isConnected]);
 
-  if (loading || !allstats) return null; // Or a skeleton loader
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-[30vh]">
+        <Spinner size={64} color="#fff" />
+      </div>
+    );
+  if (!allstats) return null; // Or a skeleton loader
   if (error) {
     return <div className="text-destructive">No Statistics Found</div>;
   }

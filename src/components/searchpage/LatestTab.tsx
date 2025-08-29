@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Spinner from "../ui/Spinner";
 
 interface Quiz {
   title: string;
@@ -35,7 +36,12 @@ export default function LatestTab() {
     fetchQuizzes();
   }, []);
 
-  if (loading) return <div>Loading quizzes...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Spinner size={48} color="#8B5CF6" />
+      </div>
+    );
   if (error) return <div>{error}</div>;
 
   return (

@@ -19,7 +19,7 @@ type LeaderboardEntry = {
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [displayedUsers, setDisplayedUsers] = useState<number>(6); // Initially show 6 users (3 top + 3 in list)
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
@@ -28,16 +28,21 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
+      setLoading(true);
       const url =
         activeTab === "week"
           ? "/api/leaderboard/points"
           : "/api/leaderboard/overallpoints";
 
       const res = await fetch(url);
-      if (!res.ok) return;
+      if (!res.ok) {
+        setLoading(false);
+        return;
+      }
 
       const data = await res.json();
       setLeaderboardData(data);
+      setLoading(false);
     };
 
     fetchLeaderboard();
