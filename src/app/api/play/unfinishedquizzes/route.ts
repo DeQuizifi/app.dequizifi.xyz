@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   const wallet = decoded.wallet;
 
   try {
-    const getunfinishedquiz = await prisma.quizAttempt.findMany({
+    const unfinishedQuizzes = await prisma.quizAttempt.findMany({
       where: {
         user: {
           walletAddress: wallet,
@@ -43,14 +43,13 @@ export async function GET(req: Request) {
         },
       },
     });
-    if (!getunfinishedquiz || getunfinishedquiz.length === 0) {
-      return NextResponse.json(
-        { error: "Could not find any unfinished quiz" },
-        { status: 404 }
-      );
+    if (!unfinishedQuizzes || unfinishedQuizzes.length === 0) {
+      return NextResponse.json([], { status: 200 });
     }
-    console.log(getunfinishedquiz);
-    return NextResponse.json(getunfinishedquiz, { status: 200 });
+    if (process.env.NODE_ENV !== "production") {
+      console.log(unfinishedQuizzes);
+    }
+    return NextResponse.json(unfinishedQuizzes, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json(

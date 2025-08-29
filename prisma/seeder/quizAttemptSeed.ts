@@ -11,10 +11,17 @@ export async function main() {
 
   const userIds = users.map((u) => u.id);
   const quizIds = quizzes.map((q) => q.id);
-  
-  console.log(`Found ${userIds.length} users:`, userIds);
-  console.log(`Found ${quizIds.length} quizzes:`, quizIds);
-  
+
+  if (userIds.length === 0 || quizIds.length === 0) {
+    throw new Error(
+      `Seeding aborted: users=${userIds.length}, quizzes=${quizIds.length}`
+    );
+  }
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`Found ${userIds.length} users`);
+    console.log(`Found ${quizIds.length} quizzes`);
+  }
+
   const attemptsData = [];
 
   for (const quizId of quizIds) {

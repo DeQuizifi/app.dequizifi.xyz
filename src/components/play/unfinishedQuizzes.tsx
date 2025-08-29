@@ -35,12 +35,19 @@ export default function UnfinishedQuizzes() {
         const data = await res.json();
 
         if (!res.ok) {
-          setError("Failed to fetch unfinished quizzes");
-          setUnfinished([]);
+          if (res.status === 401) {
+            setError("Please log in to view unfinished quizzes");
+            setUnfinished([]);
+          } else if (res.status === 500) {
+            setError("Internal Server Error");
+            setUnfinished([]);
+          } else {
+            setError(data?.error ?? "Failed to fetch unfinished quizzes");
+            setUnfinished([]);
+          }
           return;
         }
-        console.log("Fetched unfinished quizzes:", data);
-        setUnfinished(data);
+        setUnfinished(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
         setError("Failed to fetch unfinished quizzes");
@@ -113,7 +120,7 @@ export default function UnfinishedQuizzes() {
             </div>
             {/* Progress Circle */}
             <div className="flex-shrink-0 ml-4">
-              <ProgressCircle percent={quiz.progress || 50} />
+              <ProgressCircle percent={quiz.progress ?? 0} />
             </div>
           </div>
         ))}
