@@ -45,7 +45,7 @@ export default function ProfilePage() {
         {/* Tabs Section */}
         <div className="px-6">
           <Tabs defaultValue="details" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-white/80 backdrop-blur-sm">
+            <TabsList className="grid w-full grid-cols-4 bg-transparent">
               <TabsTrigger value="details" className="text-sm">
                 Details
               </TabsTrigger>
