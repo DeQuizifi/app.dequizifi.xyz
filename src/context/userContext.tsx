@@ -12,11 +12,13 @@ import { useAccount } from "wagmi";
 type UserContextType = {
   username: string | null;
   balance: number | null;
+  address?: string | null;
 };
 
 const UserContext = createContext<UserContextType>({
   username: null,
   balance: null,
+  address: null,
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
@@ -63,8 +65,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setBalance(
           typeof balanceData?.balance === "number" ? balanceData.balance : null
         );
-      } catch (err: any) {
-        if (err?.name === "AbortError") return;
+      } catch (err: unknown) {
+        if (typeof err === "object" && err !== null && "name" in err && (err as { name?: string }).name === "AbortError") return;
         console.error(err);
         // On failure, clear values to avoid showing stale info
         setUsername(null);
@@ -77,7 +79,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [address, isConnected]);
 
   return (
-    <UserContext.Provider value={{ username, balance }}>
+    <UserContext.Provider value={{ username, balance, address }}>
       {children}
     </UserContext.Provider>
   );
