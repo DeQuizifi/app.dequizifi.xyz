@@ -84,6 +84,8 @@ model QuizAttempt {
   createdAt    DateTime    @default(now())
   statistics   Statistics? @relation(fields: [statisticsId], references: [id])
   statisticsId String?
+  progress     Float       @default(0) // percentage completed (0-100)
+  isFinished   Boolean     @default(false) // true if quiz is completed
 }
 
 model ProfileStats {
