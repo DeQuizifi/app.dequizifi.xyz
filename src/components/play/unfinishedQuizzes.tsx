@@ -32,7 +32,10 @@ export default function UnfinishedQuizzes() {
       setError(null);
       try {
         const res = await fetch("/api/play/unfinishedquizzes");
-        const data = await res.json();
+        const isJson = res.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await res.json().catch(() => null) : null;
 
         if (!res.ok) {
           if (res.status === 401) {
@@ -42,7 +45,10 @@ export default function UnfinishedQuizzes() {
             setError("Internal Server Error");
             setUnfinished([]);
           } else {
-            setError(data?.error ?? "Failed to fetch unfinished quizzes");
+            setError(
+              (data && (data.error || data.message)) ||
+                "Failed to fetch unfinished quizzes"
+            );
             setUnfinished([]);
           }
           return;
