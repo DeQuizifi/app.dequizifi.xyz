@@ -189,7 +189,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Top 3 Ranks Section */}
-          <div className="mt-6 relative" style={{ paddingBottom: "100px" }}>
+          <div className="mt-6 relative" style={{ paddingBottom: "80px" }}>
             <Top3Ranks
               top3Users={top3Users.map((entry, idx) => ({
                 id: entry.id,
