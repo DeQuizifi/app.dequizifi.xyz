@@ -17,19 +17,19 @@ async function clearDatabase() {
 
 async function runSeeders() {
   const { main: userSeed } = await import("./userSeed");
-  await userSeed();
+  await userSeed(prisma);
 
   const { main: quizSeed } = await import("./quizSeed");
-  await quizSeed();
+  await quizSeed(prisma);
 
   const { main: rewardSeed } = await import("./rewardSeed");
-  await rewardSeed();
+  await rewardSeed(prisma);
 
   const { main: profileStatsSeed } = await import("./profileStatsSeed");
-  await profileStatsSeed();
+  await profileStatsSeed(prisma);
 
   const { main: quizAttemptSeed } = await import("./quizAttemptSeed");
-  await quizAttemptSeed();
+  await quizAttemptSeed(prisma);
 }
 
 async function main() {

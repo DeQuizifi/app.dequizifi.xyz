@@ -1,8 +1,6 @@
 import { PrismaClient } from "../../src/generated/prisma";
 
-const prisma = new PrismaClient();
-
-export async function main() {
+export async function main(prisma: PrismaClient) {
   // Simulate attempts for quizzes by users
   // Generate a large number of attempts for all quizzes (IDs 1-12)
   // Fetch existing user and quiz IDs from the database
