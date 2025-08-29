@@ -33,9 +33,7 @@ function OverallStatistics() {
     const fetchOverallStats = async () => {
       try {
         const res = await fetch(
-          `/api/profile/overallstatistics?address=${encodeURIComponent(
-            address as string
-          )}`,
+          `/api/profile/overallstatistics`,
           { signal }
         );
         const data = await res.json();
