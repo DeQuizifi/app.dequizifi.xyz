@@ -59,6 +59,7 @@ function OverallStatistics() {
     return () => controller.abort();
   }, [address, isConnected]);
 
+  if (loading || !allstats) return null; // Or a skeleton loader
   if (error) {
     return <div className="text-destructive">No Statistics Found</div>;
   }
@@ -68,17 +69,17 @@ function OverallStatistics() {
       <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
         <LuCoins size={32} color="white" />
         <CardDescription className="text-background">Points</CardDescription>
-        <p className="text-background font-mono">{allstats?.overallPoints}</p>
+        <p className="text-background font-mono">{allstats.overallPoints}</p>
       </div>
       <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
         <IoMedalOutline size={32} color="white" />
         <CardDescription className="text-background">Best Rank</CardDescription>
-        <p className="text-background font-mono">{allstats?.bestRank}</p>
+        <p className="text-background font-mono">{allstats.bestRank}</p>
       </div>
       <div className="flex-1 p-4 flex flex-col justify-center items-center">
         <CiCalendar size={32} color="white" />
         <CardDescription className="text-background">This week</CardDescription>
-        <p className="text-background font-mono">{allstats?.weekStatus}</p>
+        <p className="text-background font-mono">{allstats.weekStatus}</p>
       </div>
     </Card>
   );

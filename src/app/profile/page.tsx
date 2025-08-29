@@ -7,6 +7,7 @@ import Details from "@/components/profile/Details";
 import { useUser } from "@/context/userContext";
 import Statistics from "@/components/profile/Statistics";
 import Rewards from "@/components/profile/Rewards";
+import Settings from "@/components/profile/Settings";
 
 export default function ProfilePage() {
   // Get dynamic user info from context
@@ -78,7 +79,7 @@ export default function ProfilePage() {
             </TabsContent>
 
             <TabsContent value="settings" className="mt-6">
-              {/* Settings component will be implemented later */}
+              <Settings />
             </TabsContent>
           </Tabs>
         </div>
