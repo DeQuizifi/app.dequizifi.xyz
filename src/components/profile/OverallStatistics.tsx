@@ -57,16 +57,22 @@ function OverallStatistics() {
     return () => controller.abort();
   }, [address, isConnected]);
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[30vh]">
+      <div
+        className="flex justify-center items-center min-h-[30vh]"
+        role="status"
+        aria-busy="true"
+        aria-live="polite"
+      >
         <Spinner size={64} color="#fff" />
       </div>
     );
-  if (!allstats) return null; // Or a skeleton loader
-  if (error) {
-    return <div className="text-destructive">No Statistics Found</div>;
   }
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+  if (!allstats) return null; // Or a skeleton loader
 
   return (
     <Card className="flex flex-row bg-purple-300 mt-10">

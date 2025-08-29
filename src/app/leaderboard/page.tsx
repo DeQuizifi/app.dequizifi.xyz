@@ -33,16 +33,19 @@ export default function LeaderboardPage() {
         activeTab === "week"
           ? "/api/leaderboard/points"
           : "/api/leaderboard/overallpoints";
-
-      const res = await fetch(url);
-      if (!res.ok) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          // Optionally: surface an error state
+          return;
+        }
+        const data = await res.json();
+        setLeaderboardData(data);
+      } catch (e) {
+        console.error("Failed to fetch leaderboard", e);
+      } finally {
         setLoading(false);
-        return;
       }
-
-      const data = await res.json();
-      setLeaderboardData(data);
-      setLoading(false);
     };
 
     fetchLeaderboard();
