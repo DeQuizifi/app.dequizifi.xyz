@@ -1,18 +1,72 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 interface UnfinishedQuiz {
   id: string;
-  title: string;
-  questions: number;
-  progress: number; // percentage (0-100)
+  progress: number;
+  quiz: {
+    id: number;
+    title: string;
+    _count: {
+      questions: number;
+    };
+  };
 }
 
-interface UnfinishedQuizzesProps {
-  quizzes: UnfinishedQuiz[];
-}
+export default function UnfinishedQuizzes() {
+  const { address, isConnected } = useAccount();
+  const [error, setError] = useState<string | null>(null);
+  const [unfinished, setUnfinished] = useState<UnfinishedQuiz[]>([]);
+  const [loading, setLoading] = useState(false);
 
-export default function UnfinishedQuizzes({ quizzes }: UnfinishedQuizzesProps) {
+  useEffect(() => {
+    if (!address || !isConnected) {
+      setError("User isn't connected");
+      return;
+    }
+
+    const fetchunfinishedquizzes = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/play/unfinishedquizzes");
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError("Failed to fetch unfinished quizzes");
+          setUnfinished([]);
+          return;
+        }
+        console.log("Fetched unfinished quizzes:", data);
+        setUnfinished(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch unfinished quizzes");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchunfinishedquizzes();
+  }, [address, isConnected]);
+
+  if (loading) {
+    return (
+      <div className="text-muted-foreground">Loading unfinished quizzes...</div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+
+  if (unfinished.length === 0) {
+    return (
+      <div className="text-muted-foreground">No unfinished quizzes found</div>
+    );
+  }
+
   return (
     <div className="px-6 mt-8 pb-24">
       <h3
@@ -22,7 +76,7 @@ export default function UnfinishedQuizzes({ quizzes }: UnfinishedQuizzesProps) {
         Your Unfinished Quizzes
       </h3>
       <div className="space-y-4">
-        {quizzes.map((quiz) => (
+        {unfinished.map((quiz) => (
           <div
             key={quiz.id}
             className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
@@ -48,18 +102,18 @@ export default function UnfinishedQuizzes({ quizzes }: UnfinishedQuizzesProps) {
                 className="text-lg font-bold"
                 style={{ color: "var(--quiz-title-color)" }}
               >
-                {quiz.title}
+                {quiz.quiz.title}
               </div>
               <div
                 className="text-sm"
                 style={{ color: "var(--quiz-subtitle-color)" }}
               >
-                {quiz.questions} questions
+                {quiz.quiz._count.questions} questions
               </div>
             </div>
             {/* Progress Circle */}
             <div className="flex-shrink-0 ml-4">
-              <ProgressCircle percent={quiz.progress} />
+              <ProgressCircle percent={quiz.progress || 50} />
             </div>
           </div>
         ))}
@@ -69,14 +123,23 @@ export default function UnfinishedQuizzes({ quizzes }: UnfinishedQuizzesProps) {
 }
 
 function ProgressCircle({ percent }: { percent: number }) {
+  // Debug what we're receiving
+  console.log("ProgressCircle received percent:", percent, typeof percent);
+
+  // Handle undefined, null, or invalid progress values
+  const normalizedPercent =
+    typeof percent === "number" && !isNaN(percent) ? Math.round(percent) : 0;
+
+  console.log("Normalized percent:", normalizedPercent);
+
   // Set colors based on progress percentage using CSS variables
   let circleColor = "var(--progress-low)"; // Purple for lower progress
   let textColor = "var(--progress-low)";
 
-  if (percent >= 95) {
+  if (normalizedPercent >= 95) {
     circleColor = "var(--progress-high)"; // Green for high progress (99%)
     textColor = "var(--progress-high)";
-  } else if (percent >= 80) {
+  } else if (normalizedPercent >= 80) {
     circleColor = "var(--progress-medium)"; // Orange for medium-high progress
     textColor = "var(--progress-medium)";
   } else {
@@ -88,7 +151,7 @@ function ProgressCircle({ percent }: { percent: number }) {
   const strokeWidth = 4;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percent / 100) * circumference;
+  const offset = circumference - (normalizedPercent / 100) * circumference;
 
   return (
     <svg width={size} height={size} className="block transform -rotate-90">
@@ -123,7 +186,7 @@ function ProgressCircle({ percent }: { percent: number }) {
         className="transform rotate-90"
         style={{ transformOrigin: "center" }}
       >
-        {percent}%
+        {normalizedPercent}%
       </text>
     </svg>
   );
