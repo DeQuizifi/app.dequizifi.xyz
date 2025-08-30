@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface Quiz {
-  category: string;
+  title: string;
   questions: { length: number }[];
   attempts: Record<string, unknown>[];
 }
@@ -61,7 +61,7 @@ export default function LatestTab() {
               {/* Title + Description */}
               <div className="flex-1 min-w-0">
                 <p className="text-lg sm:text-2xl font-semibold text-gray-900">
-                  {quiz.category}
+                  {quiz.title}
                 </p>
                 <p className="text-sm text-gray-500">
                   {quiz.questions.length} questions

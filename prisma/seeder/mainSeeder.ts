@@ -18,16 +18,16 @@ async function clearDatabase() {
 async function runSeeders() {
   const { main: userSeed } = await import("./userSeed");
   await userSeed();
-  
+
   const { main: quizSeed } = await import("./quizSeed");
   await quizSeed();
-  
+
   const { main: rewardSeed } = await import("./rewardSeed");
   await rewardSeed();
-  
+
   const { main: profileStatsSeed } = await import("./profileStatsSeed");
   await profileStatsSeed();
-  
+
   const { main: quizAttemptSeed } = await import("./quizAttemptSeed");
   await quizAttemptSeed();
 }
@@ -36,10 +36,13 @@ async function main() {
   await clearDatabase();
   await runSeeders();
   console.log("All seeders executed.");
-  await prisma.$disconnect();
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exitCode = 1;
-});
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
