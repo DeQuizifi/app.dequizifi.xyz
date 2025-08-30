@@ -2,7 +2,7 @@ import { PrismaClient } from "../../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
-async function main() {
+export async function main() {
   await prisma.user.createMany({
     data: [
        {
@@ -45,11 +45,4 @@ async function main() {
   });
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Note: main() is now called from mainSeeder.ts
