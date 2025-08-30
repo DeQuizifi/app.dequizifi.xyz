@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import Spinner from "@/components/ui/Spinner";
 
 interface DetailsProps {
   username: string;
@@ -56,7 +57,11 @@ function Details({
     return <div className="text-destructive">{error}</div>;
   }
   if (!details) {
-    return null;
+    return (
+      <div className="flex justify-center items-center min-h-[30vh]">
+        <Spinner size={64} color="#fff" />
+      </div>
+    );
   }
   return (
     <div className="bg-white rounded-t-3xl min-h-[60vh] p-6">
