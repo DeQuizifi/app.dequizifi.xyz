@@ -1,11 +1,9 @@
 import { PrismaClient } from "../../src/generated/prisma";
 
-const prisma = new PrismaClient();
-
-export async function main() {
+export async function main(prisma: PrismaClient) {
   await prisma.user.createMany({
     data: [
-       {
+      {
         id: "user-1-id",
         username: "Jin Sakai",
         walletAddress: "0x123",

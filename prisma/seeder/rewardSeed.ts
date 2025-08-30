@@ -1,8 +1,6 @@
 import { PrismaClient } from "../../src/generated/prisma";
 
-const prisma = new PrismaClient();
-
-export async function main() {
+export async function main(prisma: PrismaClient) {
   const rewardsData = [
     {
       xpLevel: 4,
