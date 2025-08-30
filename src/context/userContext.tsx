@@ -34,22 +34,31 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    // Additional check to ensure address is a valid string
+    if (typeof address !== "string" || address.trim() === "") {
+      console.error("Invalid wallet address:", address);
+      return;
+    }
+
     const controller = new AbortController();
     const { signal } = controller;
 
     const run = async () => {
       try {
+        // Ensure we have a valid wallet address before making the request
+        const walletData = { walletAddress: address };
+
         const [headerRes, balanceRes] = await Promise.all([
           fetch("/api/headerandbalance/header", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ walletAddress: address }),
+            body: JSON.stringify(walletData),
             signal,
           }),
           fetch("/api/headerandbalance/balance", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ walletAddress: address }),
+            body: JSON.stringify(walletData),
             signal,
           }),
         ]);
@@ -66,7 +75,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           typeof balanceData?.balance === "number" ? balanceData.balance : null
         );
       } catch (err: unknown) {
-        if (typeof err === "object" && err !== null && "name" in err && (err as { name?: string }).name === "AbortError") return;
+        if (
+          typeof err === "object" &&
+          err !== null &&
+          "name" in err &&
+          (err as { name?: string }).name === "AbortError"
+        )
+          return;
         console.error(err);
         // On failure, clear values to avoid showing stale info
         setUsername(null);

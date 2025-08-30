@@ -48,7 +48,7 @@ function PlayPage() {
 
             {/* Your Unfinished Quizzes Section */}
             <div className="space-y-4">
-              <UnfinishedQuizzes quizzes={playUnfinishedQuizzes} />
+              <UnfinishedQuizzes/>
             </div>
           </div>
           {/* This empty div ensures the container stretches to the bottom */}
