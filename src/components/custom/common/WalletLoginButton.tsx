@@ -1,10 +1,12 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 
 function WalletLoginButton() {
   const { address, isConnected } = useAccount();
+  const router = useRouter();
 
   useEffect(() => {
     if (isConnected && address) {
@@ -21,11 +23,12 @@ function WalletLoginButton() {
           }
           // Token is set via HttpOnly cookie by the server.
           console.log("Wallet synced.");
+          router.replace("/dashboard");
           return res.json().catch(() => ({}));
         })
         .catch((err) => console.error(err));
     }
-  }, [isConnected, address]);
+  }, [isConnected, address, router]);
 
   return (
     <div className="px-4 mt-40">
