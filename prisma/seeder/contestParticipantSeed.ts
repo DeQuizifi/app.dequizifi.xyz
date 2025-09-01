@@ -5,6 +5,11 @@ export async function main(prisma: PrismaClient) {
   const users = await prisma.user.findMany({ select: { id: true } });
   const contests = await prisma.contest.findMany({ select: { id: true } });
 
+  if (users.length === 0 || contests.length === 0) {
+    console.warn("contestParticipantSeed: no users or contests; skipping.");
+    return;
+  }
+
   // Assign each user to a contest in round-robin fashion
   const data = users.map((user, idx) => ({
     id: `cp-${idx + 1}`,
