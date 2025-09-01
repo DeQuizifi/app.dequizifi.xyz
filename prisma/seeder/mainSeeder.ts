@@ -30,6 +30,14 @@ async function runSeeders() {
 
   const { main: quizAttemptSeed } = await import("./quizAttemptSeed");
   await quizAttemptSeed(prisma);
+
+  const { main: contestSeed } = await import("./contestSeed");
+  await contestSeed(prisma);
+
+  const { main: contestParticipantSeed } = await import(
+    "./contestParticipantSeed"
+  );
+  await contestParticipantSeed(prisma);
 }
 
 async function main() {
