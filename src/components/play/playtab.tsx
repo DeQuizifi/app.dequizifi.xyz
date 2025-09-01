@@ -13,11 +13,11 @@ export default function PlayTab() {
         <button
           aria-pressed={active === "players"}
           onClick={() => setActive("players")}
-          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none ${
-            active === "players"
-              ? "text-purple-600 border-b-2 border-purple-600"
-              : "text-gray-500"
-          }`}
+          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
+          style={{
+            color: active === "players" ? "var(--primary)" : "var(--muted-foreground)",
+            borderBottomColor: active === "players" ? "var(--primary)" : "transparent",
+          }}
         >
           Players
         </button>
@@ -25,11 +25,11 @@ export default function PlayTab() {
         <button
           aria-pressed={active === "reward"}
           onClick={() => setActive("reward")}
-          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none ${
-            active === "reward"
-              ? "text-purple-600 border-b-2 border-purple-600"
-              : "text-gray-500"
-          }`}
+          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
+          style={{
+            color: active === "reward" ? "var(--primary)" : "var(--muted-foreground)",
+            borderBottomColor: active === "reward" ? "var(--primary)" : "transparent",
+          }}
         >
           Reward
         </button>
@@ -39,13 +39,27 @@ export default function PlayTab() {
       <div className="mt-4">
         {active === "players" ? (
           <div>
-            <div className="rounded-2xl border-2 border-gray-200 p-4 text-sm text-gray-700 bg-white max-w-full">
+            <div
+              className="rounded-2xl border-2 p-4 text-sm max-w-full"
+              style={{
+                backgroundColor: "var(--quiz-card-bg)",
+                borderColor: "var(--quiz-card-border)",
+                color: "var(--quiz-subtitle-color)",
+              }}
+            >
               {/* PlayerTab component will be rendered here. */}
             </div>
           </div>
         ) : (
           <div>
-            <div className="rounded-2xl border-2 border-gray-200 p-4 text-sm text-gray-700 bg-white max-w-full">
+            <div
+              className="rounded-2xl border-2 p-4 text-sm max-w-full"
+              style={{
+                backgroundColor: "var(--quiz-card-bg)",
+                borderColor: "var(--quiz-card-border)",
+                color: "var(--quiz-subtitle-color)",
+              }}
+            >
               {/* RewardTab component will be rendered here. */}
             </div>
           </div>
