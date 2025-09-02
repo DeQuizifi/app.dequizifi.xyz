@@ -28,7 +28,7 @@ export default function JoinDialog({
 }: Props) {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <button
           type="button"
           aria-label={`Join ${title}`}
@@ -51,7 +51,7 @@ export default function JoinDialog({
           </DialogDescription>
         </DialogHeader>
 
-  <div className="mt-3 grid gap-3">
+        <div className="mt-3 grid gap-3">
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium text-muted-foreground">
               Entry Fee:
@@ -101,8 +101,8 @@ export default function JoinDialog({
           </div>
         </div>
 
-  <DialogFooter className="w-full flex-row gap-2 items-center justify-between mt-6">
-          <DialogClose>
+        <DialogFooter className="w-full flex-row gap-2 items-center justify-between mt-6">
+          <DialogClose asChild>
             <button
               type="button"
               className="rounded-lg px-4 py-2 text-sm font-semibold mr-2"
@@ -115,9 +115,10 @@ export default function JoinDialog({
             </button>
           </DialogClose>
 
-          <DialogClose onClick={() => onConfirm?.()}>
+          <DialogClose asChild>
             <button
               type="button"
+              onClick={() => onConfirm?.()}
               className="rounded-lg px-4 py-2 text-sm font-semibold"
               style={{
                 background: "var(--progress-low)",
