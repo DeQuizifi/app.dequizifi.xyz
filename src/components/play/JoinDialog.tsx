@@ -1,0 +1,134 @@
+"use client";
+import React from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+
+type Props = {
+  title: string;
+  entryFee?: string;
+  currentPrize?: string;
+  firstPrize?: string;
+  onConfirm?: () => void;
+};
+
+export default function JoinDialog({
+  title,
+  entryFee = "1 USDC",
+  currentPrize = "132 USDC",
+  firstPrize = "29.75 USDC",
+  onConfirm,
+}: Props) {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <button
+          type="button"
+          aria-label={`Join ${title}`}
+          className="rounded-xl px-4 py-2 text-sm font-semibold"
+          style={{
+            background: "var(--progress-low)",
+            color: "var(--primary-foreground)",
+            boxShadow: "none",
+          }}
+        >
+          Join
+        </button>
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-base">Join {title}</DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">
+            Confirm your entry
+          </DialogDescription>
+        </DialogHeader>
+
+  <div className="mt-3 grid gap-3">
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-muted-foreground">
+              Entry Fee:
+            </div>
+            <div
+              className="text-sm font-semibold"
+              style={{ color: "var(--progress-low)" }}
+            >
+              {entryFee}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-muted-foreground">
+              Current Prize Pool:
+            </div>
+            <div
+              className="text-sm font-semibold"
+              style={{ color: "var(--progress-low)" }}
+            >
+              {currentPrize}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="text-sm font-medium text-muted-foreground">
+              1st Prize:
+            </div>
+            <div
+              className="text-sm font-semibold"
+              style={{ color: "var(--progress-low)" }}
+            >
+              {firstPrize}
+            </div>
+          </div>
+
+          <div className="text-xs text-muted-foreground mt-2">
+            <p className="mb-1">Note:</p>
+            <ul className="list-disc list-inside text-xs">
+              <li className="text-muted-foreground">
+                10% will go to the platform
+              </li>
+              <li className="text-muted-foreground">
+                All participants get a reward!
+              </li>
+            </ul>
+          </div>
+        </div>
+
+  <DialogFooter className="w-full flex-row gap-2 items-center justify-between mt-6">
+          <DialogClose>
+            <button
+              type="button"
+              className="rounded-lg px-4 py-2 text-sm font-semibold mr-2"
+              style={{
+                background: "var(--destructive)",
+                color: "var(--destructive-foreground)",
+              }}
+            >
+              Cancel
+            </button>
+          </DialogClose>
+
+          <DialogClose onClick={() => onConfirm?.()}>
+            <button
+              type="button"
+              className="rounded-lg px-4 py-2 text-sm font-semibold"
+              style={{
+                background: "var(--progress-low)",
+                color: "var(--primary-foreground)",
+              }}
+            >
+              Confirm and Join
+            </button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
