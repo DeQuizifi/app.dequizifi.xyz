@@ -43,7 +43,7 @@ function PlayPage() {
           <div>
             {/* What would you like to play today? Section */}
             <div className="space-y-4">
-              <PlayToday quizzes={playToday} />
+              <PlayToday/>
             </div>
 
             {/* Your Unfinished Quizzes Section */}
