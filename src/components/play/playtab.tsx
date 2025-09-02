@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PlayersTab from "./playersTab";
 
 type TabKey = "players" | "reward";
 
@@ -15,8 +16,12 @@ export default function PlayTab() {
           onClick={() => setActive("players")}
           className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
           style={{
-            color: active === "players" ? "var(--primary)" : "var(--muted-foreground)",
-            borderBottomColor: active === "players" ? "var(--primary)" : "transparent",
+            color:
+              active === "players"
+                ? "var(--primary)"
+                : "var(--muted-foreground)",
+            borderBottomColor:
+              active === "players" ? "var(--primary)" : "transparent",
           }}
         >
           Players
@@ -27,8 +32,12 @@ export default function PlayTab() {
           onClick={() => setActive("reward")}
           className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
           style={{
-            color: active === "reward" ? "var(--primary)" : "var(--muted-foreground)",
-            borderBottomColor: active === "reward" ? "var(--primary)" : "transparent",
+            color:
+              active === "reward"
+                ? "var(--primary)"
+                : "var(--muted-foreground)",
+            borderBottomColor:
+              active === "reward" ? "var(--primary)" : "transparent",
           }}
         >
           Reward
@@ -40,23 +49,22 @@ export default function PlayTab() {
         {active === "players" ? (
           <div>
             <div
-              className="rounded-2xl border-2 p-4 text-sm max-w-full"
+              className=" text-sm max-w-full"
               style={{
                 backgroundColor: "var(--quiz-card-bg)",
-                borderColor: "var(--quiz-card-border)",
                 color: "var(--quiz-subtitle-color)",
               }}
             >
               {/* PlayerTab component will be rendered here. */}
+              <PlayersTab />
             </div>
           </div>
         ) : (
           <div>
             <div
-              className="rounded-2xl border-2 p-4 text-sm max-w-full"
+              className=" text-sm max-w-full"
               style={{
                 backgroundColor: "var(--quiz-card-bg)",
-                borderColor: "var(--quiz-card-border)",
                 color: "var(--quiz-subtitle-color)",
               }}
             >
