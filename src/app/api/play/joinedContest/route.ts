@@ -17,9 +17,6 @@ export async function GET(req: Request) {
   }
 
   const wallet = decoded.wallet;
-  if (!wallet) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
 
   try {
     const joinedContest = await prisma.contestParticipant.findMany({
@@ -52,7 +49,7 @@ export async function GET(req: Request) {
         timeleftinhours,
       };
     });
-    return NextResponse.json(timetobegincontest);
+    return NextResponse.json(timetobegincontest)
   } catch (err) {
     console.error(err);
     return NextResponse.json(
