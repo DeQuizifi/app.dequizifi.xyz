@@ -45,8 +45,13 @@ export async function GET(req: Request) {
     // Calculate time left for each contest
     const timetobegincontest = joinedContest.map((item) => {
       const contest = item.contest;
-      const timeleftinhours =
-        (new Date(contest.startTime).getTime() - Date.now()) / (1000 * 60 * 60); // hours
+      const timeleftinhours = Math.max(
+        0,
+        Math.floor(
+          (new Date(contest.startTime).getTime() - Date.now()) /
+            (1000 * 60 * 60)
+        )
+      );
       return {
         ...contest,
         timeleftinhours,
