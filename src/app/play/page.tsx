@@ -3,12 +3,8 @@ import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlayToday from "@/components/play/playToday";
-import {
-  playToday,
-  playUnfinishedQuizzes,
-} from "@/lib/data/mockData";
-import UnfinishedQuizzes from "@/components/play/unfinishedQuizzes";
 import { useUser } from "@/context/userContext";
+import JoinedContests from "@/components/play/joined-contests";
 
 function PlayPage() {
   const { username, balance } = useUser();
@@ -48,7 +44,7 @@ function PlayPage() {
 
             {/* Your Unfinished Quizzes Section */}
             <div className="space-y-4">
-              <UnfinishedQuizzes/>
+              <JoinedContests/>
             </div>
           </div>
           {/* This empty div ensures the container stretches to the bottom */}
