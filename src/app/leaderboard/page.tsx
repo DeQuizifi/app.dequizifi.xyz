@@ -32,6 +32,9 @@ export default function LeaderboardPage() {
   useEffect(() => {
     if (!address || !isConnected) {
       setError("User Is Not Connected");
+      setLoading(false);
+      setLeaderboardData([]);
+      return;
     }
     const fetchLeaderboard = async () => {
       setLoading(true);
