@@ -15,15 +15,16 @@ datasource db {
 }
 
 model user {
-  id            String         @id @default(uuid())
-  username      String         @unique
-  walletAddress String?        @unique
-  joinedDate    DateTime       @default(now())
-  favQuizTopic  String?
-  attempts      QuizAttempt[]
-  Rewards       Rewards[]
-  balance       Float          @default(0)
-  profileStats  ProfileStats[]
+  id                  String               @id @default(uuid())
+  username            String               @unique
+  walletAddress       String?              @unique
+  joinedDate          DateTime             @default(now())
+  favQuizTopic        String?
+  attempts            QuizAttempt[]
+  Rewards             Rewards[]
+  balance             Float                @default(0)
+  profileStats        ProfileStats[]
+  contestParticipants ContestParticipant[]
 }
 
 model Quiz {
@@ -34,6 +35,7 @@ model Quiz {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   attempts  QuizAttempt[]
+  contests  Contest[]
 }
 
 model Question {
@@ -107,4 +109,24 @@ model TopCategory {
   totalQuizzes   Int
   profileStatsId String
   profileStats   ProfileStats @relation(fields: [profileStatsId], references: [id])
+}
+
+model Contest {
+  id           String               @id @default(uuid())
+  name         String
+  quiz         Quiz                 @relation(fields: [quizId], references: [id])
+  quizId       Int
+  startTime    DateTime
+  endTime      DateTime
+  participants ContestParticipant[]
+  createdAt    DateTime             @default(now())
+}
+
+model ContestParticipant {
+  id        String   @id @default(uuid())
+  contest   Contest  @relation(fields: [contestId], references: [id])
+  contestId String
+  user      user     @relation(fields: [userId], references: [id])
+  userId    String
+  joinedAt  DateTime @default(now())
 }
