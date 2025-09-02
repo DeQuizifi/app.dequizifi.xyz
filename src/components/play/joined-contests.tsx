@@ -29,21 +29,32 @@ export default function JoinedContests() {
       setError(null);
       try {
         const res = await fetch("/api/play/joinedContest");
-        const data = await res.json();
+        const isJson = res.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await res.json().catch(() => null) : null;
         if (!res.ok) {
-          setError(data.error);
+          setError(
+            (data && (data.error || data.message)) ||
+              (res.status === 401
+                ? "Please log in to view joined contests"
+                : res.status === 500
+                ? "Internal Server Error"
+                : "Failed to fetch joined contests")
+          );
+          setJoinedInfo([]);
+          return;
         }
-        console.log(data);
         setJoinedInfo(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error(err);
-        setError(error);
+        setError("Failed to fetch joined contests");
       } finally {
         setLoading(false);
       }
     };
     fetchUsersJoinedContests();
-  }, [address, isConnected, error]);
+  }, [address, isConnected]);
   if (error) {
     return <div className="text-destructive">{error}</div>;
   }
