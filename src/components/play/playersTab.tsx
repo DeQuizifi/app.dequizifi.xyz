@@ -12,7 +12,7 @@ type Props = {
 
 export default function PlayersTab({ className = "" }: Props) {
   return (
-    <div className={"w-full px-10 sm:px-14 " + className}>
+    <div className={"w-full px-6 sm:px-8 " + className}>
       {/* Use vertical spacing instead of borders to avoid a table-like look */}
       <ul className="space-y-3 list-none m-0 p-0">
         {mockPlayers.map((p) => (

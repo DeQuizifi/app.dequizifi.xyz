@@ -1,5 +1,6 @@
 import React from "react";
 import { Upload, Clock } from "lucide-react";
+import JoinDialog from "./JoinDialog";
 
 type Props = {
   title?: string;
@@ -18,10 +19,9 @@ export default function QuizChallengePromo({
     <article
       role="region"
       aria-label={`Quiz promo: ${title}`}
-      className="w-full rounded-xl p-4"
+      className="w-full rounded-xl p-6 mb-4 "
       style={{
         background: "var(--quiz-card-bg)",
-        border: "1px solid var(--quiz-card-border)",
       }}
     >
       {/* Top row: title + actions */}
@@ -47,18 +47,12 @@ export default function QuizChallengePromo({
             <Upload className="h-4 w-4" />
           </button>
 
-          <button
-            type="button"
-            aria-label="Join quiz"
-            className="rounded-xl px-4 py-2 text-sm font-semibold"
-            style={{
-              background: "var(--progress-low)",
-              color: "var(--primary-foreground)",
-              boxShadow: "none",
-            }}
-          >
-            Join
-          </button>
+          <JoinDialog
+            title={title}
+            entryFee={"1 USDC"}
+            currentPrize={"132 USDC"}
+            firstPrize={"29.75 USDC"}
+          />
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import { useUser } from "@/context/userContext";
 import PlayTab from "@/components/play/playtab";
+import QuizChallengePromo from "@/components/play/QuizChallengePromo";
 
 function PlayPage() {
   const { username, balance } = useUser();
@@ -39,6 +40,7 @@ function PlayPage() {
           style={{ boxShadow: "none", border: "none", outline: "none" }}
         >
           <div>
+            <QuizChallengePromo/>
             {/* tab */}
             <PlayTab />
           </div>
