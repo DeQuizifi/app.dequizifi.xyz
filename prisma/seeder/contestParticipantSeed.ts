@@ -1,7 +1,7 @@
 import { PrismaClient } from "../../src/generated/prisma";
 
 export async function main(prisma: PrismaClient) {
-  // Ensure every user joins a different contest and every contest has participants
+  // Ensure every user joins each contest up to 3 times
   const users = await prisma.user.findMany({ select: { id: true } });
   const contests = await prisma.contest.findMany({ select: { id: true } });
 
@@ -10,25 +10,22 @@ export async function main(prisma: PrismaClient) {
     return;
   }
 
-  // Assign each user to a contest in round-robin fashion
-  const data = users.map((user, idx) => ({
-    id: `cp-${idx + 1}`,
-    contestId: contests[idx % contests.length].id,
-    userId: user.id,
-  }));
-
-  // Add extra participants so every contest has at least 2 participants
-  if (contests.length > 1 && users.length > 1) {
-    contests.forEach((contest, idx) => {
-      // Pick a second user for each contest
-      const secondUser = users[(idx + 1) % users.length];
-      data.push({
-        id: `cp-extra-${idx + 1}`,
-        contestId: contest.id,
-        userId: secondUser.id,
-      });
+  // Each user can attempt each contest a random number of times (0-3)
+  const data: { id: string; contestId: string; userId: string }[] = [];
+  let idCounter = 1;
+  contests.forEach((contest) => {
+    users.forEach((user) => {
+      const attempts = Math.floor(Math.random() * 4); // 0, 1, 2, or 3
+      for (let attempt = 1; attempt <= attempts; attempt++) {
+        data.push({
+          id: `cp-${idCounter}`,
+          contestId: contest.id,
+          userId: user.id,
+        });
+        idCounter++;
+      }
     });
-  }
+  });
 
   await prisma.contestParticipant.createMany({ data });
 }
