@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useUser } from "@/context/userContext";
+import Spinner from "@/components/ui/Spinner";
 
 type LeaderboardEntry = {
   user: user | null;
@@ -24,9 +25,17 @@ export default function LeaderboardPage() {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
   );
+  const [error, setError] = useState<string | null>(null);
   const { username, balance } = useUser();
+  const { address, isConnected } = useAccount();
 
   useEffect(() => {
+    if (!address || !isConnected) {
+      setError("User Is Not Connected");
+      setLoading(false);
+      setLeaderboardData([]);
+      return;
+    }
     const fetchLeaderboard = async () => {
       setLoading(true);
       const url =
@@ -35,21 +44,21 @@ export default function LeaderboardPage() {
           : "/api/leaderboard/overallpoints";
       try {
         const res = await fetch(url);
+        const data = await res.json();
         if (!res.ok) {
-          // Optionally: surface an error state
+          setError(data.error);
           return;
         }
-        const data = await res.json();
         setLeaderboardData(data);
-      } catch (e) {
-        console.error("Failed to fetch leaderboard", e);
+      } catch (err) {
+        console.error("Failed to fetch leaderboard", err);
       } finally {
         setLoading(false);
       }
     };
 
     fetchLeaderboard();
-  }, [activeTab]);
+  }, [address, isConnected, error, activeTab]);
 
   const currentLeaderboard = leaderboardData;
   const top3Users = currentLeaderboard.slice(0, 3);
@@ -101,6 +110,16 @@ export default function LeaderboardPage() {
     // In a real implementation, here we would fetch the appropriate leaderboard data
   };
 
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-[#5F478F]">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen relative">
       {/* Background Image */}
