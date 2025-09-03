@@ -9,8 +9,10 @@ async function clearDatabase() {
   await prisma.profileStats.deleteMany({});
   await prisma.rewards.deleteMany({});
   await prisma.trophy.deleteMany({});
-  await prisma.statistics.deleteMany({});
+  // ...existing code...
   await prisma.question.deleteMany({});
+  await prisma.contestParticipant.deleteMany({});
+  await prisma.contest.deleteMany({});
   await prisma.quiz.deleteMany({});
   await prisma.user.deleteMany({});
 }
