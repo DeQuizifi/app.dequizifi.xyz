@@ -13,8 +13,12 @@ export async function GET() {
         title: true,
         category: true,
         createdAt: true,
-        questions: true,
-        attempts: true,
+        _count:{
+          select:{
+            questions: true,
+            attempts: true,
+          }
+        }
       },
     });
     if (quizzes.length === 0) {

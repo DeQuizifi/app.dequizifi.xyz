@@ -5,10 +5,16 @@ import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 
 interface Quiz {
+  id: number;
   title: string;
-  questions: { length: number }[];
-  attempts: Record<string, unknown>[];
+  category: string;
+  createdAt: string;
+  _count: {
+    questions: number;
+    attempts: number;
+  };
 }
+
 
 export default function LatestTab() {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -70,13 +76,13 @@ export default function LatestTab() {
                   {quiz.title}
                 </p>
                 <p className="text-sm text-gray-500">
-                  {quiz.questions.length} questions
+                  {quiz._count.questions} questions
                 </p>
               </div>
               {/* Plays */}
               <div className="flex flex-col items-end justify-center flex-shrink-0">
                 <span className="text-lg font-semibold text-gray-900">
-                  {quiz.attempts.length}
+                  {quiz._count.attempts}
                 </span>
                 <span className="text-sm font-normal text-gray-500">Plays</span>
               </div>
