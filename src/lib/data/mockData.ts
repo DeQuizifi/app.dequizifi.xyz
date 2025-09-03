@@ -235,3 +235,23 @@ export const playUnfinishedQuizzes: UnfinishedQuiz[] = [
     image: "/public/images/playQuizImage.svg",
   },
 ];
+
+// Reward distribution mock data (derived from provided design)
+export interface RewardShare {
+  id: string;
+  label: string;
+  percent: number; // percent share as a number (e.g. 25 for 25%)
+}
+
+export const mockPrizePool = {
+  amount: 132,
+  currency: "USDC",
+};
+
+export const mockRewardDistribution: RewardShare[] = [
+  { id: "r1", label: "Rank 1", percent: 25 },
+  { id: "r2", label: "Rank 2", percent: 15 },
+  { id: "r3", label: "Rank 3", percent: 12 },
+  { id: "r4to10", label: "Rank 4 to 10", percent: 3.57 },
+  { id: "remaining", label: "Remaining Players", percent: 0.144 },
+];
