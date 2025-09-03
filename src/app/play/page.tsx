@@ -2,9 +2,9 @@
 import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
+import PlayToday from "@/components/play/playToday";
 import { useUser } from "@/context/userContext";
-import PlayTab from "@/components/play/playtab";
-import QuizChallengePromo from "@/components/play/QuizChallengePromo";
+import JoinedContests from "@/components/play/joined-contests";
 
 function PlayPage() {
   const { username, balance } = useUser();
@@ -40,9 +40,15 @@ function PlayPage() {
           style={{ boxShadow: "none", border: "none", outline: "none" }}
         >
           <div>
-            <QuizChallengePromo/>
-            {/* tab */}
-            <PlayTab />
+            {/* What would you like to play today? Section */}
+            <div className="space-y-4">
+              <PlayToday/>
+            </div>
+
+            {/* Your Unfinished Quizzes Section */}
+            <div className="space-y-4">
+              <JoinedContests/>
+            </div>
           </div>
           {/* This empty div ensures the container stretches to the bottom */}
           <div></div>
