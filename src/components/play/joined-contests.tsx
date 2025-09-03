@@ -1,38 +1,67 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import Spinner from "../ui/Spinner";
 
 interface JoinedContest {
   name: string;
-  participants: number;
+  startTime: string;
+  _count: {
+    participants: number;
+  };
   timeleftinhours: number;
 }
 
-// Dummy data for UI preview
-const joinedContests: JoinedContest[] = [
-  {
-    name: "DEX vs CEX",
-    participants: 158,
-    timeleftinhours: 12,
-  },
-  {
-    name: "Unstable Coin",
-    participants: 20,
-    timeleftinhours: 12,
-  },
-  {
-    name: "DEX vs CEX",
-    participants: 20,
-    timeleftinhours: 24,
-  },
-  {
-    name: "DEX vs CEX",
-    participants: 20,
-    timeleftinhours: 20,
-  },
-];
-
 export default function JoinedContests() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [joinedInfo, setJoinedInfo] = useState<JoinedContest[]>([]);
+  const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    if (!address || !isConnected) {
+      setError("User Is Not Connected");
+      return;
+    }
+    const fetchUsersJoinedContests = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/play/joinedContest");
+        const isJson = res.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson ? await res.json().catch(() => null) : null;
+        if (!res.ok) {
+          setError(
+            (data && (data.error || data.message)) ||
+              (res.status === 401
+                ? "Please log in to view joined contests"
+                : res.status === 500
+                ? "Internal Server Error"
+                : "Failed to fetch joined contests")
+          );
+          setJoinedInfo([]);
+          return;
+        }
+        setJoinedInfo(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to fetch joined contests");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsersJoinedContests();
+  }, [address, isConnected]);
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <div className="px-6 mt-8 pb-24">
       <h3
@@ -42,47 +71,51 @@ export default function JoinedContests() {
         Contests you have joined
       </h3>
       <div className="space-y-4">
-        {joinedContests.map((contest, idx) => (
-          <div
-            key={idx}
-            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
-            style={{
-              backgroundColor: "var(--quiz-card-bg)",
-              border: "1px solid var(--quiz-card-border)",
-            }}
-          >
-            {/* Left Icon */}
-            <div className="flex-shrink-0">
-              <Image
-                src="/cube1.svg"
-                alt="Contest Icon"
-                width={48}
-                height={48}
-                className="object-contain"
-                priority
-              />
-            </div>
-            {/* Contest Info */}
-            <div className="flex-1 ml-4">
-              <div
-                className="text-lg font-bold"
-                style={{ color: "var(--quiz-title-color)" }}
-              >
-                {contest.name}
+        {Array.isArray(joinedInfo) && joinedInfo.length > 0 ? (
+          joinedInfo.map((contest: JoinedContest, idx: number) => (
+            <div
+              key={idx}
+              className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
+              style={{
+                backgroundColor: "var(--quiz-card-bg)",
+                border: "1px solid var(--quiz-card-border)",
+              }}
+            >
+              {/* Left Icon */}
+              <div className="flex-shrink-0">
+                <Image
+                  src="/cube1.svg"
+                  alt="Contest Icon"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                  priority
+                />
               </div>
-              <div
-                className="text-sm"
-                style={{ color: "var(--quiz-subtitle-color)" }}
-              >
-                {contest.participants} people joined
+              {/* Contest Info */}
+              <div className="flex-1 ml-4">
+                <div
+                  className="text-lg font-bold"
+                  style={{ color: "var(--quiz-title-color)" }}
+                >
+                  {contest.name}
+                </div>
+                <div
+                  className="text-sm"
+                  style={{ color: "var(--quiz-subtitle-color)" }}
+                >
+                  {contest._count?.participants ?? 0} people joined
+                </div>
+              </div>
+              {/* Progress Circle for hours left */}
+              <div className="flex-shrink-0 ml-4">
+                <HourProgressCircle hours={contest.timeleftinhours} />
               </div>
             </div>
-            {/* Progress Circle for hours left */}
-            <div className="flex-shrink-0 ml-4">
-              <HourProgressCircle hours={contest.timeleftinhours} />
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div className="text-muted-foreground">No contests joined.</div>
+        )}
       </div>
     </div>
   );
