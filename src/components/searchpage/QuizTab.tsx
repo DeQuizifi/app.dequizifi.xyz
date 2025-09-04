@@ -1,82 +1,95 @@
-type Quiz = {
-  id: string;
+"use client";
+
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import Spinner from "../ui/Spinner";
+
+interface Quiz {
+  id: number;
   title: string;
-  author: string;
-  questions: number;
-  plays: number;
-  difficulty: "Easy" | "Medium" | "Hard";
-  thumbnail?: string;
-};
+  category: string;
+  createdAt: string;
+  _count: {
+    questions: number;
+    attempts: number;
+  };
+}
 
-export default function QuizTab({ quizzes }: { quizzes?: Quiz[] }) {
-  const placeholder: Quiz[] = [
-    {
-      id: "q1",
-      title: "General Knowledge Blitz",
-      author: "QuizMaster42",
-      questions: 10,
-      plays: 1245,
-      difficulty: "Medium",
-      thumbnail: undefined,
-    },
-    {
-      id: "q2",
-      title: "History: Famous Dates",
-      author: "HistoryBuff",
-      questions: 8,
-      plays: 823,
-      difficulty: "Easy",
-    },
-    {
-      id: "q3",
-      title: "Science Rapid Fire",
-      author: "LabGuru",
-      questions: 12,
-      plays: 456,
-      difficulty: "Hard",
-    },
-  ];
 
-  const list = quizzes && quizzes.length ? quizzes : placeholder;
+export default function LatestTab() {
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const res = await fetch("/api/search/latestaddedquizzes");
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || "Something went wrong");
+        } else {
+          setQuizzes(data.quiz);
+        }
+      } catch (err) {
+        setError("Failed to fetch quizzes");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuizzes();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Spinner size={48} color="#8B5CF6" />
+      </div>
+    );
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-4 w-full min-w-[370px] mx-auto">
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Latest Quizzes</h2>
-          <div className="space-y-3">
-            {list.map((q) => (
-              <Card key={q.id} className="px-4 py-6 rounded-md border-0">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-muted rounded-md flex items-center justify-center text-sm font-medium">
-                      {q.title
-                        .split(" ")
-                        .slice(0, 2)
-                        .map((t) => t[0])
-                        .join("")}
-                    </div>
-                    <div>
-                      <div className="font-semibold">{q.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        by {q.author} • {q.questions} questions
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm">{q.plays} plays</div>
-                    <div className="text-xs text-muted-foreground">
-                      {q.difficulty}
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
+        {quizzes.map((quiz: Quiz, idx: number) => (
+          <div
+            key={idx}
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
+          >
+            <div className="flex items-center w-full gap-4">
+              {/* Icon */}
+              <div className="flex-shrink-0">
+                <Image
+                  src="/cube1.svg"
+                  alt="Quiz Icon"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              {/* Title + Description */}
+              <div className="flex-1 min-w-0">
+                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                  {quiz.title}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {quiz._count.questions} questions
+                </p>
+              </div>
+              {/* Plays */}
+              <div className="flex flex-col items-end justify-center flex-shrink-0">
+                <span className="text-lg font-semibold text-gray-900">
+                  {quiz._count.attempts}
+                </span>
+                <span className="text-sm font-normal text-gray-500">Plays</span>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
-
-import { Card } from "@/components/ui/card";

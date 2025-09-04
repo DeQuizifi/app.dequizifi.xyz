@@ -25,7 +25,8 @@ export async function GET() {
       return NextResponse.json({ error: "No quizzes found" }, { status: 404 });
     }
     return NextResponse.json({ quiz: quizzes }, { status: 200 });
-  } catch (error) {
+  } catch(error) {
+    console.error(error)
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
