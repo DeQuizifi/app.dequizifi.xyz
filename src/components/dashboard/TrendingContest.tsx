@@ -1,3 +1,4 @@
+"use client";
 import TrendingContestList from "./TrendingContestList";
 
 export default function TrendingContest() {
@@ -16,7 +17,7 @@ export default function TrendingContest() {
   return (
     <div className="border border-gray-200 bg-white rounded-t-xl p-4 shadow-sm">
       <h1 className="text-2xl font-semibold mx-2 my-2">Trending Contests</h1>
-      <TrendingContestList/>
+      <TrendingContestList />
     </div>
   );
 }

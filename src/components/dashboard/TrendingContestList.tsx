@@ -55,7 +55,7 @@ export default function TrendingContestList() {
   }
 
   if (trending.length === 0) {
-    return <div>No trending quizzes available.</div>;
+    return <div>No trending contests available.</div>;
   }
 
   return (
