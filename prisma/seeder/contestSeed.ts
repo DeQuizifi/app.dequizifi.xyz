@@ -17,12 +17,14 @@ export async function main(prisma: PrismaClient) {
       createdAt.getTime() + 5 * 24 * 3600 * 1000 + randomHours * 3600 * 1000
     );
     const endTime = new Date(startTime.getTime() + timeLimit * 3600 * 1000);
-    // registrationEndTimeHours: random value between 1 and (hours between createdAt and startTime)
+    // registrationEndTime: random value between createdAt and startTime
     const maxRegHours = Math.floor(
       (startTime.getTime() - createdAt.getTime()) / (3600 * 1000)
     );
-    const registrationEndTimeHours =
-      Math.floor(Math.random() * maxRegHours) + 1;
+    const regHours = Math.floor(Math.random() * maxRegHours) + 1;
+    const registrationEndTime = new Date(
+      createdAt.getTime() + regHours * 3600 * 1000
+    );
     return {
       id: `contest-${quiz.id}-id`,
       name: quiz.title,
@@ -30,7 +32,7 @@ export async function main(prisma: PrismaClient) {
       startTime,
       endTime,
       createdAt,
-      registrationEndTimeHours,
+      registrationEndTime,
     };
   });
   await prisma.contest.createMany({ data: contestData });
