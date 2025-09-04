@@ -6,7 +6,7 @@ export async function GET() {
     const trendingcontest = await prisma.contest.findMany({
       select: {
         name: true,
-        registrationEndTimeHours: true,
+        registrationEndTime: true,
         _count: {
           select: {
             participants: true,
@@ -14,16 +14,31 @@ export async function GET() {
         },
       },
       orderBy: {
-        registrationEndTimeHours: "asc",
+        registrationEndTime: "asc",
       },
     });
-    if (!trendingcontest) {
+    if (trendingcontest.length === 0) {
       return NextResponse.json(
         { error: "No Trending Contest Found" },
         { status: 404 }
       );
     }
-    return NextResponse.json(trendingcontest);
+    const now = Date.now();
+    const data = trendingcontest.map((c) => ({
+      name: c.name,
+      registrationEndTime: c.registrationEndTime,
+      hoursLeft: c.registrationEndTime
+        ? Math.max(
+            0,
+            Math.floor(
+              (new Date(c.registrationEndTime).getTime() - now) /
+                (1000 * 60 * 60)
+            )
+          )
+        : null,
+      participantCount: c._count.participants,
+    }));
+    return NextResponse.json(data);
   } catch (err) {
     console.error(err);
     return NextResponse.json(
