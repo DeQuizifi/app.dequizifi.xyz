@@ -24,11 +24,11 @@ export async function GET() {
 
     // Calculate time left to begin in hours for each contest
     const contestsWithTimeLeft = latestContest.map((contest) => {
-      const timeleftToBegin =
+      const timelefttobegin =
         (new Date(contest.startTime).getTime() - Date.now()) / (1000 * 60 * 60); // hours
       return {
         ...contest,
-        timeleftToBegin,
+        timelefttobegin,
       };
     });
 
