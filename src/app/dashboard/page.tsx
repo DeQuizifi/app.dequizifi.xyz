@@ -3,7 +3,7 @@
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
 import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
-import TrendingQuiz from "@/components/dashboard/TrendingQuiz";
+import TrendingContest from "@/components/dashboard/TrendingContest";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import { useUser } from "@/context/userContext";
 import {
@@ -77,7 +77,7 @@ export default function DashboardPage() {
           }}
         />
 
-        <TrendingQuiz />
+        <TrendingContest/>
       </div>
     </main>
   );
