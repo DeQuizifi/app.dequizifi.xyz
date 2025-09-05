@@ -1,63 +1,66 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Spinner from "../ui/Spinner";
 
-type LatestItem =
-  | {
-      type: "quiz";
-      title: string;
-      createdAt: string;
-      questionsCount: number;
-      attemptsCount: number;
-    }
-  | {
-      type: "contest";
-      name: string;
-      createdAt: string;
-      startTime: string;
-      participantsCount: number;
-      timeLeftHours: number;
+  type LatestAllProps =
+    | {
+        type: "quiz";
+        title: string;
+        questionsCount: number;
+        attemptsCount: number;
+      }
+    | {
+        type: "contest";
+        name: string;
+        createdAt: string;
+        startTime: string;
+        participantsCount: number;
+        timeLeftHours: number;
+      };
+export default function LatestAll() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [latestAll, setLatestAll] = useState<LatestAllProps[]>([]);
+
+  useEffect(() => {
+    const fetchLatestAll = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/search/latestaddedall");
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(data.error || "No Response");
+        }else{
+          setError(null);
+          setLatestAll(data.items);
+        }
+      } catch (err) {
+        console.log(err);
+        setError("Something went wrong");
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchLatestAll();
+  }, []);
 
-export default function LatestTab() {
-  // Mock data for both quizzes and contests
-  const mockItems: LatestItem[] = [
-    {
-      type: "quiz",
-      title: "Gen. Knowledge",
-      createdAt: "2025-09-05T10:00:00Z",
-      questionsCount: 15,
-      attemptsCount: 120,
-    },
-    {
-      type: "contest",
-      name: "Sept Challenge",
-      createdAt: "2025-09-04T09:00:00Z",
-      startTime: "2025-09-10T12:00:00Z",
-      participantsCount: 45,
-      timeLeftHours: 12,
-    },
-    {
-      type: "quiz",
-      title: "Science Trivia",
-      createdAt: "2025-09-03T08:00:00Z",
-      questionsCount: 10,
-      attemptsCount: 80,
-    },
-    {
-      type: "contest",
-      name: "Math Contest",
-      createdAt: "2025-09-02T07:00:00Z",
-      startTime: "2025-09-07T15:00:00Z",
-      participantsCount: 30,
-      timeLeftHours: 5,
-    },
-  ];
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+  if (loading)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Spinner size={48} color="#8B5CF6" />
+      </div>
+    );
 
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-4 w-full min-w-[370px] mx-auto">
-        {mockItems.map((item, idx) => (
+        {latestAll.map((item, idx) => (
           <div
             key={idx}
             className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
@@ -127,7 +130,6 @@ export default function LatestTab() {
     </div>
   );
 }
-
 // ContestTab's HourProgressCircle reused here
 function HourProgressCircle(props: { hours: number }) {
   const hours =
