@@ -44,13 +44,27 @@ export async function GET() {
       attemptsCount: q._count.attempts,
     }));
 
-    const contestItems = fetchlatestcontest.map((c) => ({
-      type: "contest",
-      name: c.name,
-      createdAt: c.createdAt,
-      startTime: c.startTime,
-      participantsCount: c._count.participants,
-    }));
+    const contestItems = fetchlatestcontest.map((c) => {
+      let timeLeftHours = 0;
+      const startTimestamp = Date.parse(String(c.startTime));
+      if (!isNaN(startTimestamp)) {
+        timeLeftHours = Math.max(
+          0,
+          Math.round((startTimestamp - Date.now()) / (1000 * 60 * 60))
+        );
+      } else {
+        console.warn("Invalid startTime for contest:", c.startTime);
+        timeLeftHours = 0;
+      }
+      return {
+        type: "contest",
+        name: c.name,
+        createdAt: c.createdAt,
+        startTime: c.startTime,
+        participantsCount: c._count.participants,
+        timeLeftHours,
+      };
+    });
 
     // Merge and sort
     const allItems = [...quizItems, ...contestItems].sort(
