@@ -103,15 +103,15 @@ model TopCategory {
 }
 
 model Contest {
-  id                       String               @id @default(uuid())
-  name                     String
-  quiz                     Quiz                 @relation(fields: [quizId], references: [id])
-  quizId                   Int
-  startTime                DateTime
-  endTime                  DateTime
-  registrationEndTimeHours Int?
-  participants             ContestParticipant[]
-  createdAt                DateTime             @default(now())
+  id                  String               @id @default(uuid())
+  name                String
+  quiz                Quiz                 @relation(fields: [quizId], references: [id])
+  quizId              Int
+  startTime           DateTime
+  endTime             DateTime
+  registrationEndTime DateTime?
+  participants        ContestParticipant[]
+  createdAt           DateTime             @default(now())
 }
 
 model ContestParticipant {
