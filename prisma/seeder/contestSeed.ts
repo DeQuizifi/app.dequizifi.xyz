@@ -10,19 +10,27 @@ export async function main(prisma: PrismaClient) {
   const contestData = quizzes.map((quiz, idx) => {
     // Randomly pick a time limit for each contest
     const timeLimit = timeLimits[Math.floor(Math.random() * timeLimits.length)];
-    // Start time: staggered by idx, some in future, some in past
-    const startOffset = ((idx % 4) - 2) * 3600 * 1000; // -2, -1, 0, 1 hours
-    const startTime = new Date(Date.now() + startOffset);
+    // Randomly pick hours to add to 5 days for startTime
+    const randomHours = Math.floor(Math.random() * 24) + 1; // 1 to 24 hours
+    const createdAt = new Date();
+    const startTime = new Date(
+      createdAt.getTime() + 5 * 24 * 3600 * 1000 + randomHours * 3600 * 1000
+    );
     const endTime = new Date(startTime.getTime() + timeLimit * 3600 * 1000);
+    // registrationEndTimeHours: random value between 1 and (hours between createdAt and startTime)
+    const maxRegHours = Math.floor(
+      (startTime.getTime() - createdAt.getTime()) / (3600 * 1000)
+    );
+    const registrationEndTimeHours =
+      Math.floor(Math.random() * maxRegHours) + 1;
     return {
       id: `contest-${quiz.id}-id`,
       name: quiz.title,
       quizId: quiz.id,
       startTime,
       endTime,
-      // Optionally, you can add timeLeftToStart and timeLeftToEnd for clarity
-      // timeLeftToStart: Math.max(0, startTime.getTime() - Date.now()),
-      // timeLeftToEnd: Math.max(0, endTime.getTime() - Date.now()),
+      createdAt,
+      registrationEndTimeHours,
     };
   });
   await prisma.contest.createMany({ data: contestData });
