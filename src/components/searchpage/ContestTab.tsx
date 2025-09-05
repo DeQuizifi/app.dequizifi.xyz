@@ -5,7 +5,7 @@ import Spinner from "../ui/Spinner";
 
 type LatestContestProps = {
   name: string;
-  timelefttobegin: number;
+  timeLeftHours: number;
   createdAt: string;
   _count: {
     participants: number;
@@ -25,9 +25,13 @@ export default function ContestTab() {
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || "Something went wrong");
+          setError(
+            (data && (data.error || data.message)) || "Something went wrong"
+          );
+          setLatestContest([]);
+          return;
         }
-        setLatestContest(data);
+        setLatestContest(Array.isArray(data) ? data : []);
         setError(null);
       } catch (error) {
         console.error(error);
@@ -84,7 +88,12 @@ export default function ContestTab() {
               {/* Registration/Hours Left */}
               <div className="flex flex-col items-center font-semibold flex-shrink-0">
                 <HourProgressCircle
-                  hours={Math.round(contest.timelefttobegin)}
+                  hours={
+                    typeof contest.timeLeftHours === "number" &&
+                    !isNaN(contest.timeLeftHours)
+                      ? contest.timeLeftHours
+                      : 0
+                  }
                 />
                 <span className="text-sm font-normal text-gray-500">
                   Hours left
@@ -99,13 +108,15 @@ export default function ContestTab() {
 }
 
 function HourProgressCircle({ hours }: { hours: number }) {
+  // Sanitize hours to prevent NaN
+  const safeHours = typeof hours === "number" && !isNaN(hours) ? hours : 0;
   let circleColor = "var(--progress-low)";
   let textColor = "var(--progress-low)";
 
-  if (hours >= 24) {
+  if (safeHours >= 24) {
     circleColor = "var(--progress-high)";
     textColor = "var(--progress-high)";
-  } else if (hours >= 20) {
+  } else if (safeHours >= 20) {
     circleColor = "var(--progress-medium)";
     textColor = "var(--progress-medium)";
   } else {
@@ -117,7 +128,10 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const strokeWidth = 4;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const percent = Math.max(0, Math.min(100, Math.round((hours / 24) * 100)));
+  const percent = Math.max(
+    0,
+    Math.min(100, Math.round((safeHours / 24) * 100))
+  );
   const offset = circumference - (percent / 100) * circumference;
 
   return (
