@@ -1,36 +1,28 @@
-"use client";
-import dynamic from "next/dynamic";
-
-const WalletLoginButton = dynamic(
-  () => import("@/components/custom/common/WalletLoginButton"),
-  { ssr: false }
-);
-
-const FarcasterSignInButton = dynamic(
-  () => import("@/components/custom/common/FarcasterSignInButton"),
-  { ssr: false }
-);
+import FarcasterSignInButton from "@/components/custom/common/FarcasterSignInButton";
+import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
 
 function page() {
   return (
     <div
-      className="h-screen bg-no-repeat bg-cover flex flex-col "
+      className="h-screen bg-no-repeat bg-cover flex flex-col justify-end"
       style={{ backgroundImage: "url('/images/login-bg.svg')" }}
     >
-      <div className="container mx-auto my-80 text-white p-8">
-        <div className="transform translate-y-32">
-          <h1 className="text-4xl font-bold mb-4">
+      <div className="container mx-auto text-white p-8 pb-8">
+        <div>
+          <h1 className="text-4xl font-bold mb-2">
             Welcome <br /> to DeQuiziFi
           </h1>
-          <p className=" mb-8">
+          <p className="mb-6">
             Unlock Defi Knowledge Through Fun, Fast-
             <br />
             Paced Quizzes
           </p>
         </div>
-        <div className="flex flex-col gap-4 w-full max-w-sm mx-auto">
-          <WalletLoginButton />
-          <div className="flex justify-center">
+        <div className="flex flex-col gap-2 w-full">
+          <div className="w-full">
+            <WalletLoginButton />
+          </div>
+          <div className="w-full justify-center flex">
             <FarcasterSignInButton nonce="sample-nonce-value" />
           </div>
         </div>

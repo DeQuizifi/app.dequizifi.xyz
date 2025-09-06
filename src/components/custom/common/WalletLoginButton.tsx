@@ -31,7 +31,7 @@ function WalletLoginButton() {
   }, [isConnected, address, router]);
 
   return (
-    <div className="px-4 mt-40">
+    <div>
       <ConnectButton.Custom>
         {({ account, chain, openConnectModal, mounted }) => {
           return (
