@@ -24,11 +24,20 @@ export async function GET() {
 
     // Calculate time left to begin in hours for each contest
     const contestsWithTimeLeft = latestContest.map((contest) => {
-      const timeleftToBegin =
-        (new Date(contest.startTime).getTime() - Date.now()) / (1000 * 60 * 60); // hours
+      let timeLeftHours = 0;
+      const startTimestamp = Date.parse(String(contest.startTime));
+      if (!isNaN(startTimestamp)) {
+        timeLeftHours = Math.max(
+          0,
+          Math.round((startTimestamp - Date.now()) / (1000 * 60 * 60))
+        );
+      } else {
+        console.warn("Invalid startTime for contest:", contest.startTime);
+        timeLeftHours = 0;
+      }
       return {
         ...contest,
-        timeleftToBegin,
+        timeLeftHours,
       };
     });
 

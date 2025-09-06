@@ -1,49 +1,65 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Spinner from "../ui/Spinner";
 
-type Contest = {
-  id: number;
+type LatestContestProps = {
   name: string;
-  category: string;
-  registrationEndTime: string;
-  participantCount: number;
-  hoursLeft: number;
+  timeLeftHours: number;
+  createdAt: string;
+  _count: {
+    participants: number;
+  };
 };
 
-const mockContests: Contest[] = [
-  {
-    id: 1,
-    name: "Math Mania",
-    category: "Math",
-    registrationEndTime: "2025-09-10T18:00:00Z",
-    participantCount: 120,
-    hoursLeft: 12,
-  },
-  {
-    id: 2,
-    name: "Science Sprint",
-    category: "Science",
-    registrationEndTime: "2025-09-12T20:00:00Z",
-    participantCount: 95,
-    hoursLeft: 22,
-  },
-  {
-    id: 3,
-    name: "History Hunt",
-    category: "History",
-    registrationEndTime: "2025-09-15T15:00:00Z",
-    participantCount: 60,
-    hoursLeft: 5,
-  },
-];
-
 export default function ContestTab() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [latestContest, setLatestContest] = useState<LatestContestProps[]>([]);
+
+  useEffect(() => {
+    const fetchLastestContest = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/search/latestaddedcontests");
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(
+            (data && (data.error || data.message)) || "Something went wrong"
+          );
+          setLatestContest([]);
+          return;
+        }
+        setLatestContest(Array.isArray(data) ? data : []);
+        setError(null);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch contests");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLastestContest();
+  }, []);
+
+  if (error) {
+    return <div className="text-destructive">{error}</div>;
+  }
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Spinner size={48} color="#8B5CF6" />
+      </div>
+    );
+
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-4 w-full min-w-[370px] mx-auto">
-        {mockContests.map((contest) => (
+        {latestContest.map((contest) => (
           <div
-            key={contest.id}
+            key={contest.name}
             className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
           >
             <div className="flex items-center w-full gap-4">
@@ -65,13 +81,20 @@ export default function ContestTab() {
                   {contest.name}
                 </p>
                 <p className="text-sm text-gray-500">
-                  {contest.participantCount} participants
+                  {contest._count.participants} participants
                 </p>
               </div>
 
               {/* Registration/Hours Left */}
               <div className="flex flex-col items-center font-semibold flex-shrink-0">
-                <HourProgressCircle hours={contest.hoursLeft} />
+                <HourProgressCircle
+                  hours={
+                    typeof contest.timeLeftHours === "number" &&
+                    !isNaN(contest.timeLeftHours)
+                      ? contest.timeLeftHours
+                      : 0
+                  }
+                />
                 <span className="text-sm font-normal text-gray-500">
                   Hours left
                 </span>
@@ -85,13 +108,15 @@ export default function ContestTab() {
 }
 
 function HourProgressCircle({ hours }: { hours: number }) {
+  // Sanitize hours to prevent NaN
+  const safeHours = typeof hours === "number" && !isNaN(hours) ? hours : 0;
   let circleColor = "var(--progress-low)";
   let textColor = "var(--progress-low)";
 
-  if (hours >= 24) {
+  if (safeHours >= 24) {
     circleColor = "var(--progress-high)";
     textColor = "var(--progress-high)";
-  } else if (hours >= 20) {
+  } else if (safeHours >= 20) {
     circleColor = "var(--progress-medium)";
     textColor = "var(--progress-medium)";
   } else {
@@ -103,7 +128,10 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const strokeWidth = 4;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const percent = Math.max(0, Math.min(100, Math.round((hours / 24) * 100)));
+  const percent = Math.max(
+    0,
+    Math.min(100, Math.round((safeHours / 24) * 100))
+  );
   const offset = circumference - (percent / 100) * circumference;
 
   return (
