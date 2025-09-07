@@ -1,5 +1,3 @@
-"use client";
-
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
@@ -76,31 +74,17 @@ export default function BottomNavbar() {
             <Link
               key={item.id}
               href={item.href}
-              // remove hover and focus visual effects for bottom nav
-              className={cn(
-                "nav-item flex flex-col items-center justify-center min-w-0 flex-1 py-4 px-3 transition-all duration-200 rounded-lg",
-                "focus:outline-none focus-visible:outline-none focus:ring-0",
-                "active:scale-95 transition-transform",
-                active ? "text-primary font-medium" : "text-muted-foreground"
-              )}
               aria-label={`Navigate to ${item.label}`}
               aria-current={active ? "page" : undefined}
-              style={{ minHeight: "44px", minWidth: "44px", outline: "none" }} // Ensure minimum tap target
             >
               <span
-                className="inline-flex items-center justify-center h-9 w-9 rounded-full"
-                style={
-                  active
-                    ? { backgroundColor: "var(--progress-bar-playtoday)" }
-                    : undefined
-                }
+                className={`inline-flex items-center justify-center p-4 rounded-full ${active ? "bg-primary/20" : ""}`}
               >
                 <Icon
                   className={cn(
-                    "h-6 w-6 transition-colors duration-200",
-                    !active && "text-muted-foreground"
+                    "h-6 w-6",
+                    active && "text-primary"
                   )}
-                  style={active ? { color: "var(--foreground)" } : undefined}
                   aria-hidden="true"
                 />
               </span>
