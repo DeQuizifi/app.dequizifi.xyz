@@ -1,3 +1,12 @@
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  return parts
+    .map((p) => p[0]!)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
 import React from "react";
 import {
   FaUserCheck,
@@ -36,11 +45,7 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
               {/* Icon */}
               <div className="flex-shrink-0 relative group">
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-900 via-indigo-800 to-purple-700 flex items-center justify-center text-2xl font-extrabold text-white border-4 border-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
-                  {f.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .slice(0, 2)
-                    .join("")}
+                  {getInitials(f.name)}
                 </div>
                 {/* Status Ring/Badge */}
                 {f.status !== "offline" && (
