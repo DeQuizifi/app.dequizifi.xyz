@@ -8,6 +8,7 @@ type LatestAllProps =
   | {
       type: "quiz";
       title: string;
+      createdAt: string;
       questionsCount: number;
       attemptsCount: number;
     }

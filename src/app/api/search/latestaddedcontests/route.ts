@@ -1,21 +1,18 @@
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET(req:Request) {
+export async function GET(req: Request) {
   try {
-    const {search} = Object.fromEntries(new URL(req.url).searchParams)
+    const { search } = Object.fromEntries(new URL(req.url).searchParams)
     const latestContest = await prisma.contest.findMany({
-      where: search ? {
-        OR:[
-          {
-           name:{
+      where: search
+        ? {
+          name: {
             contains: search,
-            mode:"insensitive"
-           }
+            mode: "insensitive",
           },
-          {}
-        ]
-      }:undefined,
+        }
+        : undefined,
       select: {
         name: true,
         startTime: true,
