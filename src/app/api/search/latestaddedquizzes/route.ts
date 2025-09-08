@@ -1,9 +1,26 @@
 import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req:Request) {
   try {
+    const {search} = Object.fromEntries(new URL(req.url).searchParams);
     const quizzes = await prisma.quiz.findMany({
+      where:search ? {
+        OR:[
+          {
+            title: {
+              contains : search,
+              mode: "insensitive",
+            },
+          },
+          {
+            category: {
+              contains: search,
+              mode: "insensitive",
+            }
+          }
+        ]
+      }:undefined,
       orderBy: {
         createdAt: "desc",
       },

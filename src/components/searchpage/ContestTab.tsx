@@ -12,7 +12,11 @@ type LatestContestProps = {
   };
 };
 
-export default function ContestTab() {
+interface ContestTabProps {
+  search: string;
+}
+
+export default function ContestTab({ search }: ContestTabProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [latestContest, setLatestContest] = useState<LatestContestProps[]>([]);
@@ -21,7 +25,11 @@ export default function ContestTab() {
     const fetchLastestContest = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/search/latestaddedcontests");
+        const res = await fetch(
+          `/api/search/latestaddedcontests${
+            search ? `?search=${encodeURIComponent(search)}` : ""
+          }`
+        );
         const data = await res.json();
 
         if (!res.ok) {
@@ -41,7 +49,7 @@ export default function ContestTab() {
       }
     };
     fetchLastestContest();
-  }, []);
+  }, [search]);
 
   if (error) {
     return <div className="text-destructive">{error}</div>;
