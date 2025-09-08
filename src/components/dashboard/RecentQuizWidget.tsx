@@ -37,7 +37,10 @@ export default function RecentQuizWidget({
   //RecentQuizInformation
   const { address, isConnected } = useAccount();
   const [error, setError] = useState<string | null>(null);
-  type RecentData = { quiz?: { title: string }; contest?: { name: string } } | null;
+  type RecentData = {
+    quiz?: { title: string };
+    contest?: { name: string };
+  } | null;
   const [recent, setRecent] = useState<RecentData>(null);
   const [number, setNumber] = useState<RecentQuizScoreProps | null>(null);
   const [token, setToken] = useState<string | null>(() => {
@@ -78,12 +81,7 @@ export default function RecentQuizWidget({
         return;
       }
       try {
-        const res = await fetch(`/api/dashboard/recentquizorcontest`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(`/api/dashboard/recentquizorcontest`);
         const data = await res.json();
         if (!res.ok) {
           setError(data.error || "Internal Server Error");
@@ -153,11 +151,7 @@ export default function RecentQuizWidget({
           </div>
           <div className="flex-shrink-0">
             <CircularProgress
-              value={
-                recent?.quiz && typeof number?.score === "number"
-                  ? number.score
-                  : 0
-              }
+              value={recent?.quiz ? progress : 0}
               size={64}
               className="text-white"
             />
