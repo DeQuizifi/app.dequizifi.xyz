@@ -39,6 +39,7 @@ export async function GET(req: Request) {
       },
       select: {
         quizId: true,
+        createdAt: true,
         quiz: {
           select: {
             title: true,
@@ -46,7 +47,34 @@ export async function GET(req: Request) {
         },
       },
     });
-    return NextResponse.json({ recentquiz });
+    const recentContest = await prisma.contestParticipant.findFirst({
+      where: {
+        userId: username.id
+      },
+      orderBy: {
+        joinedAt: "desc"
+      },
+      select: {
+        joinedAt:true,
+        contest: {
+          select: {
+            name: true,
+          }
+        }
+      }
+    });
+
+    const quizTime = recentquiz?.createdAt ? new Date(recentquiz.createdAt).getTime() : 0;
+    const contestTime = recentContest?.joinedAt ? new Date(recentContest.joinedAt).getTime() : 0;
+
+    let result;
+    if (quizTime >= contestTime) {
+      result = recentquiz;
+    } else {
+      result = recentContest;
+    }
+
+    return NextResponse.json({ result });
   } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
