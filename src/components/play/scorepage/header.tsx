@@ -11,7 +11,7 @@ export default function ScoreHeader() {
           {/* Outer circle */}
           <div className="absolute inset-0 rounded-full bg-[var(--score-outer)] flex items-center justify-center">
             {/* Middle circle */}
-            <div className="w-46 h-46 rounded-full bg-[var(--score-middle)] flex items-center justify-center">
+            <div className="w-[200px] h-[200px] rounded-full bg-[var(--score-middle)] flex items-center justify-center">
               {/* Inner circle */}
               <div className="w-36 h-36 rounded-full bg-background flex flex-col items-center justify-center italic">
                 <p className="text-md font-medium text-foreground mb-1">
