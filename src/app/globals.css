@@ -1,3 +1,8 @@
+/* Score page circle colors */
+:root {
+  --score-outer: #695D91;
+  --score-middle: #82789E;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -324,3 +329,12 @@ body {
 
 /* Generic helper kept for other components */
 .text-foreground-90 { color: color-mix(in srgb, var(--color-foreground) 90%, rgba(0,0,0,0)); }
+
+/* Custom circular progress background utilities */
+.bg-circular-bg { 
+  background-color: var(--circular-bg); 
+}
+
+.bg-circular-fill { 
+  background-color: var(--circular-fill); 
+}
