@@ -4,22 +4,28 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 
-  type LatestAllProps =
-    | {
-        type: "quiz";
-        title: string;
-        questionsCount: number;
-        attemptsCount: number;
-      }
-    | {
-        type: "contest";
-        name: string;
-        createdAt: string;
-        startTime: string;
-        participantsCount: number;
-        timeLeftHours: number;
-      };
-export default function LatestAll() {
+type LatestAllProps =
+  | {
+      type: "quiz";
+      title: string;
+      createdAt: string;
+      questionsCount: number;
+      attemptsCount: number;
+    }
+  | {
+      type: "contest";
+      name: string;
+      createdAt: string;
+      startTime: string;
+      participantsCount: number;
+      timeLeftHours: number;
+    };
+
+interface LatestTabProps {
+  search: string;
+}
+
+export default function LatestAll({ search }: LatestTabProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [latestAll, setLatestAll] = useState<LatestAllProps[]>([]);
@@ -28,12 +34,16 @@ export default function LatestAll() {
     const fetchLatestAll = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/search/latestaddedall");
+        const res = await fetch(
+          `/api/search/latestaddedall${
+            search ? `?search=${encodeURIComponent(search)}` : ""
+          }`
+        );
         const data = await res.json();
 
         if (!res.ok) {
           setError(data.error || "No Response");
-        }else{
+        } else {
           setError(null);
           setLatestAll(data.items);
         }
@@ -45,7 +55,7 @@ export default function LatestAll() {
       }
     };
     fetchLatestAll();
-  }, []);
+  }, [search]);
 
   if (error) {
     return <div className="text-destructive">{error}</div>;

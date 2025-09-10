@@ -4,9 +4,11 @@ import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import Tab from "@/components/searchpage/Tabs";
 import { useUser } from "@/context/userContext";
+import { useState } from "react";
 
 export default function SearchQuiz() {
    const { username, balance } = useUser();
+   const [search, setSearch] = useState("");
   return (
     <main>
       <div
@@ -27,11 +29,11 @@ export default function SearchQuiz() {
         </div>
 
         {/* Search Bar */}
-        <SearchBar />
+        <SearchBar search={search} onChangeHandler={setSearch}/>
 
         <div className="bg-background h-screen rounded-t-3xl">
           {/* Tabs */}
-          <Tab />
+          <Tab search={search}/>
         </div>
       </div>
     </main>
