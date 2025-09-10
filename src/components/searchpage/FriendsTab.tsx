@@ -1,4 +1,19 @@
-import { Card } from "@/components/ui/card";
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  return parts
+    .map((p) => p[0]!)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+import React from "react";
+import {
+  FaUserCheck,
+  FaUserClock,
+  FaUserAltSlash,
+  FaPaperPlane,
+} from "react-icons/fa";
 
 type Friend = {
   id: string;
@@ -9,9 +24,11 @@ type Friend = {
 
 export default function FriendsTab({ friends }: { friends?: Friend[] }) {
   const placeholder: Friend[] = [
-    { id: "f1", name: "Aisha Khan", status: "online", mutualQuizzes: 4 },
-    { id: "f2", name: "Ravi Patel", status: "playing", mutualQuizzes: 2 },
-    { id: "f3", name: "Meera Joshi", status: "offline", mutualQuizzes: 7 },
+    { id: "f1", name: "John Smith", status: "online", mutualQuizzes: 4 },
+    { id: "f2", name: "Emily Brown", status: "playing", mutualQuizzes: 2 },
+    { id: "f3", name: "Michael Lee", status: "offline", mutualQuizzes: 7 },
+    { id: "f4", name: "Sarah Johnson", status: "online", mutualQuizzes: 3 },
+    { id: "f5", name: "David Miller", status: "offline", mutualQuizzes: 5 },
   ];
 
   const list = friends && friends.length ? friends : placeholder;
@@ -19,55 +36,78 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
   return (
     <div className="mt-4 px-4">
       <div className="flex flex-col gap-4 w-full min-w-[370px] mx-auto">
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Friends</h2>
-          <div className="space-y-2">
-            {list.map((f) => (
-              <Card
-                key={f.id}
-                className="flex flex-row items-center justify-between px-4 py-6 rounded-md border-0"
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm`}
-                  >
-                    {f.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </div>
-                  <div>
-                    <div className="font-semibold">{f.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {f.mutualQuizzes} shared quizzes
-                    </div>
-                  </div>
+        {list.map((f) => (
+          <div
+            key={f.id}
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100 transition-all duration-200 hover:shadow-lg hover:border-violet-300"
+          >
+            <div className="flex items-center w-full gap-4">
+              {/* Icon */}
+              <div className="flex-shrink-0 relative group">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-900 via-indigo-800 to-purple-700 flex items-center justify-center text-2xl font-extrabold text-white border-4 border-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
+                  {getInitials(f.name)}
                 </div>
-                <div className="text-right">
-                  <div
-                    className={`text-sm ${
-                      f.status === "offline" ? "text-muted-foreground" : ""
-                    }`}
-                    style={{
-                      color:
-                        f.status === "online"
-                          ? "var(--chart-1)"
-                          : f.status === "playing"
-                          ? "var(--chart-3)"
-                          : undefined,
-                    }}
+                {/* Status Ring/Badge */}
+                {f.status !== "offline" && (
+                  <span
+                    className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center ${
+                      f.status === "online" ? "bg-green-500" : "bg-yellow-400"
+                    } shadow-md`}
                   >
-                    {f.status}
-                  </div>
-                  <button className="mt-1 px-3 py-1 rounded-md bg-primary text-white text-sm">
-                    Invite
-                  </button>
-                </div>
-              </Card>
-            ))}
+                    {f.status === "online" && (
+                      <FaUserCheck
+                        className="text-white text-xs animate-pulse"
+                        title="Online"
+                      />
+                    )}
+                    {f.status === "playing" && (
+                      <FaUserClock
+                        className="text-white text-xs animate-bounce"
+                        title="Playing"
+                      />
+                    )}
+                  </span>
+                )}
+                {f.status === "offline" && (
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white bg-gray-400 flex items-center justify-center shadow-md">
+                    <FaUserAltSlash
+                      className="text-white text-xs"
+                      title="Offline"
+                    />
+                  </span>
+                )}
+              </div>
+
+              {/* Name + Quizzes */}
+              <div className="flex-1 min-w-0">
+                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                  {f.name}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {f.mutualQuizzes} shared quizzes
+                </p>
+              </div>
+
+              {/* Status + Invite */}
+              <div className="flex flex-col items-end justify-center flex-shrink-0">
+                <span
+                  className={`text-lg font-semibold mb-1 ${
+                    f.status === "offline"
+                      ? "text-gray-400"
+                      : f.status === "online"
+                      ? "text-green-500"
+                      : "text-yellow-500"
+                  } flex items-center gap-1`}
+                >
+                  {f.status.charAt(0).toUpperCase() + f.status.slice(1)}
+                </span>
+                <button className="px-4 py-1 rounded-md bg-gradient-to-br from-violet-900 via-indigo-800 to-purple-700 hover:from-violet-800 hover:via-indigo-700 hover:to-purple-600 text-white text-sm font-medium shadow transition-all duration-150 flex items-center gap-2 group">
+                  <FaPaperPlane className="group-hover:animate-bounce" /> Invite
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
