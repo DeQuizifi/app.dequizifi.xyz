@@ -15,8 +15,11 @@ interface Quiz {
   };
 }
 
+interface QuizTabProps {
+  search: string;
+}
 
-export default function LatestTab() {
+export default function QuizTab({ search }: QuizTabProps) {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +27,11 @@ export default function LatestTab() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const res = await fetch("/api/search/latestaddedquizzes");
+        const res = await fetch(
+          `/api/search/latestaddedquizzes${
+            search ? `?search=${encodeURIComponent(search)}` : ""
+          }`
+        );
         const data = await res.json();
 
         if (!res.ok) {
@@ -40,7 +47,7 @@ export default function LatestTab() {
       }
     };
     fetchQuizzes();
-  }, []);
+  }, [search]);
 
   if (loading)
     return (
