@@ -13,8 +13,8 @@ export default function ScoreCard() {
         <CardContent className="grid grid-cols-2 gap-y-2 gap-x-10 h-full">
           <div className="flex flex-col items-start justify-center h-full w-full">
             <div className="flex items-center gap-2 justify-start w-full">
-              <span className="w-2 h-2 rounded-full bg-[#C084FC]" />
-              <span className="font-semibold text-2xl text-[#C084FC]">
+              <span className="w-2 h-2 rounded-full bg-[var(--chart-2)]" />
+              <span className="font-semibold text-2xl text-[var(--chart-2)]">
                 {completion}%
               </span>
             </div>
@@ -24,8 +24,8 @@ export default function ScoreCard() {
           </div>
           <div className="flex flex-col items-start justify-center h-full w-full">
             <div className="flex items-center gap-2 justify-start w-full">
-              <span className="w-2 h-2 rounded-full bg-[#C084FC]" />
-              <span className="font-semibold text-2xl text-[#C084FC]">
+              <span className="w-2 h-2 rounded-full bg-[var(--chart-2)]" />
+              <span className="font-semibold text-2xl text-[var(--chart-2)]">
                 {total}
               </span>
             </div>
@@ -46,7 +46,7 @@ export default function ScoreCard() {
           </div>
           <div className="flex flex-col items-start justify-center h-full w-full">
             <div className="flex items-center gap-2 justify-start w-full">
-              <span className="w-2 h-2 rounded-full bg-[#EF4444]" />
+              <span className="w-2 h-2 rounded-full bg-[var(--destructive)]" />
               <span className="font-semibold text-2xl text-destructive">
                 {wrong}
               </span>

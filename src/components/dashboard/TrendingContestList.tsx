@@ -51,7 +51,7 @@ export default function TrendingContestList() {
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-destructive">{error}</div>;
   }
 
   if (trending.length === 0) {
@@ -110,7 +110,9 @@ export function TrendingCard({
           ) : (
             <span className="text-lg">--</span>
           )}
-          <span className="text-sm font-normal text-gray-500">Hours left</span>
+          <span className="text-sm font-normal text-muted-foreground">
+            Hours left
+          </span>
         </CardAction>
       </CardHeader>
     </Card>
@@ -159,7 +161,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
+        className="transition-all duration-[600ms] ease-in-out"
       />
       <text
         x="50%"
@@ -169,8 +171,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         fontSize="14px"
         fontWeight="600"
         fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className="transform rotate-90 origin-center"
       >
         {hours}h
       </text>

@@ -65,7 +65,7 @@ function OverallStatistics() {
         aria-busy="true"
         aria-live="polite"
       >
-        <Spinner size={64} color="#fff" />
+        <Spinner size={64} />
       </div>
     );
   }
@@ -75,21 +75,33 @@ function OverallStatistics() {
   if (!allstats) return null; // Or a skeleton loader
 
   return (
-    <Card className="flex flex-row bg-purple-300 mt-10">
-      <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
-        <LuCoins size={32} color="white" />
-        <CardDescription className="text-background">Points</CardDescription>
-        <p className="text-background font-mono">{allstats.overallPoints}</p>
+    <Card className="flex flex-row bg-card mt-10">
+      <div className="flex-1 p-4 border-r border-[var(--card-border)] flex flex-col justify-center items-center">
+        <LuCoins size={32} className="text-[var(--foreground)]" />
+        <CardDescription className="text-muted-foreground">
+          Points
+        </CardDescription>
+        <p className="text-[var(--foreground)] font-mono">
+          {allstats.overallPoints}
+        </p>
       </div>
-      <div className="flex-1 p-4 border-r border-gray-300 flex flex-col justify-center items-center">
-        <IoMedalOutline size={32} color="white" />
-        <CardDescription className="text-background">Best Rank</CardDescription>
-        <p className="text-background font-mono">{allstats.bestRank}</p>
+      <div className="flex-1 p-4 border-r border-[var(--card-border)] flex flex-col justify-center items-center">
+        <IoMedalOutline size={32} className="text-[var(--foreground)]" />
+        <CardDescription className="text-muted-foreground">
+          Best Rank
+        </CardDescription>
+        <p className="text-[var(--foreground)] font-mono">
+          {allstats.bestRank}
+        </p>
       </div>
       <div className="flex-1 p-4 flex flex-col justify-center items-center">
-        <CiCalendar size={32} color="white" />
-        <CardDescription className="text-background">This week</CardDescription>
-        <p className="text-background font-mono">{allstats.weekStatus}</p>
+        <CiCalendar size={32} className="text-[var(--foreground)]" />
+        <CardDescription className="text-muted-foreground">
+          This week
+        </CardDescription>
+        <p className="text-[var(--foreground)] font-mono">
+          {allstats.weekStatus}
+        </p>
       </div>
     </Card>
   );

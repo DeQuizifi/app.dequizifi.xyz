@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Spinner from "@/components/ui/Spinner";
 
@@ -56,7 +56,7 @@ function Statistics() {
   if (!statistics) {
     return (
       <div className="flex justify-center items-center min-h-[30vh]">
-        <Spinner size={64} color="#fff" />
+        <Spinner size={64} />
       </div>
     );
   }
@@ -71,11 +71,11 @@ function Statistics() {
   const strokeOffset = circumference - (winPercentage / 100) * circumference;
 
   return (
-    <div className="bg-white rounded-t-3xl min-h-[60vh] p-6">
+    <div className="bg-card rounded-t-3xl min-h-[60vh] p-6">
       <div className="space-y-8">
         {/* Header */}
         <div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
             Statistics
           </h2>
         </div>
@@ -83,12 +83,14 @@ function Statistics() {
         {/* Quizzes Won Section */}
         <div className="text-center space-y-6">
           <div>
-            <p className="text-gray-600 text-lg mb-1">You have won a total</p>
+            <p className="text-muted-foreground text-lg mb-1">
+              You have won a total
+            </p>
             <p className="text-2xl font-bold">
-              <span className="text-purple-500">
+              <span className="text-primary">
                 {statistics.quizzesWonThisWeek} quizzes
               </span>{" "}
-              <span className="text-gray-700">this week</span>
+              <span className="text-foreground">this week</span>
             </p>
           </div>
 
@@ -105,7 +107,7 @@ function Statistics() {
                   cy="70"
                   r={radius}
                   fill="none"
-                  stroke="#e5e7eb"
+                  stroke="var(--muted)"
                   strokeWidth="12"
                 />
                 {/* Progress circle */}
@@ -114,7 +116,7 @@ function Statistics() {
                   cy="70"
                   r={radius}
                   fill="none"
-                  stroke="url(#gradient)"
+                  stroke="var(--primary)"
                   strokeWidth="12"
                   strokeLinecap="round"
                   strokeDasharray={circumference}
@@ -130,19 +132,19 @@ function Statistics() {
                     x2="100%"
                     y2="100%"
                   >
-                    <stop offset="0%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#a855f7" />
+                    <stop offset="0%" stopColor="var(--primary)" />
+                    <stop offset="100%" stopColor="var(--primary)" />
                   </linearGradient>
                 </defs>
               </svg>
 
               {/* Center text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-2xl font-bold text-gray-800">
+                <div className="text-2xl font-bold text-foreground">
                   {statistics.quizzesWonThisWeek}/
                   {statistics.totalQuizzesThisWeek}
                 </div>
-                <div className="text-sm text-gray-500">quizzes won</div>
+                <div className="text-sm text-muted-foreground">quizzes won</div>
               </div>
             </div>
           </div>
@@ -150,7 +152,7 @@ function Statistics() {
 
         {/* Top Categories Section */}
         <div className="space-y-4 mb-20">
-          <h3 className="text-lg font-semibold text-gray-800">
+          <h3 className="text-lg font-semibold text-foreground">
             Your Top Categories This Week
           </h3>
 
@@ -162,27 +164,29 @@ function Statistics() {
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                  className="flex items-center justify-between p-4 bg-muted rounded-lg"
                 >
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-800 mb-1">
+                    <h4 className="font-medium text-foreground mb-1">
                       {category.category}
                     </h4>
 
                     {/* Progress bar */}
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-background rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-in-out"
+                        className="bg-primary h-2 rounded-full transition-all duration-500 ease-in-out"
                         style={{ width: `${categoryPercentage}%` }}
                       />
                     </div>
                   </div>
 
                   <div className="ml-4 text-right">
-                    <span className="text-sm font-semibold text-gray-800">
+                    <span className="text-sm font-semibold text-foreground">
                       {category.quizzesWon}/{category.totalQuizzes}
                     </span>
-                    <span className="text-xs text-gray-500 block">won</span>
+                    <span className="text-xs text-muted-foreground block">
+                      won
+                    </span>
                   </div>
                 </div>
               );

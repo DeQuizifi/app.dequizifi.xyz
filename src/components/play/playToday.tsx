@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { PlayTodayQuiz } from "@/lib/data/mockData";
+// ...existing code... (removed unused import)
 import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 
@@ -28,7 +28,7 @@ export default function PlayToday() {
           setContests(data);
         }
         setLoading(false);
-      } catch (err) {
+      } catch {
         setLoading(false);
         setError("Failed to fetch trending contest");
       }
@@ -45,10 +45,7 @@ export default function PlayToday() {
   return (
     <div className="space-y-4">
       {/* Section Title */}
-      <h2
-        className="text-2xl font-bold px-6"
-        style={{ color: "var(--card-foreground)" }}
-      >
+      <h2 className="text-2xl font-bold px-6 text-[var(--card-foreground)]">
         What would you like to play <br /> today?
       </h2>
 
@@ -61,13 +58,7 @@ export default function PlayToday() {
               index === contests.length - 1 ? "mr-6" : ""
             }`}
           >
-            <div
-              className="w-full h-full rounded-lg relative overflow-hidden"
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
-                border: "1px solid rgba(0, 0, 0, 0.23)",
-              }}
-            >
+            <div className="w-full h-full rounded-lg relative overflow-hidden bg-[var(--quiz-card-bg)] border border-[var(--quiz-card-border)]">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Image
                   src="/images/playQuizImage.svg"
@@ -79,24 +70,18 @@ export default function PlayToday() {
                 />
               </div>
               <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                <h3 className="text-white text-xl font-bold leading-tight">
+                <h3 className="text-[var(--foreground)] text-xl font-bold leading-tight">
                   {contest.name}
                 </h3>
                 <div className="space-y-1">
-                  <p className="text-white text-base font-bold">
+                  <p className="text-[var(--foreground)] text-base font-bold">
                     {contest.participantCount} Participants
                   </p>
-                  <p className="text-white text-base font-bold opacity-90">
+                  <p className="text-[var(--foreground)] text-base font-bold opacity-90">
                     {contest.timeLeftHours} Hours Left
                   </p>
-                  <div className="w-full h-1 bg-white bg-opacity-20 rounded-full mt-2">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: "75%",
-                        backgroundColor: "var(--progress-bar-playtoday)",
-                      }}
-                    />
+                  <div className="w-full h-1 bg-[var(--muted)] rounded-full mt-2">
+                    <div className="h-full rounded-full w-3/4 bg-[var(--progress-bar-playtoday)]" />
                   </div>
                 </div>
               </div>

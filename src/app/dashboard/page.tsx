@@ -6,13 +6,7 @@ import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import TrendingContest from "@/components/dashboard/TrendingContest";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import { useUser } from "@/context/userContext";
-import {
-  mockBalance,
-  mockRecentQuiz,
-  mockUser,
-  type RecentQuiz,
-  type User,
-} from "@/lib/data/mockData";
+import { mockRecentQuiz, type RecentQuiz } from "@/lib/data/mockData";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
@@ -30,16 +24,13 @@ export default function DashboardPage() {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative overflow-x-hidden"
+      className="min-h-screen bg-background relative overflow-x-hidden"
       role="main"
       aria-label="Dashboard"
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/images/dashboard.svg')`,
-        }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]"
         aria-hidden="true"
       />
 
@@ -56,7 +47,6 @@ export default function DashboardPage() {
         {/* Recent Quiz Widget */}
         {recentQuiz && (
           <RecentQuizWidget
-            title={recentQuiz.title}
             progress={recentQuiz.progress}
             onClick={() => {
               // TODO: Navigate to quiz detail page
@@ -77,7 +67,7 @@ export default function DashboardPage() {
           }}
         />
 
-        <TrendingContest/>
+        <TrendingContest />
       </div>
     </main>
   );

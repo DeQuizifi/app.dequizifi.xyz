@@ -33,7 +33,7 @@ function WalletLoginButton() {
   return (
     <div>
       <ConnectButton.Custom>
-        {({ account, chain, openConnectModal, mounted }) => {
+        {({ account, openConnectModal, mounted }) => {
           return (
             <button
               onClick={openConnectModal}

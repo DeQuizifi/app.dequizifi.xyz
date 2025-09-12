@@ -1,3 +1,10 @@
+import {
+  FaUserCheck,
+  FaUserClock,
+  FaUserAltSlash,
+  FaPaperPlane,
+} from "react-icons/fa";
+
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "?";
@@ -7,13 +14,6 @@ function getInitials(name: string): string {
     .join("")
     .toUpperCase();
 }
-import React from "react";
-import {
-  FaUserCheck,
-  FaUserClock,
-  FaUserAltSlash,
-  FaPaperPlane,
-} from "react-icons/fa";
 
 type Friend = {
   id: string;
@@ -39,39 +39,41 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
         {list.map((f) => (
           <div
             key={f.id}
-            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100 transition-all duration-200 hover:shadow-lg hover:border-violet-300"
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-card border border-border transition-all duration-200 hover:shadow-lg hover:border-primary"
           >
             <div className="flex items-center w-full gap-4">
               {/* Icon */}
               <div className="flex-shrink-0 relative group">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-900 via-indigo-800 to-purple-700 flex items-center justify-center text-2xl font-extrabold text-white border-4 border-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
+                <div className="w-14 h-14 rounded-full bg-[var(--primary)] flex items-center justify-center text-2xl font-extrabold text-[var(--primary-foreground)] border-4 border-[var(--card)] shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
                   {getInitials(f.name)}
                 </div>
                 {/* Status Ring/Badge */}
                 {f.status !== "offline" && (
                   <span
-                    className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center ${
-                      f.status === "online" ? "bg-green-500" : "bg-yellow-400"
+                    className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[var(--card)] flex items-center justify-center ${
+                      f.status === "online"
+                        ? "bg-primary"
+                        : "bg-muted-foreground"
                     } shadow-md`}
                   >
                     {f.status === "online" && (
                       <FaUserCheck
-                        className="text-white text-xs animate-pulse"
+                        className="text-[var(--card-foreground)] text-xs animate-pulse"
                         title="Online"
                       />
                     )}
                     {f.status === "playing" && (
                       <FaUserClock
-                        className="text-white text-xs animate-bounce"
+                        className="text-[var(--card-foreground)] text-xs animate-bounce"
                         title="Playing"
                       />
                     )}
                   </span>
                 )}
                 {f.status === "offline" && (
-                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white bg-gray-400 flex items-center justify-center shadow-md">
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[var(--card)] bg-[var(--muted)] flex items-center justify-center shadow-md">
                     <FaUserAltSlash
-                      className="text-white text-xs"
+                      className="text-[var(--muted-foreground)] text-xs"
                       title="Offline"
                     />
                   </span>
@@ -80,10 +82,10 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
 
               {/* Name + Quizzes */}
               <div className="flex-1 min-w-0">
-                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                <p className="text-lg sm:text-2xl font-semibold text-foreground">
                   {f.name}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   {f.mutualQuizzes} shared quizzes
                 </p>
               </div>
@@ -91,17 +93,17 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
               {/* Status + Invite */}
               <div className="flex flex-col items-end justify-center flex-shrink-0">
                 <span
-                  className={`text-lg font-semibold mb-1 ${
+                  className={`text-lg font-semibold mb-1 flex items-center gap-1 ${
                     f.status === "offline"
-                      ? "text-gray-400"
+                      ? "text-[var(--muted-foreground)]"
                       : f.status === "online"
-                      ? "text-green-500"
-                      : "text-yellow-500"
-                  } flex items-center gap-1`}
+                      ? "text-[var(--primary)]"
+                      : "text-[var(--muted-foreground)]"
+                  }`}
                 >
                   {f.status.charAt(0).toUpperCase() + f.status.slice(1)}
                 </span>
-                <button className="px-4 py-1 rounded-md bg-gradient-to-br from-violet-900 via-indigo-800 to-purple-700 hover:from-violet-800 hover:via-indigo-700 hover:to-purple-600 text-white text-sm font-medium shadow transition-all duration-150 flex items-center gap-2 group">
+                <button className="px-4 py-1 rounded-md bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-[var(--primary-foreground)] text-sm font-medium shadow transition-all duration-150 flex items-center gap-2 group">
                   <FaPaperPlane className="group-hover:animate-bounce" /> Invite
                 </button>
               </div>

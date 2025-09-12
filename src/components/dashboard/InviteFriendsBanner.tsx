@@ -60,34 +60,29 @@ export default function InviteFriendsBanner({
 
   return (
     <div
-      className="mx-6 my-2 backdrop-blur-sm p-4 shadow-lg rounded-3xl"
+      className="mx-6 my-2 backdrop-blur-sm p-4 shadow-lg rounded-3xl bg-[var(--invite-banner-bg)]"
       role="banner"
       aria-label="Invite friends promotion"
-      style={{ backgroundColor: "var(--invite-banner-bg)" }}
     >
       <div className="relative rounded-2xl overflow-hidden">
         {/* Close Button - Top Right Corner with transparent background */}
         <button
           onClick={handleDismiss}
-          className="absolute  top-1 right-1 z-20 p-2 rounded-full transition-colors duration-200"
+          className="absolute top-1 right-1 z-20 p-2 rounded-full transition-colors duration-200 min-w-[44px] min-h-[44px]"
           aria-label="Close invite banner"
-          style={{ minWidth: "44px", minHeight: "44px" }}
         >
-          <X className="w-5 h-5" style={{ color: "var(--invite-close-icon)" }} />
+          <X className="w-5 h-5 text-[var(--invite-close-icon)]" />
         </button>
 
         {/* Content */}
         <div className="mt-2 relative p-6 text-center">
           {/* Title */}
-          <h2 className="font-semibold text-lg mb-2" style={{ color: "var(--invite-title-color)" }}>
+          <h2 className="font-semibold text-lg mb-2 text-[var(--invite-title-color)]">
             MORE FRIENDS, MORE REWARDS
           </h2>
 
           {/* Description */}
-          <p
-            className="text-lg mb-6 leading-relaxed max-w-xs mx-auto font-semibold"
-            style={{ color: "var(--invite-text-color)" }}
-          >
+          <p className="text-lg mb-6 leading-relaxed max-w-xs mx-auto font-semibold text-[var(--invite-text-color)]">
             Invite your friends to take part in challenges and earn rewards
             together
           </p>
@@ -95,8 +90,7 @@ export default function InviteFriendsBanner({
           {/* Invite Button */}
           <Button
             onClick={handleInvite}
-            className="font-semibold px-8 py-3 rounded-full transition-colors duration-200 min-h-[44px] shadow-lg"
-            style={{ backgroundColor: "var(--invite-button-bg)", color: "var(--invite-button-text)" }}
+            className="font-semibold px-8 py-3 rounded-full transition-colors duration-200 min-h-[44px] shadow-lg bg-[var(--invite-button-bg)] text-[var(--invite-button-text)]"
             aria-label="Invite friends to DeQuizifi"
           >
             Invite Friends

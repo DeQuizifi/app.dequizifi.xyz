@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -32,12 +31,7 @@ export default function JoinDialog({
         <button
           type="button"
           aria-label={`Join ${title}`}
-          className="rounded-xl px-4 py-2 text-sm font-semibold"
-          style={{
-            background: "var(--progress-low)",
-            color: "var(--primary-foreground)",
-            boxShadow: "none",
-          }}
+          className="rounded-xl px-4 py-2 text-sm font-semibold bg-[var(--progress-low)] text-[var(--primary-foreground)] shadow-none"
         >
           Join
         </button>
@@ -56,10 +50,7 @@ export default function JoinDialog({
             <div className="text-sm font-medium text-muted-foreground">
               Entry Fee:
             </div>
-            <div
-              className="text-sm font-semibold"
-              style={{ color: "var(--progress-low)" }}
-            >
+            <div className="text-sm font-semibold text-[var(--progress-low)]">
               {entryFee}
             </div>
           </div>
@@ -68,10 +59,7 @@ export default function JoinDialog({
             <div className="text-sm font-medium text-muted-foreground">
               Current Prize Pool:
             </div>
-            <div
-              className="text-sm font-semibold"
-              style={{ color: "var(--progress-low)" }}
-            >
+            <div className="text-sm font-semibold text-[var(--progress-low)]">
               {currentPrize}
             </div>
           </div>
@@ -80,10 +68,7 @@ export default function JoinDialog({
             <div className="text-sm font-medium text-muted-foreground">
               1st Prize:
             </div>
-            <div
-              className="text-sm font-semibold"
-              style={{ color: "var(--progress-low)" }}
-            >
+            <div className="text-sm font-semibold text-[var(--progress-low)]">
               {firstPrize}
             </div>
           </div>
@@ -105,11 +90,7 @@ export default function JoinDialog({
           <DialogClose asChild>
             <button
               type="button"
-              className="rounded-lg px-4 py-2 text-sm font-semibold mr-2"
-              style={{
-                background: "var(--destructive)",
-                color: "var(--destructive-foreground)",
-              }}
+              className="rounded-lg px-4 py-2 text-sm font-semibold mr-2 bg-[var(--destructive)] text-[var(--destructive-foreground)]"
             >
               Cancel
             </button>
@@ -121,11 +102,7 @@ export default function JoinDialog({
               onClick={async () => {
                 await onConfirm?.();
               }}
-              className="rounded-lg px-4 py-2 text-sm font-semibold"
-              style={{
-                background: "var(--progress-low)",
-                color: "var(--primary-foreground)",
-              }}
+              className="rounded-lg px-4 py-2 text-sm font-semibold bg-[var(--progress-low)] text-[var(--primary-foreground)]"
             >
               Confirm and Join
             </button>

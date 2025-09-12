@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Spinner from "../ui/Spinner";
 
@@ -58,7 +58,7 @@ export default function ContestTab({ search }: ContestTabProps) {
   if (loading)
     return (
       <div className="flex justify-center items-center py-20">
-        <Spinner size={48} color="#8B5CF6" />
+        <Spinner size={48} />
       </div>
     );
 
@@ -68,7 +68,7 @@ export default function ContestTab({ search }: ContestTabProps) {
         {latestContest.map((contest) => (
           <div
             key={contest.name}
-            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-card border border-border"
           >
             <div className="flex items-center w-full gap-4">
               {/* Icon */}
@@ -85,10 +85,10 @@ export default function ContestTab({ search }: ContestTabProps) {
 
               {/* Title + Description */}
               <div className="flex-1 min-w-0">
-                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                <p className="text-lg sm:text-2xl font-semibold text-foreground">
                   {contest.name}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   {contest._count.participants} participants
                 </p>
               </div>
@@ -103,7 +103,7 @@ export default function ContestTab({ search }: ContestTabProps) {
                       : 0
                   }
                 />
-                <span className="text-sm font-normal text-gray-500">
+                <span className="text-sm font-normal text-muted-foreground">
                   Hours left
                 </span>
               </div>
@@ -118,18 +118,12 @@ export default function ContestTab({ search }: ContestTabProps) {
 function HourProgressCircle({ hours }: { hours: number }) {
   // Sanitize hours to prevent NaN
   const safeHours = typeof hours === "number" && !isNaN(hours) ? hours : 0;
-  let circleColor = "var(--progress-low)";
-  let textColor = "var(--progress-low)";
+  let progressLevel = "low";
 
   if (safeHours >= 24) {
-    circleColor = "var(--progress-high)";
-    textColor = "var(--progress-high)";
+    progressLevel = "high";
   } else if (safeHours >= 20) {
-    circleColor = "var(--progress-medium)";
-    textColor = "var(--progress-medium)";
-  } else {
-    circleColor = "var(--progress-low)";
-    textColor = "var(--progress-low)";
+    progressLevel = "medium";
   }
 
   const size = 48;
@@ -148,7 +142,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        className="stroke-border"
         strokeWidth={strokeWidth}
         fill="none"
       />
@@ -156,13 +150,18 @@ function HourProgressCircle({ hours }: { hours: number }) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        className={`transition-[stroke-dashoffset] duration-600 ease-in-out ${
+          progressLevel === "high"
+            ? "stroke-primary"
+            : progressLevel === "medium"
+            ? "stroke-muted-foreground"
+            : "stroke-destructive"
+        }`}
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
       />
       <text
         x="50%"
@@ -171,11 +170,15 @@ function HourProgressCircle({ hours }: { hours: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className={`transform rotate-90 origin-center ${
+          progressLevel === "high"
+            ? "fill-primary"
+            : progressLevel === "medium"
+            ? "fill-muted-foreground"
+            : "fill-destructive"
+        }`}
       >
-        {hours}h
+        {safeHours}h
       </text>
     </svg>
   );

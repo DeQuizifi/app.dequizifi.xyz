@@ -63,7 +63,7 @@ export default function LatestAll({ search }: LatestTabProps) {
   if (loading)
     return (
       <div className="flex justify-center items-center py-20">
-        <Spinner size={48} color="#8B5CF6" />
+        <Spinner size={48} />
       </div>
     );
 
@@ -73,7 +73,7 @@ export default function LatestAll({ search }: LatestTabProps) {
         {latestAll.map((item, idx) => (
           <div
             key={idx}
-            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-card border border-border"
           >
             <div className="flex items-center w-full gap-4">
               {/* Icon */}
@@ -92,18 +92,18 @@ export default function LatestAll({ search }: LatestTabProps) {
               {item.type === "quiz" ? (
                 <>
                   <div className="flex-1 min-w-0">
-                    <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                    <p className="text-lg sm:text-2xl font-semibold text-foreground">
                       {item.title}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       {item.questionsCount} questions
                     </p>
                   </div>
                   <div className="flex flex-col items-end justify-center flex-shrink-0">
-                    <span className="text-lg font-semibold text-gray-900">
+                    <span className="text-lg font-semibold text-foreground">
                       {item.attemptsCount}
                     </span>
-                    <span className="text-sm font-normal text-gray-500">
+                    <span className="text-sm font-normal text-muted-foreground">
                       Plays
                     </span>
                   </div>
@@ -111,10 +111,10 @@ export default function LatestAll({ search }: LatestTabProps) {
               ) : (
                 <>
                   <div className="flex-1 min-w-0">
-                    <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                    <p className="text-lg sm:text-2xl font-semibold text-foreground">
                       {item.name}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-muted-foreground">
                       {item.participantsCount} participants
                     </p>
                   </div>
@@ -127,7 +127,7 @@ export default function LatestAll({ search }: LatestTabProps) {
                           : 0
                       }
                     />
-                    <span className="text-sm font-normal text-gray-500">
+                    <span className="text-sm font-normal text-muted-foreground">
                       Hours left
                     </span>
                   </div>
@@ -145,15 +145,12 @@ function HourProgressCircle(props: { hours: number }) {
   const hours =
     typeof props.hours === "number" && !isNaN(props.hours) ? props.hours : 0;
 
-  let circleColor = "var(--progress-low)";
-  let textColor = "var(--progress-low)";
+  let progressLevel = "low";
 
   if (hours >= 24) {
-    circleColor = "var(--progress-high)";
-    textColor = "var(--progress-high)";
+    progressLevel = "high";
   } else if (hours >= 20) {
-    circleColor = "var(--progress-medium)";
-    textColor = "var(--progress-medium)";
+    progressLevel = "medium";
   }
 
   const size = 48;
@@ -169,7 +166,7 @@ function HourProgressCircle(props: { hours: number }) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        className="stroke-border"
         strokeWidth={strokeWidth}
         fill="none"
       />
@@ -177,13 +174,18 @@ function HourProgressCircle(props: { hours: number }) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        className={`transition-[stroke-dashoffset] duration-600 ease-in-out ${
+          progressLevel === "high"
+            ? "stroke-primary"
+            : progressLevel === "medium"
+            ? "stroke-muted-foreground"
+            : "stroke-destructive"
+        }`}
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
       />
       <text
         x="50%"
@@ -192,9 +194,13 @@ function HourProgressCircle(props: { hours: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className={`transform rotate-90 origin-center ${
+          progressLevel === "high"
+            ? "fill-primary"
+            : progressLevel === "medium"
+            ? "fill-muted-foreground"
+            : "fill-destructive"
+        }`}
       >
         {hours}h
       </text>

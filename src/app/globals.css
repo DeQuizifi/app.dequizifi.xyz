@@ -317,24 +317,3 @@ body {
   display: none; /* Chrome, Safari and Opera */
 }
 
-/* Utilities used by components to read theme tokens */
-.bg-balance-card { background-color: var(--balance-card); }
-.text-balance-foreground { color: var(--balance-card-foreground); }
-.bg-balance-icon { background-color: var(--balance-icon); }
-.text-balance-icon-foreground { color: var(--balance-icon-foreground); }
-
-/* Welcome header text utilities */
-.text-welcome-foreground { color: var(--welcome-foreground); }
-.text-welcome-foreground-90 { color: var(--welcome-foreground-90); }
-
-/* Generic helper kept for other components */
-.text-foreground-90 { color: color-mix(in srgb, var(--color-foreground) 90%, rgba(0,0,0,0)); }
-
-/* Custom circular progress background utilities */
-.bg-circular-bg { 
-  background-color: var(--circular-bg); 
-}
-
-.bg-circular-fill { 
-  background-color: var(--circular-fill); 
-}

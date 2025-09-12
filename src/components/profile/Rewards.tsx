@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trophy, Lock } from "lucide-react";
@@ -73,46 +73,50 @@ function Rewards() {
   if (!rewards) {
     return (
       <div className="flex justify-center items-center min-h-[30vh]">
-        <Spinner size={64} color="#fff" />
+        <Spinner size={64} />
       </div>
     );
   }
   return (
-    <div className="bg-white rounded-t-3xl min-h-[60vh] p-6">
+    <div className="bg-card rounded-t-3xl min-h-[60vh] p-6">
       <div className="space-y-6">
         {/* XP Level Section */}
-        <div className="bg-white rounded-lg p-4 border border-gray-200">
+        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <p className="text-gray-600 text-sm font-medium">XP Level</p>
-              <p className="text-gray-900 text-2xl font-bold">
+              <p className="text-muted-foreground text-sm font-medium">
+                XP Level
+              </p>
+              <p className="text-foreground text-2xl font-bold">
                 {rewards.xpLevel}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-gray-600 text-sm">
+              <p className="text-muted-foreground text-sm">
                 {rewards.xpPointsToNext} points to next level
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
             <div
-              className="bg-gradient-to-r from-pink-400 to-pink-500 h-full rounded-full transition-all duration-300"
+              className="bg-[var(--progress-bar-playtoday)] h-full rounded-full transition-all duration-300"
               style={{ width: `${xpProgress}%` }}
             />
           </div>
         </div>
 
         {/* Rank Section */}
-        <div className="bg-white rounded-lg p-4 border border-gray-200">
+        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-medium">Rank</p>
-              <p className="text-gray-900 text-xl font-bold">{rewards.rank}</p>
+              <p className="text-muted-foreground text-sm font-medium">Rank</p>
+              <p className="text-foreground text-xl font-bold">
+                {rewards.rank}
+              </p>
             </div>
             <div className="text-right">
-              <p className="text-gray-600 text-sm">
+              <p className="text-muted-foreground text-sm">
                 Next rank unlocks at XP Level {rewards.nextRankUnlockLevel}
               </p>
             </div>
@@ -120,11 +124,13 @@ function Rewards() {
         </div>
 
         {/* Points Section */}
-        <div className="bg-white rounded-lg p-4 border border-gray-200">
+        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm font-medium mb-1">Points</p>
-              <p className="text-gray-900 text-xl font-bold">
+              <p className="text-muted-foreground text-sm font-medium mb-1">
+                Points
+              </p>
+              <p className="text-foreground text-xl font-bold">
                 {rewards && typeof rewards.points === "number"
                   ? rewards.points.toLocaleString()
                   : 0}{" "}
@@ -133,7 +139,7 @@ function Rewards() {
             </div>
             <Button
               variant="outline"
-              className="text-purple-600 border-purple-600 hover:bg-purple-50 hover:border-purple-700 px-4 py-2 font-medium rounded-md"
+              className="border-primary text-primary hover:bg-primary/10 px-4 py-2 font-medium rounded-md"
             >
               Redeem
             </Button>
@@ -142,38 +148,40 @@ function Rewards() {
 
         {/* Trophies Section */}
         <div>
-          <h3 className="text-gray-900 text-lg font-semibold mb-4">Trophies</h3>
+          <h3 className="text-foreground text-lg font-semibold mb-4">
+            Trophies
+          </h3>
           <div className="grid grid-cols-3 gap-4">
             {Array.isArray(rewards?.trophies) &&
               rewards.trophies.map((trophy, index) => (
                 <Card
                   key={index}
-                  className={`transition-all duration-200 ${
+                  className={
                     trophy.unlocked
-                      ? "border border-cyan-200 bg-gradient-to-br from-cyan-50 to-blue-50 shadow-sm"
-                      : "border border-gray-200 bg-gray-50 shadow-sm"
-                  }`}
+                      ? "transition-all duration-200 border border-[var(--border)] bg-gradient-to-br from-[var(--muted)] to-[var(--card)] shadow-sm"
+                      : "transition-all duration-200 border border-[var(--border)] bg-muted shadow-sm"
+                  }
                 >
                   <CardContent className="p-4 text-center">
                     <div
-                      className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all ${
+                      className={
                         trophy.unlocked
-                          ? "bg-gradient-to-br from-cyan-100 to-blue-100"
-                          : "bg-gray-200"
-                      }`}
+                          ? "inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all bg-gradient-to-br from-[var(--muted)] to-[var(--card)]"
+                          : "inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all bg-muted"
+                      }
                     >
                       {trophy.unlocked ? (
-                        <Trophy className="w-8 h-8 text-cyan-600" />
+                        <Trophy className="w-8 h-8 text-primary" />
                       ) : (
-                        <Lock className="w-7 h-7 text-gray-400" />
+                        <Lock className="w-7 h-7 text-muted-foreground" />
                       )}
                     </div>
                     {trophy.unlocked ? (
-                      <p className="text-sm font-medium text-cyan-900">
+                      <p className="text-sm font-medium text-foreground">
                         {trophy.name}
                       </p>
                     ) : (
-                      <p className="text-sm font-medium text-gray-500">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Locked
                       </p>
                     )}

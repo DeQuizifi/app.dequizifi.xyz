@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 interface UnfinishedQuiz {
@@ -82,21 +82,14 @@ export default function UnfinishedQuizzes() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-      <h3
-        className="text-base font-semibold mb-4"
-        style={{ color: "var(--card-foreground)" }}
-      >
+      <h3 className="text-base font-semibold mb-4 text-[var(--card-foreground)]">
         Your Unfinished Quizzes
       </h3>
       <div className="space-y-4">
         {unfinished.map((quiz) => (
           <div
             key={quiz.id}
-            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
-            style={{
-              backgroundColor: "var(--quiz-card-bg)",
-              border: "1px solid var(--quiz-card-border)",
-            }}
+            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] bg-[var(--quiz-card-bg)] border border-[var(--quiz-card-border)]"
           >
             {/* Left Icon */}
             <div className="flex-shrink-0">
@@ -111,16 +104,10 @@ export default function UnfinishedQuizzes() {
             </div>
             {/* Quiz Info */}
             <div className="flex-1 ml-4">
-              <div
-                className="text-lg font-bold"
-                style={{ color: "var(--quiz-title-color)" }}
-              >
+              <div className="text-lg font-bold text-[var(--quiz-title-color)]">
                 {quiz.quiz.title}
               </div>
-              <div
-                className="text-sm"
-                style={{ color: "var(--quiz-subtitle-color)" }}
-              >
+              <div className="text-sm text-[var(--quiz-subtitle-color)]">
                 {quiz.quiz._count.questions} questions
               </div>
             </div>
@@ -186,7 +173,7 @@ function ProgressCircle({ percent }: { percent: number }) {
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
+        className="transition-[stroke-dashoffset] duration-[600ms] ease-in-out"
       />
       <text
         x="50%"
@@ -196,8 +183,7 @@ function ProgressCircle({ percent }: { percent: number }) {
         fontSize="14px"
         fontWeight="600"
         fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className="transform rotate-90 origin-center"
       >
         {normalizedPercent}%
       </text>

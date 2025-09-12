@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlayToday from "@/components/play/playToday";
@@ -16,16 +15,12 @@ function PlayPage() {
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/images/dashboard.svg')` }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]"
         aria-hidden="true"
       />
 
       {/* Content */}
-      <div
-        className="relative z-10"
-        style={{ paddingBottom: "calc(72px + env(safe-area-inset-bottom))" }}
-      >
+      <div className="relative z-10 pb-[calc(72px+env(safe-area-inset-bottom))]">
         {/* Header Section with Welcome and Balance */}
         <div className="px-6 pt-12 pb-8">
           <div className="flex items-start justify-between gap-4">
@@ -35,19 +30,16 @@ function PlayPage() {
         </div>
 
         {/* Main Card Container for PlayToday and UnfinishedQuizzesSection */}
-        <div
-          className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between shadow-none border-0 outline-none"
-          style={{ boxShadow: "none", border: "none", outline: "none" }}
-        >
+        <div className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between">
           <div>
             {/* What would you like to play today? Section */}
             <div className="space-y-4">
-              <PlayToday/>
+              <PlayToday />
             </div>
 
             {/* Your Unfinished Quizzes Section */}
             <div className="space-y-4">
-              <JoinedContests/>
+              <JoinedContests />
             </div>
           </div>
           {/* This empty div ensures the container stretches to the bottom */}
