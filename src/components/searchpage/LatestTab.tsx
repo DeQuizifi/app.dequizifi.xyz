@@ -174,7 +174,7 @@ function HourProgressCircle(props: { hours: number }) {
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        className={`transition-[stroke-dashoffset] duration-600 ease-in-out ${
+        className={`transition-[stroke-dashoffset] duration-[600ms] ease-in-out ${
           progressLevel === "high"
             ? "stroke-primary"
             : progressLevel === "medium"

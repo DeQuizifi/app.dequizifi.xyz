@@ -45,7 +45,7 @@ export default function PlayToday() {
   return (
     <div className="space-y-4">
       {/* Section Title */}
-      <h2 className="text-2xl font-bold px-6 text-[var(--card-foreground)]">
+      <h2 className="text-2xl font-bold px-6 text-card-foreground">
         What would you like to play <br /> today?
       </h2>
 
@@ -58,7 +58,7 @@ export default function PlayToday() {
               index === contests.length - 1 ? "mr-6" : ""
             }`}
           >
-            <div className="w-full h-full rounded-lg relative overflow-hidden bg-[var(--quiz-card-bg)] border border-[var(--quiz-card-border)]">
+            <div className="w-full h-full rounded-lg relative overflow-hidden bg-card border border-border">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Image
                   src="/images/playQuizImage.svg"
@@ -70,18 +70,18 @@ export default function PlayToday() {
                 />
               </div>
               <div className="absolute inset-0 p-4 flex flex-col justify-between">
-                <h3 className="text-[var(--foreground)] text-xl font-bold leading-tight">
+                <h3 className="text-foreground text-xl font-bold leading-tight">
                   {contest.name}
                 </h3>
                 <div className="space-y-1">
-                  <p className="text-[var(--foreground)] text-base font-bold">
+                  <p className="text-foreground text-base font-bold">
                     {contest.participantCount} Participants
                   </p>
-                  <p className="text-[var(--foreground)] text-base font-bold opacity-90">
+                  <p className="text-foreground/90 text-base font-bold">
                     {contest.timeLeftHours} Hours Left
                   </p>
-                  <div className="w-full h-1 bg-[var(--muted)] rounded-full mt-2">
-                    <div className="h-full rounded-full w-3/4 bg-[var(--progress-bar-playtoday)]" />
+                  <div className="w-full h-1 bg-muted rounded-full mt-2">
+                    <div className="h-full rounded-full w-3/4 bg-primary" />
                   </div>
                 </div>
               </div>

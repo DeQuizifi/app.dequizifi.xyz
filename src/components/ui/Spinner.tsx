@@ -5,7 +5,7 @@ interface SpinnerProps {
 }
 
 const Spinner: React.FC<SpinnerProps> = ({ size = 48 }) => (
-  <div className={`inline-block w-[${size}px] h-[${size}px]`}>
+  <div className="inline-block" role="status" aria-label="Loading">
     <svg
       width={size}
       height={size}

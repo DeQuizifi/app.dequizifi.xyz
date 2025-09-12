@@ -4,8 +4,6 @@ interface RewardTabProps {
   className?: string;
 }
 
-const fontSizes = [22, 18, 16, 14, 12]; // decreasing sizes for ranks
-
 export const RewardTab: React.FC<RewardTabProps> = ({ className }) => {
   return (
     <div
@@ -28,25 +26,37 @@ export const RewardTab: React.FC<RewardTabProps> = ({ className }) => {
 
       <div className="flex flex-col gap-2">
         {mockRewardDistribution.map((r, idx) => {
-          const fontSize = fontSizes[idx] ?? 12;
+          const fontClasses = [
+            "text-2xl",
+            "text-lg",
+            "text-base",
+            "text-sm",
+            "text-xs",
+          ];
+          const smallFontClasses = [
+            "text-xl",
+            "text-lg",
+            "text-base",
+            "text-sm",
+            "text-xs",
+          ];
+
+          const fontClass = fontClasses[idx] ?? "text-xs";
+          const smallFontClass = smallFontClasses[idx] ?? "text-xs";
+
           return (
             <div
               key={r.id}
               className="flex items-center justify-between py-1.5 px-0.5"
             >
               <div className="truncate">
-                <div className={`font-medium text-[${fontSize}px] leading-[1]`}>
+                <div className={`${fontClass} font-medium leading-[1]`}>
                   {r.label}
                 </div>
               </div>
 
               <div className="flex items-center justify-end min-w-[72px]">
-                <div
-                  className={`font-semibold text-[${Math.max(
-                    12,
-                    fontSize - 2
-                  )}px]`}
-                >
+                <div className={`${smallFontClass} font-semibold`}>
                   {r.percent}%
                 </div>
               </div>

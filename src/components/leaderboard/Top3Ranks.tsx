@@ -45,7 +45,15 @@ export default function Top3Ranks({ top3Users }: Top3RanksProps) {
 
   const renderTopper = (rank: 1 | 2 | 3) => (
     <div
-      className={`absolute z-30 -translate-x-1/2 left-[${positions[rank].left}] top-[${positions[rank].avatarTop}]`}
+      className="absolute z-30 -translate-x-1/2 left-[var(--left)] top-[var(--top)]"
+      style={
+        {
+          /* CSS variables set from JS */
+          "--left": positions[rank].left,
+          /* CSS variables set from JS */
+          "--top": positions[rank].avatarTop,
+        } as React.CSSProperties
+      }
       aria-hidden
     >
       <div className="relative">
@@ -63,7 +71,17 @@ export default function Top3Ranks({ top3Users }: Top3RanksProps) {
 
   const renderPoints = (rank: 1 | 2 | 3, points: number) => (
     <div
-      className={`absolute z-30 -translate-x-1/2 text-[var(--foreground)] text-sm font-semibold left-[calc(${positions[rank].left}+${pointsShift[rank]})] bottom-[${positions[rank].pointsBottom}]`}
+      className="absolute z-30 -translate-x-1/2 text-[var(--foreground)] text-sm font-semibold left-[calc(var(--left)+var(--shift))] bottom-[var(--bottom)]"
+      style={
+        {
+          /* CSS variables set from JS */
+          "--left": positions[rank].left,
+          /* CSS variables set from JS */
+          "--shift": pointsShift[rank],
+          /* CSS variables set from JS */
+          "--bottom": positions[rank].pointsBottom,
+        } as React.CSSProperties
+      }
     >
       {points}pt
     </div>

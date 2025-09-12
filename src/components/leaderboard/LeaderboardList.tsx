@@ -33,12 +33,12 @@ export default function LeaderboardList({
               {/* Left side: rank and user info */}
               <div className="flex items-center space-x-4">
                 {/* Rank number */}
-                <div className="text-lg font-bold text-foreground-90 min-w-[2rem]">
+                <div className="text-lg font-bold text-foreground/90 min-w-[2rem]">
                   {user.rank.toString().padStart(2, "0")}
                 </div>
 
                 {/* User avatar */}
-                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center border border-[color-mix(in_srgb,var(--color-foreground)_10%,rgba(0,0,0,0))] shadow-sm">
+                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center border border-[color-mix(in_srgb,var(--foreground)_10%,rgba(0,0,0,0))] shadow-sm">
                   <User
                     className="w-6 h-6 text-muted-foreground"
                     aria-hidden="true"
@@ -70,7 +70,7 @@ export default function LeaderboardList({
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-[color-mix(in_srgb,var(--color-foreground)_30%,rgba(0,0,0,0))] border-t-[var(--primary-foreground)] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-[color-mix(in_srgb,var(--foreground)_30%,rgba(0,0,0,0))] border-t-[var(--primary-foreground)] rounded-full animate-spin" />
                   <span>Loading...</span>
                 </div>
               ) : (
