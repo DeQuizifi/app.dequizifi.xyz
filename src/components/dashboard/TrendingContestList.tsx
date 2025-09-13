@@ -51,7 +51,7 @@ export default function TrendingContestList() {
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-destructive">{error}</div>;
   }
 
   if (trending.length === 0) {
@@ -110,7 +110,9 @@ export function TrendingCard({
           ) : (
             <span className="text-lg">--</span>
           )}
-          <span className="text-sm font-normal text-gray-500">Hours left</span>
+          <span className="text-sm font-normal text-muted-foreground">
+            Hours left
+          </span>
         </CardAction>
       </CardHeader>
     </Card>
@@ -118,18 +120,14 @@ export function TrendingCard({
 }
 
 function HourProgressCircle({ hours }: { hours: number }) {
-  let circleColor = "var(--progress-low)";
-  let textColor = "var(--progress-low)";
+  let colorClass = "text-chart-2";
 
   if (hours >= 24) {
-    circleColor = "var(--progress-high)";
-    textColor = "var(--progress-high)";
+    colorClass = "text-progress-high";
   } else if (hours >= 20) {
-    circleColor = "var(--progress-medium)";
-    textColor = "var(--progress-medium)";
+    colorClass = "text-progress-medium";
   } else {
-    circleColor = "var(--progress-low)";
-    textColor = "var(--progress-low)";
+    colorClass = "text-chart-2";
   }
 
   const size = 48;
@@ -140,26 +138,27 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="block transform -rotate-90">
+    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
+        className="text-muted-foreground/40"
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
+        className="transition-all duration-[600ms] ease-in-out"
       />
       <text
         x="50%"
@@ -168,9 +167,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className="transform rotate-90 origin-center text-sm font-semibold"
       >
         {hours}h
       </text>

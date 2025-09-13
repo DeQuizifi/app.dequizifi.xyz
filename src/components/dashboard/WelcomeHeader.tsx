@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 
 interface WelcomeHeaderProps {
   name?: string;
@@ -16,10 +16,8 @@ export default function WelcomeHeader({
     addr ? `${addr.slice(0, 6)}...${addr.slice(-4)}` : "000000...0000";
 
   // Track if component is mounted (client-side)
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <div className="flex-1">
@@ -33,7 +31,7 @@ export default function WelcomeHeader({
         >
           {name}
         </h1>
-        <p className="text-white font-bold text-s">
+        <p className="text-foreground font-bold text-sm">
           {mounted && address ? (
             formatAddress(address)
           ) : (

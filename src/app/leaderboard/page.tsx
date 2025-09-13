@@ -5,7 +5,6 @@ import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
 import { user } from "@/generated/prisma";
-import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { useUser } from "@/context/userContext";
@@ -115,7 +114,7 @@ export default function LeaderboardPage() {
   }
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-[#5F478F]">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-primary">
         <Spinner />
       </div>
     );
@@ -123,12 +122,7 @@ export default function LeaderboardPage() {
   return (
     <div className="min-h-screen relative">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/images/dashboard.svg')",
-        }}
-      />
+      <div className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]" />
 
       {/* Content Overlay */}
       <div className="relative z-10 p-6">
@@ -139,43 +133,31 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Leaderboard Content Area */}
-        <div
-          className={cn(
-            // Full-bleed horizontally, rounded only on the top
-            "mx-[-1.5rem] rounded-t-3xl p-6 min-h-[600px] font-mono overflow-hidden"
-          )}
-          style={{
-            backgroundImage:
-              "linear-gradient(180deg, #FFFFFF 0%, #5F478F 55%, #272052 100%)",
-          }}
-        >
-          <h2 className="text-[#1b123d] text-2xl font-bold mb-6">
+        <div className="mx-[-1.5rem] rounded-t-3xl p-6 min-h-[600px] font-mono overflow-hidden bg-gradient-to-b from-background via-primary to-card">
+          <h2 className="text-foreground text-2xl font-bold mb-6">
             Leaderboard
           </h2>
 
           {/* Tabs for Ranking View */}
           <div className="mb-6">
-            <div className="flex border-b border-black/10">
+            <div className="flex border-b border-border">
               <button
-                className={cn(
-                  "pb-2 px-4 text-base transition-colors",
-                  // Active: dark purple text with solid underline
+                className={`pb-2 px-4 text-base transition-colors ${
                   activeTab === "week"
-                    ? "text-[#2B2356] font-semibold border-b-2 border-[#2B2356]"
-                    : "text-black/50 hover:text-black/70"
-                )}
+                    ? "text-foreground font-semibold border-b-2 border-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
                 onClick={() => handleTabChange("week")}
                 aria-label="View this week's leaderboard"
               >
                 This week
               </button>
               <button
-                className={cn(
-                  "pb-2 px-4 text-base transition-colors",
+                className={`pb-2 px-4 text-base transition-colors ${
                   activeTab === "allTime"
-                    ? "text-[#2B2356] font-semibold border-b-2 border-[#2B2356]"
-                    : "text-black/50 hover:text-black/70"
-                )}
+                    ? "text-foreground font-semibold border-b-2 border-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
                 onClick={() => handleTabChange("allTime")}
                 aria-label="View all time leaderboard"
               >
@@ -185,7 +167,7 @@ export default function LeaderboardPage() {
 
             {/* Time Remaining Display (Only shown for "This week" tab) */}
             {activeTab === "week" && (
-              <div className="flex items-center mt-2 text-black/60 text-sm">
+              <div className="flex items-center mt-2 text-muted-foreground text-sm">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4 mr-1"
@@ -208,7 +190,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Top 3 Ranks Section */}
-          <div className="mt-6 relative" style={{ paddingBottom: "80px" }}>
+          <div className="mt-6 relative pb-20">
             <Top3Ranks
               top3Users={top3Users.map((entry, idx) => ({
                 id: entry.id,
@@ -220,7 +202,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Scrollable List of Other Users */}
-          <div className="mx-[-1.5rem]" style={{ marginTop: "-100px" }}>
+          <div className="mx-[-1.5rem] -mt-24">
             {remainingUsers.length > 0 && (
               <LeaderboardList
                 users={remainingUsers.map((entry, idx) => ({

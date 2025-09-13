@@ -1,7 +1,4 @@
 "use client";
-
-import Image from "next/image";
-import React from "react";
 import { User } from "lucide-react";
 
 interface ProfileWelcomeHeaderProps {
@@ -19,16 +16,11 @@ export default function ProfileWelcomeHeader({
         <User
           width={60}
           height={60}
-          className="rounded-full mr-3 bg-background px-2 py-2"
+          className="rounded-full mr-3 bg-background p-2"
         />
         <div className="flex flex-col justify-center">
-          <h1
-            className="text-white text-2xl font-bold"
-            aria-label={`Welcome ${name}`}
-          >
-            {name}
-          </h1>
-          <p className="text-white text-sm">{walletaddress}</p>
+          <h1 className="text-2xl font-bold">{name}</h1>
+          <p className="text-sm">{walletaddress}</p>
         </div>
       </div>
     </div>

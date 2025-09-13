@@ -52,7 +52,7 @@ export default function QuizTab({ search }: QuizTabProps) {
   if (loading)
     return (
       <div className="flex justify-center items-center py-20">
-        <Spinner size={48} color="#8B5CF6" />
+        <Spinner size={48} />
       </div>
     );
   if (error) return <div>{error}</div>;
@@ -63,7 +63,7 @@ export default function QuizTab({ search }: QuizTabProps) {
         {quizzes.map((quiz: Quiz, idx: number) => (
           <div
             key={idx}
-            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-white border border-gray-100"
+            className="w-full rounded-3xl px-5 py-4 shadow-sm bg-card border border-border"
           >
             <div className="flex items-center w-full gap-4">
               {/* Icon */}
@@ -79,19 +79,21 @@ export default function QuizTab({ search }: QuizTabProps) {
               </div>
               {/* Title + Description */}
               <div className="flex-1 min-w-0">
-                <p className="text-lg sm:text-2xl font-semibold text-gray-900">
+                <p className="text-lg sm:text-2xl font-semibold text-foreground">
                   {quiz.title}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   {quiz._count.questions} questions
                 </p>
               </div>
               {/* Plays */}
               <div className="flex flex-col items-end justify-center flex-shrink-0">
-                <span className="text-lg font-semibold text-gray-900">
+                <span className="text-lg font-semibold text-foreground">
                   {quiz._count.attempts}
                 </span>
-                <span className="text-sm font-normal text-gray-500">Plays</span>
+                <span className="text-sm font-normal text-muted-foreground">
+                  Plays
+                </span>
               </div>
             </div>
           </div>

@@ -1,6 +1,4 @@
 "use client";
-
-import React from "react";
 import { CircleDollarSign } from "lucide-react";
 
 interface BalanceCardProps {
@@ -30,7 +28,10 @@ export default function BalanceCard({ amount }: BalanceCardProps) {
         </span>
         <div className="flex-shrink-0">
           <div className="w-8 h-8 bg-balance-icon rounded-full flex items-center justify-center">
-            <CircleDollarSign className="w-6 h-6 text-balance-icon-foreground" aria-hidden="true" />
+            <CircleDollarSign
+              className="w-6 h-6 text-balance-icon-foreground"
+              aria-hidden="true"
+            />
           </div>
         </div>
       </div>

@@ -7,7 +7,6 @@ import {
   ChartColumnIncreasing,
   User,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface NavItem {
   id: string;
@@ -78,13 +77,15 @@ export default function BottomNavbar() {
               aria-current={active ? "page" : undefined}
             >
               <span
-                className={`inline-flex items-center justify-center p-4 rounded-full ${active ? "bg-primary/20" : ""}`}
+                className={
+                  "inline-flex items-center justify-center p-4 rounded-full " +
+                  (active ? "bg-primary" : "")
+                }
               >
                 <Icon
-                  className={cn(
-                    "h-6 w-6",
-                    active && "text-primary"
-                  )}
+                  className={
+                    "h-6 w-6 " + (active ? "text-primary" : "text-foreground")
+                  }
                   aria-hidden="true"
                 />
               </span>

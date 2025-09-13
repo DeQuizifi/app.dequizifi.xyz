@@ -1,4 +1,3 @@
-// import {Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LatestTab from "./LatestTab";
 import QuizTab from "./QuizTab";

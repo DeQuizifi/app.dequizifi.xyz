@@ -1,4 +1,3 @@
-import React from "react";
 import { User2 } from "lucide-react";
 import mockPlayers from "./mockPlayers";
 
@@ -21,36 +20,23 @@ export default function PlayersTab({ className = "" }: Props) {
             className="flex items-center justify-between px-0 py-3 sm:py-4"
           >
             <div className="flex items-center gap-4">
-              <div
-                className="w-11 text-sm font-bold"
-                style={{ color: "var(--muted-foreground)" }}
-              >
+              <div className="w-11 text-sm font-bold text-muted-foreground">
                 {String(p.rank).padStart(2, "0")}
               </div>
 
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center"
-                style={{
-                  background: "var(--muted)",
-                  color: "var(--muted-foreground)",
-                }}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-muted text-muted-foreground"
                 aria-hidden
               >
                 <User2 size={18} />
               </div>
 
-              <div
-                className="text-sm font-medium"
-                style={{ color: "var(--foreground)" }}
-              >
+             <div className="text-sm font-medium text-foreground">
                 {p.name}
               </div>
             </div>
 
-            <div
-              className="text-sm font-semibold"
-              style={{ color: "var(--foreground)" }}
-            >
+             <div className="text-sm font-semibold text-foreground">
               XP {p.xp}
             </div>
           </li>

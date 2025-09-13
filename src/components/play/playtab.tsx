@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PlayersTab from "./playersTab";
+import RewardTab from "./RewardTab";
 
 type TabKey = "players" | "reward";
 
@@ -14,15 +15,11 @@ export default function PlayTab() {
         <button
           aria-pressed={active === "players"}
           onClick={() => setActive("players")}
-          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
-          style={{
-            color:
-              active === "players"
-                ? "var(--primary)"
-                : "var(--muted-foreground)",
-            borderBottomColor:
-              active === "players" ? "var(--primary)" : "transparent",
-          }}
+          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2 ${
+            active === "players"
+              ? "text-primary border-b-primary"
+              : "text-muted-foreground border-b-transparent"
+          }`}
         >
           Players
         </button>
@@ -30,15 +27,11 @@ export default function PlayTab() {
         <button
           aria-pressed={active === "reward"}
           onClick={() => setActive("reward")}
-          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2`}
-          style={{
-            color:
-              active === "reward"
-                ? "var(--primary)"
-                : "var(--muted-foreground)",
-            borderBottomColor:
-              active === "reward" ? "var(--primary)" : "transparent",
-          }}
+          className={`pb-3 text-lg font-semibold transition-colors outline-none focus:outline-none border-b-2 ${
+            active === "reward"
+              ? "text-primary border-b-primary"
+              : "text-muted-foreground border-b-transparent"
+          }`}
         >
           Reward
         </button>
@@ -48,27 +41,15 @@ export default function PlayTab() {
       <div className="mt-4">
         {active === "players" ? (
           <div>
-            <div
-              className=" text-sm max-w-full"
-              style={{
-                backgroundColor: "var(--quiz-card-bg)",
-                color: "var(--quiz-subtitle-color)",
-              }}
-            >
-              {/* PlayerTab component will be rendered here. */}
+            <div className="text-sm max-w-full">
+              
               <PlayersTab />
             </div>
           </div>
         ) : (
           <div>
-            <div
-              className=" text-sm max-w-full"
-              style={{
-                backgroundColor: "var(--quiz-card-bg)",
-                color: "var(--quiz-subtitle-color)",
-              }}
-            >
-              {/* RewardTab component will be rendered here. */}
+            <div className="text-sm max-w-full">
+              <RewardTab/>
             </div>
           </div>
         )}

@@ -7,16 +7,15 @@ import { useUser } from "@/context/userContext";
 import { useState } from "react";
 
 export default function SearchQuiz() {
-   const { username, balance } = useUser();
-   const [search, setSearch] = useState("");
+  const { username, balance } = useUser();
+  const [search, setSearch] = useState("");
   return (
-    <main>
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/images/dashboard.svg')`,
-        }}
-      />
+    <main
+      className="min-h-screen bg-background relative overflow-x-hidden"
+      role="main"
+      aria-label="Search"
+    >
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]" />
 
       {/* Content */}
       <div className="relative z-10 pb-safe-area-bottom">
@@ -29,11 +28,11 @@ export default function SearchQuiz() {
         </div>
 
         {/* Search Bar */}
-        <SearchBar search={search} onChangeHandler={setSearch}/>
+        <SearchBar search={search} onChangeHandler={setSearch} />
 
         <div className="bg-background h-screen rounded-t-3xl">
           {/* Tabs */}
-          <Tab search={search}/>
+          <Tab search={search} />
         </div>
       </div>
     </main>

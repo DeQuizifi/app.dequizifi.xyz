@@ -15,16 +15,13 @@ export default function ProfilePage() {
 
   return (
     <main
-      className="min-h-screen bg-gray-50 relative overflow-x-hidden"
+      className="min-h-screen bg-background relative overflow-hidden"
       role="main"
       aria-label="Profile"
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
-        style={{
-          backgroundImage: `url('/images/dashboard.svg')`,
-        }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]"
         aria-hidden="true"
       />
 

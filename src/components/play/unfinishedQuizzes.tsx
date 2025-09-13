@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
 interface UnfinishedQuiz {
@@ -82,21 +82,14 @@ export default function UnfinishedQuizzes() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-      <h3
-        className="text-base font-semibold mb-4"
-        style={{ color: "var(--card-foreground)" }}
-      >
+  <h3 className="text-base font-semibold mb-4 text-card-foreground">
         Your Unfinished Quizzes
       </h3>
       <div className="space-y-4">
         {unfinished.map((quiz) => (
           <div
             key={quiz.id}
-            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
-            style={{
-              backgroundColor: "var(--quiz-card-bg)",
-              border: "1px solid var(--quiz-card-border)",
-            }}
+            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] bg-card border border-border"
           >
             {/* Left Icon */}
             <div className="flex-shrink-0">
@@ -111,16 +104,8 @@ export default function UnfinishedQuizzes() {
             </div>
             {/* Quiz Info */}
             <div className="flex-1 ml-4">
-              <div
-                className="text-lg font-bold"
-                style={{ color: "var(--quiz-title-color)" }}
-              >
-                {quiz.quiz.title}
-              </div>
-              <div
-                className="text-sm"
-                style={{ color: "var(--quiz-subtitle-color)" }}
-              >
+              <div className="text-lg font-bold">{quiz.quiz.title}</div>
+              <div className="text-lg font-bold">
                 {quiz.quiz._count.questions} questions
               </div>
             </div>
@@ -146,18 +131,14 @@ function ProgressCircle({ percent }: { percent: number }) {
   console.log("Normalized percent:", normalizedPercent);
 
   // Set colors based on progress percentage using CSS variables
-  let circleColor = "var(--progress-low)"; // Purple for lower progress
-  let textColor = "var(--progress-low)";
-
+  // Map progress levels to semantic color utility classes (applied via currentColor)
+  let colorClass = "text-chart-2"; // default (purple-ish)
   if (normalizedPercent >= 95) {
-    circleColor = "var(--progress-high)"; // Green for high progress (99%)
-    textColor = "var(--progress-high)";
+    colorClass = "text-progress-high"; // maps to green
   } else if (normalizedPercent >= 80) {
-    circleColor = "var(--progress-medium)"; // Orange for medium-high progress
-    textColor = "var(--progress-medium)";
+    colorClass = "text-progress-medium"; // maps to orange
   } else {
-    circleColor = "var(--progress-low)"; // Purple for lower progress (60%)
-    textColor = "var(--progress-low)";
+    colorClass = "text-chart-2"; // default purple
   }
 
   const size = 52;
@@ -167,26 +148,27 @@ function ProgressCircle({ percent }: { percent: number }) {
   const offset = circumference - (normalizedPercent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="block transform -rotate-90">
+    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
+        className="text-muted-foreground/40"
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
+        className="transition-[stroke-dashoffset] duration-[600ms] ease-in-out"
       />
       <text
         x="50%"
@@ -195,9 +177,7 @@ function ProgressCircle({ percent }: { percent: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className="transform rotate-90 origin-center text-sm font-semibold"
       >
         {normalizedPercent}%
       </text>

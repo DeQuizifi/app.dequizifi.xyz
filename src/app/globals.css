@@ -1,8 +1,3 @@
-/* Score page circle colors */
-:root {
-  --score-outer: #695D91;
-  --score-middle: #82789E;
-}
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -48,28 +43,12 @@
   --sidebar-accent-foreground: hsl(0 0% 0%);
   --sidebar-border: hsl(0 0% 92.1569%);
   --sidebar-ring: hsl(0 0% 0%);
-  --progress-bar-playtoday: #af7ee7;
-  /* Circular progress colors */
-  --circular-bg: #2C2357;
-  --circular-fill: #D485F2;
-  --circular-text: #ffffff;
 
-  /* Invite banner colors */
-  --invite-banner-bg: rgba(124,58,237,0.08); /* violet-500 at ~8% */
-  --invite-close-icon: #ffffff;
-  --invite-title-color: #ffffff;
-  --invite-text-color: rgba(255,255,255,0.9);
-  --invite-button-bg: #ffffff;
-  --invite-button-bg-hover: rgba(255,255,255,0.9);
-  --invite-button-text: var(--foreground);
-  --progress-low: #8b5cf6;
+  
+
   --progress-medium: #f59e0b;
   --progress-high: #10b981;
   --progress-bg: #e5e7eb;
-  --quiz-card-bg: #ffffff;
-  --quiz-card-border: #e5e7eb;
-  --quiz-title-color: #111827;
-  --quiz-subtitle-color: #6b7280;
   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
   --font-mono: IBM Plex Mono, monospace;
@@ -89,11 +68,8 @@
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
   --tracking-normal: -0.025em;
   --spacing: 0.27rem;
-  /* Component-specific tokens (keeps the original visual colors) */
-  --welcome-foreground: #ffffff;
-  --welcome-foreground-90: color-mix(in srgb, var(--welcome-foreground) 90%, rgba(0,0,0,0));
 
-  --balance-card: #2B2356;
+  --balance-card: #2b2356;
   --balance-card-foreground: #ffffff;
   --balance-icon: #ffffff;
   --balance-icon-foreground: #2563eb;
@@ -134,27 +110,12 @@
   --sidebar-accent-foreground: hsl(257.6687 100% 68.0392%);
   --sidebar-border: hsl(222.8571 6.422% 21.3725%);
   --sidebar-ring: hsl(257.6687 100% 68.0392%);
-  --progress-low: #a78bfa;
+
   --progress-medium: #fbbf24;
   --progress-high: #34d399;
   --progress-bg: #374151;
-  /* Circular progress (dark mode) */
-  --circular-bg: #1b1336;
-  --circular-fill: #a78bfa;
-  --circular-text: #ffffff;
 
-  /* Invite banner (dark mode) */
-  --invite-banner-bg: rgba(124,58,237,0.12);
-  --invite-close-icon: #ffffff;
-  --invite-title-color: #ffffff;
-  --invite-text-color: rgba(255,255,255,0.9);
-  --invite-button-bg: #111827;
-  --invite-button-bg-hover: rgba(255,255,255,0.06);
-  --invite-button-text: var(--foreground);
-  --quiz-card-bg: hsl(228 6.8493% 14.3137%);
-  --quiz-card-border: hsl(222.8571 6.422% 21.3725%);
-  --quiz-title-color: hsl(0 0% 94.1176%);
-  --quiz-subtitle-color: hsl(0 0% 62.7451%);
+
   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
   --font-mono: IBM Plex Mono, monospace;
@@ -173,10 +134,8 @@
     0px 8px 10px -1px hsl(0 0% 0% / 0.16);
   --shadow-2xl: 0px 2px 3px 0px hsl(0 0% 0% / 0.4);
   /* Dark-mode overrides for component-specific tokens */
-  --welcome-foreground: #ffffff;
-  --welcome-foreground-90: color-mix(in srgb, var(--welcome-foreground) 90%, rgba(0,0,0,0));
 
-  --balance-card: #2B2356;
+  --balance-card: #2b2356;
   --balance-card-foreground: #ffffff;
   --balance-icon: #111827;
   --balance-icon-foreground: #60a5fa;
@@ -315,26 +274,4 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
-}
-
-/* Utilities used by components to read theme tokens */
-.bg-balance-card { background-color: var(--balance-card); }
-.text-balance-foreground { color: var(--balance-card-foreground); }
-.bg-balance-icon { background-color: var(--balance-icon); }
-.text-balance-icon-foreground { color: var(--balance-icon-foreground); }
-
-/* Welcome header text utilities */
-.text-welcome-foreground { color: var(--welcome-foreground); }
-.text-welcome-foreground-90 { color: var(--welcome-foreground-90); }
-
-/* Generic helper kept for other components */
-.text-foreground-90 { color: color-mix(in srgb, var(--color-foreground) 90%, rgba(0,0,0,0)); }
-
-/* Custom circular progress background utilities */
-.bg-circular-bg { 
-  background-color: var(--circular-bg); 
-}
-
-.bg-circular-fill { 
-  background-color: var(--circular-fill); 
 }

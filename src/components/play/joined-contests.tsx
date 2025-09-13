@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Spinner from "../ui/Spinner";
 
@@ -64,10 +64,7 @@ export default function JoinedContests() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-      <h3
-        className="text-lg font-semibold mb-4 font-sans"
-        style={{ color: "var(--card-foreground)" }}
-      >
+      <h3 className="text-lg font-semibold mb-4 font-sans text-card-foreground">
         Contests you have joined
       </h3>
       <div className="space-y-4">
@@ -75,11 +72,7 @@ export default function JoinedContests() {
           joinedInfo.map((contest: JoinedContest, idx: number) => (
             <div
               key={idx}
-              className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px]"
-              style={{
-                backgroundColor: "var(--quiz-card-bg)",
-                border: "1px solid var(--quiz-card-border)",
-              }}
+              className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] border border-border"
             >
               {/* Left Icon */}
               <div className="flex-shrink-0">
@@ -94,16 +87,8 @@ export default function JoinedContests() {
               </div>
               {/* Contest Info */}
               <div className="flex-1 ml-4">
-                <div
-                  className="text-lg font-bold"
-                  style={{ color: "var(--quiz-title-color)" }}
-                >
-                  {contest.name}
-                </div>
-                <div
-                  className="text-sm"
-                  style={{ color: "var(--quiz-subtitle-color)" }}
-                >
+                <div className="text-lg font-bold">{contest.name}</div>
+                <div className="text-sm">
                   {contest._count?.participants ?? 0} people joined
                 </div>
               </div>
@@ -123,18 +108,14 @@ export default function JoinedContests() {
 
 function HourProgressCircle({ hours }: { hours: number }) {
   // Normalize and color logic
-  let circleColor = "var(--progress-low)";
-  let textColor = "var(--progress-low)";
-
+  // Map hour levels to semantic color classes
+  let colorClass = "text-chart-2";
   if (hours >= 24) {
-    circleColor = "var(--progress-high)"; // Green
-    textColor = "var(--progress-high)";
+    colorClass = "text-progress-high";
   } else if (hours >= 20) {
-    circleColor = "var(--progress-medium)"; // Orange
-    textColor = "var(--progress-medium)";
+    colorClass = "text-progress-medium";
   } else {
-    circleColor = "var(--progress-low)"; // Purple
-    textColor = "var(--progress-low)";
+    colorClass = "text-chart-2";
   }
 
   // For the circle, treat max as 24h
@@ -146,26 +127,27 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="block transform -rotate-90">
+    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
+        className="text-muted-foreground/40"
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 0.6s ease-in-out" }}
+        className="transition-[stroke-dashoffset] duration-[600ms] ease-in-out"
       />
       <text
         x="50%"
@@ -174,9 +156,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90"
-        style={{ transformOrigin: "center" }}
+        className="transform rotate-90 origin-center text-sm font-semibold"
       >
         {hours}h
       </text>

@@ -3,11 +3,8 @@ import WalletLoginButton from "@/components/custom/common/WalletLoginButton";
 
 function page() {
   return (
-    <div
-      className="h-screen bg-no-repeat bg-cover flex flex-col justify-end"
-      style={{ backgroundImage: "url('/images/login-bg.svg')" }}
-    >
-      <div className="container mx-auto text-white p-8 pb-8">
+    <div className="h-screen bg-no-repeat bg-cover flex flex-col justify-end bg-[url('/images/login-bg.svg')]">
+      <div className="container mx-auto text-foreground p-8 pb-8">
         <div>
           <h1 className="text-4xl font-bold mb-2">
             Welcome <br /> to DeQuiziFi
