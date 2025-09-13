@@ -19,12 +19,7 @@ export default function ProfileWelcomeHeader({
           className="rounded-full mr-3 bg-background p-2"
         />
         <div className="flex flex-col justify-center">
-          <h1
-            className="text-2xl font-bold"
-            aria-label={`Welcome ${name}`}
-          >
-            {name}
-          </h1>
+          <h1 className="text-2xl font-bold">{name}</h1>
           <p className="text-sm">{walletaddress}</p>
         </div>
       </div>
