@@ -50,9 +50,7 @@ export default function JoinDialog({
             <div className="text-sm font-medium text-muted-foreground">
               Entry Fee:
             </div>
-            <div className="text-sm font-semibold">
-              {entryFee}
-            </div>
+            <div className="text-sm font-semibold text-chart-2">{entryFee}</div>
           </div>
 
           <div className="flex items-center justify-between">

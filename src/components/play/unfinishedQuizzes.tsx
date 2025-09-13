@@ -82,7 +82,7 @@ export default function UnfinishedQuizzes() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-      <h3 className="text-base font-semibold mb-4 text-[var(--card-foreground)]">
+  <h3 className="text-base font-semibold mb-4 text-card-foreground">
         Your Unfinished Quizzes
       </h3>
       <div className="space-y-4">
@@ -131,18 +131,14 @@ function ProgressCircle({ percent }: { percent: number }) {
   console.log("Normalized percent:", normalizedPercent);
 
   // Set colors based on progress percentage using CSS variables
-  let circleColor = "var(--progress-low)"; // Purple for lower progress
-  let textColor = "var(--progress-low)";
-
+  // Map progress levels to semantic color utility classes (applied via currentColor)
+  let colorClass = "text-chart-2"; // default (purple-ish)
   if (normalizedPercent >= 95) {
-    circleColor = "var(--progress-high)"; // Green for high progress (99%)
-    textColor = "var(--progress-high)";
+    colorClass = "text-progress-high"; // maps to green
   } else if (normalizedPercent >= 80) {
-    circleColor = "var(--progress-medium)"; // Orange for medium-high progress
-    textColor = "var(--progress-medium)";
+    colorClass = "text-progress-medium"; // maps to orange
   } else {
-    circleColor = "var(--progress-low)"; // Purple for lower progress (60%)
-    textColor = "var(--progress-low)";
+    colorClass = "text-chart-2"; // default purple
   }
 
   const size = 52;
@@ -152,20 +148,21 @@ function ProgressCircle({ percent }: { percent: number }) {
   const offset = circumference - (normalizedPercent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="block transform -rotate-90">
+    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
+        className="text-muted-foreground/40"
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
@@ -180,8 +177,7 @@ function ProgressCircle({ percent }: { percent: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90 origin-center"
+        className="transform rotate-90 origin-center text-sm font-semibold"
       >
         {normalizedPercent}%
       </text>

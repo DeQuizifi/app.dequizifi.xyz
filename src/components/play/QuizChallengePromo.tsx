@@ -18,16 +18,16 @@ export default function QuizChallengePromo({
     <article
       role="region"
       aria-label={`Quiz promo: ${title}`}
-      className="w-full rounded-xl p-6 mb-4 bg-[var(--quiz-card-bg)]"
+      className="w-full rounded-xl p-6 mb-4 bg-card"
     >
       {/* Top row: title + actions */}
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold leading-tight">{title}</h3>
+  <h3 className="text-xl font-semibold leading-tight text-foreground">{title}</h3>
 
         <div className="flex items-center gap-3">
           <button
             aria-label="Upload quiz"
-            className="rounded-md p-2 flex items-center justify-center w-9 h-9"
+            className="rounded-md p-2 flex items-center justify-center text-muted-foreground w-9 h-9"
           >
             <Upload className="h-4 w-4" />
           </button>
@@ -42,7 +42,7 @@ export default function QuizChallengePromo({
       </div>
 
       {/* Description */}
-      <p className="mt-3 text-sm leading-6">
+  <p className="mt-3 text-sm leading-6 text-muted-foreground">
         {subtitle}
       </p>
 

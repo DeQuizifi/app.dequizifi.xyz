@@ -108,18 +108,14 @@ export default function JoinedContests() {
 
 function HourProgressCircle({ hours }: { hours: number }) {
   // Normalize and color logic
-  let circleColor = "var(--progress-low)";
-  let textColor = "var(--progress-low)";
-
+  // Map hour levels to semantic color classes
+  let colorClass = "text-chart-2";
   if (hours >= 24) {
-    circleColor = "var(--progress-high)"; // Green
-    textColor = "var(--progress-high)";
+    colorClass = "text-progress-high";
   } else if (hours >= 20) {
-    circleColor = "var(--progress-medium)"; // Orange
-    textColor = "var(--progress-medium)";
+    colorClass = "text-progress-medium";
   } else {
-    circleColor = "var(--progress-low)"; // Purple
-    textColor = "var(--progress-low)";
+    colorClass = "text-chart-2";
   }
 
   // For the circle, treat max as 24h
@@ -131,20 +127,21 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className="block transform -rotate-90">
+    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="var(--progress-bg)"
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
+        className="text-muted-foreground/40"
       />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={circleColor}
+        stroke="currentColor"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
@@ -159,8 +156,7 @@ function HourProgressCircle({ hours }: { hours: number }) {
         dominantBaseline="middle"
         fontSize="14px"
         fontWeight="600"
-        fill={textColor}
-        className="transform rotate-90 origin-center"
+        className="transform rotate-90 origin-center text-sm font-semibold"
       >
         {hours}h
       </text>
