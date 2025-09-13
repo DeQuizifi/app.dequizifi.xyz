@@ -1,6 +1,4 @@
 "use client";
-
-// ...existing code...
 import { User } from "lucide-react";
 
 interface ProfileWelcomeHeaderProps {
@@ -22,12 +20,12 @@ export default function ProfileWelcomeHeader({
         />
         <div className="flex flex-col justify-center">
           <h1
-            className="text-welcome-foreground text-2xl font-bold"
+            className="text-2xl font-bold"
             aria-label={`Welcome ${name}`}
           >
             {name}
           </h1>
-          <p className="text-welcome-foreground-90 text-sm">{walletaddress}</p>
+          <p className="text-sm">{walletaddress}</p>
         </div>
       </div>
     </div>

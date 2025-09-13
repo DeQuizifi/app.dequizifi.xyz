@@ -8,18 +8,18 @@ export const RewardTab: React.FC<RewardTabProps> = ({ className }) => {
   return (
     <div
       className={
-        "w-full max-w-md mx-auto bg-card rounded-2xl shadow-none p-4 border-0 text-[var(--color-foreground)]" +
+        "w-full max-w-md mx-auto bg-card rounded-2xl shadow-none p-4 border-0 text-foreground" +
         (className ? ` ${className}` : "")
       }
       role="region"
       aria-label="Prize distribution"
     >
       <div className="flex justify-between items-center mb-2">
-        <div className="text-sm font-bold text-[var(--circular-fill)] tracking-[0.01em]">
+        <div className="text-sm font-bold tracking-[0.01em]">
           Total Prize Pool
         </div>
 
-        <div className="text-sm font-semibold text-[var(--circular-fill)] tracking-[0.01em]">
+        <div className="text-sm font-semibold tracking-[0.01em]">
           {mockPrizePool.amount} {mockPrizePool.currency}
         </div>
       </div>

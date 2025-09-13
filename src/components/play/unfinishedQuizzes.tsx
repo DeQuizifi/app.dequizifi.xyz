@@ -89,7 +89,7 @@ export default function UnfinishedQuizzes() {
         {unfinished.map((quiz) => (
           <div
             key={quiz.id}
-            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] bg-[var(--quiz-card-bg)] border border-[var(--quiz-card-border)]"
+            className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] bg-card border border-border"
           >
             {/* Left Icon */}
             <div className="flex-shrink-0">
@@ -104,10 +104,8 @@ export default function UnfinishedQuizzes() {
             </div>
             {/* Quiz Info */}
             <div className="flex-1 ml-4">
-              <div className="text-lg font-bold text-[var(--quiz-title-color)]">
-                {quiz.quiz.title}
-              </div>
-              <div className="text-sm text-[var(--quiz-subtitle-color)]">
+              <div className="text-lg font-bold">{quiz.quiz.title}</div>
+              <div className="text-lg font-bold">
                 {quiz.quiz._count.questions} questions
               </div>
             </div>

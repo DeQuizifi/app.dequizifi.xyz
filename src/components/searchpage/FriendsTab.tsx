@@ -4,6 +4,7 @@ import {
   FaUserAltSlash,
   FaPaperPlane,
 } from "react-icons/fa";
+import { Button } from "../ui/button";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -44,13 +45,13 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
             <div className="flex items-center w-full gap-4">
               {/* Icon */}
               <div className="flex-shrink-0 relative group">
-                <div className="w-14 h-14 rounded-full bg-[var(--primary)] flex items-center justify-center text-2xl font-extrabold text-[var(--primary-foreground)] border-4 border-[var(--card)] shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
+                <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-2xl font-extrabold text-primary-foreground border-4 border-card shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-2xl">
                   {getInitials(f.name)}
                 </div>
                 {/* Status Ring/Badge */}
                 {f.status !== "offline" && (
                   <span
-                    className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[var(--card)] flex items-center justify-center ${
+                    className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-card flex items-center justify-center ${
                       f.status === "online"
                         ? "bg-primary"
                         : "bg-muted-foreground"
@@ -58,22 +59,22 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
                   >
                     {f.status === "online" && (
                       <FaUserCheck
-                        className="text-[var(--card-foreground)] text-xs animate-pulse"
+                        className="text-card-foreground text-xs animate-pulse"
                         title="Online"
                       />
                     )}
                     {f.status === "playing" && (
                       <FaUserClock
-                        className="text-[var(--card-foreground)] text-xs animate-bounce"
+                        className="text-card-foreground text-xs animate-bounce"
                         title="Playing"
                       />
                     )}
                   </span>
                 )}
                 {f.status === "offline" && (
-                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[var(--card)] bg-[var(--muted)] flex items-center justify-center shadow-md">
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-card bg-muted flex items-center justify-center shadow-md">
                     <FaUserAltSlash
-                      className="text-[var(--muted-foreground)] text-xs"
+                      className="text-muted-foreground text-xs"
                       title="Offline"
                     />
                   </span>
@@ -95,17 +96,17 @@ export default function FriendsTab({ friends }: { friends?: Friend[] }) {
                 <span
                   className={`text-lg font-semibold mb-1 flex items-center gap-1 ${
                     f.status === "offline"
-                      ? "text-[var(--muted-foreground)]"
+                      ? "text-muted-foreground"
                       : f.status === "online"
-                      ? "text-[var(--primary)]"
-                      : "text-[var(--muted-foreground)]"
+                      ? "text-primary"
+                      : "text-muted-foreground"
                   }`}
                 >
                   {f.status.charAt(0).toUpperCase() + f.status.slice(1)}
                 </span>
-                <button className="px-4 py-1 rounded-md bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-[var(--primary-foreground)] text-sm font-medium shadow transition-all duration-150 flex items-center gap-2 group">
+                <Button>
                   <FaPaperPlane className="group-hover:animate-bounce" /> Invite
-                </button>
+                </Button>
               </div>
             </div>
           </div>

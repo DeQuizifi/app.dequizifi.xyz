@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Spinner from "@/components/ui/Spinner";
+import { Button } from "../ui/button";
 
 interface DetailsProps {
   username: string;
@@ -73,10 +74,10 @@ function Details(props: Partial<DetailsProps>) {
     <div className="bg-card rounded-t-3xl min-h-[60vh] p-6">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-[var(--card-foreground)]">
+          <h2 className="text-xl font-semibold text-card-foreground">
             Details
           </h2>
-          <button className="text-[var(--primary)]">
+          <Button>
             <svg
               className="w-5 h-5"
               fill="none"
@@ -90,7 +91,7 @@ function Details(props: Partial<DetailsProps>) {
                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
               />
             </svg>
-          </button>
+          </Button>
         </div>
 
         <div className="space-y-4">
@@ -98,7 +99,7 @@ function Details(props: Partial<DetailsProps>) {
             <label className="text-sm text-muted-foreground">
               Display Name
             </label>
-            <div className="text-base font-medium text-[var(--foreground)]">
+            <div className="text-base font-medium text-foreground">
               {details?.username ?? propUsername ?? "-"}
             </div>
           </div>
@@ -107,7 +108,7 @@ function Details(props: Partial<DetailsProps>) {
             <label className="text-sm text-muted-foreground">
               Wallet Address
             </label>
-            <div className="text-base font-medium text-[var(--foreground)]">
+            <div className="text-base font-medium text-foreground">
               {details?.walletAddress ?? propWalletAddress
                 ? `${(details?.walletAddress ?? propWalletAddress)?.slice(
                     0,
@@ -121,7 +122,7 @@ function Details(props: Partial<DetailsProps>) {
 
           <div className="space-y-2">
             <label className="text-sm text-muted-foreground">Joined</label>
-            <div className="text-base font-medium text-[var(--foreground)]">
+            <div className="text-base font-medium text-foreground">
               {details?.joinedDate ?? propJoinedDate ?? "-"}
             </div>
           </div>
@@ -130,7 +131,7 @@ function Details(props: Partial<DetailsProps>) {
             <label className="text-sm text-muted-foreground">
               Favorite Quiz Topic
             </label>
-            <div className="text-base font-medium text-[var(--foreground)]">
+            <div className="text-base font-medium text-foreground">
               {details?.favQuizTopic ?? propFavQuizTopic ?? "-"}
             </div>
           </div>

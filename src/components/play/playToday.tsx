@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-// ...existing code... (removed unused import)
 import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 

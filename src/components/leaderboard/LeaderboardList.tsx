@@ -38,7 +38,7 @@ export default function LeaderboardList({
                 </div>
 
                 {/* User avatar */}
-                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center border border-[color-mix(in_srgb,var(--foreground)_10%,rgba(0,0,0,0))] shadow-sm">
+                <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center border border-foreground shadow-sm">
                   <User
                     className="w-6 h-6 text-muted-foreground"
                     aria-hidden="true"
@@ -52,7 +52,7 @@ export default function LeaderboardList({
               </div>
 
               {/* Right side: points */}
-              <div className="text-sm font-semibold text-[var(--primary-foreground)] bg-[color-mix(in_srgb,var(--primary)_16%,rgba(0,0,0,0))] px-3 py-1 rounded-full">
+              <div className="text-sm font-semibold text-primary-foreground bg-primary/15 px-3 py-1 rounded-full">
                 {user.points}pt
               </div>
             </div>
@@ -65,12 +65,12 @@ export default function LeaderboardList({
             <button
               onClick={onLoadMore}
               disabled={loading}
-              className="px-6 py-3 bg-[var(--primary)] hover:brightness-90 disabled:opacity-50 text-[var(--primary-foreground)] font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 mb-14"
+              className="px-6 py-3 bg-primary hover:brightness-90 disabled:opacity-50 text-primary-foreground font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 mb-14"
               aria-label="Load more leaderboard entries"
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-[color-mix(in_srgb,var(--foreground)_30%,rgba(0,0,0,0))] border-t-[var(--primary-foreground)] rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                   <span>Loading...</span>
                 </div>
               ) : (
@@ -82,7 +82,7 @@ export default function LeaderboardList({
 
         {/* No more results message */}
         {!hasMore && users.length > 0 && (
-          <div className="text-center text-[var(--primary)] text-sm mt-4">
+          <div className="text-center text-primary text-sm mt-4">
             You&apos;ve reached the end of the leaderboard
           </div>
         )}

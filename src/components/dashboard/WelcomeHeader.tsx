@@ -31,7 +31,7 @@ export default function WelcomeHeader({
         >
           {name}
         </h1>
-        <p className="text-foreground font-bold text-s">
+        <p className="text-foreground font-bold text-sm">
           {mounted && address ? (
             formatAddress(address)
           ) : (

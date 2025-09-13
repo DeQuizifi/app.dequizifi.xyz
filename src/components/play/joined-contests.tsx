@@ -64,7 +64,7 @@ export default function JoinedContests() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-      <h3 className="text-lg font-semibold mb-4 font-sans text-[var(--card-foreground)]">
+      <h3 className="text-lg font-semibold mb-4 font-sans text-card-foreground">
         Contests you have joined
       </h3>
       <div className="space-y-4">
@@ -72,7 +72,7 @@ export default function JoinedContests() {
           joinedInfo.map((contest: JoinedContest, idx: number) => (
             <div
               key={idx}
-              className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] bg-[var(--quiz-card-bg)] border border-[var(--quiz-card-border)]"
+              className="flex items-center rounded-xl px-4 py-4 shadow-sm min-h-[80px] border border-border"
             >
               {/* Left Icon */}
               <div className="flex-shrink-0">
@@ -87,10 +87,8 @@ export default function JoinedContests() {
               </div>
               {/* Contest Info */}
               <div className="flex-1 ml-4">
-                <div className="text-lg font-bold text-[var(--quiz-title-color)]">
-                  {contest.name}
-                </div>
-                <div className="text-sm text-[var(--quiz-subtitle-color)]">
+                <div className="text-lg font-bold">{contest.name}</div>
+                <div className="text-sm">
                   {contest._count?.participants ?? 0} people joined
                 </div>
               </div>

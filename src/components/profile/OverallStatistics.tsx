@@ -76,32 +76,26 @@ function OverallStatistics() {
 
   return (
     <Card className="flex flex-row bg-card mt-10">
-      <div className="flex-1 p-4 border-r border-[var(--card-border)] flex flex-col justify-center items-center">
-        <LuCoins size={32} className="text-[var(--foreground)]" />
+      <div className="flex-1 p-4 border-r border-card-border flex flex-col justify-center items-center">
+        <LuCoins size={32} className="text-foreground" />
         <CardDescription className="text-muted-foreground">
           Points
         </CardDescription>
-        <p className="text-[var(--foreground)] font-mono">
-          {allstats.overallPoints}
-        </p>
+        <p className="text-foreground font-mono">{allstats.overallPoints}</p>
       </div>
-      <div className="flex-1 p-4 border-r border-[var(--card-border)] flex flex-col justify-center items-center">
-        <IoMedalOutline size={32} className="text-[var(--foreground)]" />
+      <div className="flex-1 p-4 border-r border-card-border flex flex-col justify-center items-center">
+        <IoMedalOutline size={32} className="text-foreground" />
         <CardDescription className="text-muted-foreground">
           Best Rank
         </CardDescription>
-        <p className="text-[var(--foreground)] font-mono">
-          {allstats.bestRank}
-        </p>
+        <p className="text-foreground font-mono">{allstats.bestRank}</p>
       </div>
       <div className="flex-1 p-4 flex flex-col justify-center items-center">
         <CiCalendar size={32} className="text-[var(--foreground)]" />
         <CardDescription className="text-muted-foreground">
           This week
         </CardDescription>
-        <p className="text-[var(--foreground)] font-mono">
-          {allstats.weekStatus}
-        </p>
+        <p className="text-foreground">{allstats.weekStatus}</p>
       </div>
     </Card>
   );

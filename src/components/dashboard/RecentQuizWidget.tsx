@@ -14,7 +14,6 @@ interface RecentQuizWidgetProps {
 export default function RecentQuizWidget({
   progress,
   onClick,
-  className,
 }: RecentQuizWidgetProps) {
   //RecentQuizInformation
   const { address, isConnected } = useAccount();
@@ -80,9 +79,6 @@ export default function RecentQuizWidget({
 
   return (
     <Card
-      className={`mx-6 mb-6 cursor-pointer relative overflow-hidden py-3 bg-[color-mix(in_srgb,var(--card)_8%,rgba(0,0,0,0))] backdrop-blur-md border border-[color-mix(in_srgb,var(--foreground)_10%,rgba(0,0,0,0))] shadow-2xl shadow-black/20 hover:bg-[color-mix(in_srgb,var(--card)_12%,rgba(0,0,0,0))] hover:border-[color-mix(in_srgb,var(--foreground)_20%,rgba(0,0,0,0))] transition-all duration-300 ease-out ${
-        className || ""
-      }`}
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -101,12 +97,12 @@ export default function RecentQuizWidget({
       }}
     >
       {/* Subtle gradient overlay for enhanced glassmorphism */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)_20%] to-[var(--muted)_10%] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-muted/10 pointer-events-none" />
 
       <div className="relative px-6">
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h3 className="text-md font-medium text-welcome-foreground uppercase tracking-wide mb-4">
+            <h3 className="text-md font-medium uppercase tracking-wide mb-4">
               {recent?.quiz
                 ? "Recent Quiz"
                 : recent?.contest
@@ -126,7 +122,9 @@ export default function RecentQuizWidget({
           </div>
           <div className="flex-shrink-0">
             <CircularProgress value={recent?.quiz ? progress : 0} />
-            {error && <div className="text-xs text-destructive mt-2">{error}</div>}
+            {error && (
+              <div className="text-xs text-destructive mt-2">{error}</div>
+            )}
           </div>
         </div>
       </div>

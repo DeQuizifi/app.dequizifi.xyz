@@ -22,14 +22,12 @@ export default function QuizChallengePromo({
     >
       {/* Top row: title + actions */}
       <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold leading-tight text-[var(--quiz-title-color)]">
-          {title}
-        </h3>
+        <h3 className="text-xl font-semibold leading-tight">{title}</h3>
 
         <div className="flex items-center gap-3">
           <button
             aria-label="Upload quiz"
-            className="rounded-md p-2 flex items-center justify-center text-[var(--quiz-subtitle-color)] w-9 h-9"
+            className="rounded-md p-2 flex items-center justify-center w-9 h-9"
           >
             <Upload className="h-4 w-4" />
           </button>
@@ -44,18 +42,18 @@ export default function QuizChallengePromo({
       </div>
 
       {/* Description */}
-      <p className="mt-3 text-sm leading-6 text-[var(--quiz-subtitle-color)]">
+      <p className="mt-3 text-sm leading-6">
         {subtitle}
       </p>
 
       {/* Bottom row: time left and joined */}
       <div className="mt-5 flex items-center gap-6">
-        <div className="flex items-center gap-2 text-[var(--progress-bar-playtoday)]">
+         <div className="flex items-center gap-2">
           <Clock className="h-5 w-5" />
           <span className="text-base font-semibold">{timeLeft}</span>
         </div>
 
-        <div className="flex items-center gap-2 text-[var(--progress-bar-playtoday)]">
+        <div className="flex items-center gap-2">
           <span className="text-base font-semibold">{joined}</span>
           <span className="text-base font-semibold">People Joined</span>
         </div>

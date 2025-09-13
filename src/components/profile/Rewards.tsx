@@ -31,6 +31,14 @@ function Rewards() {
   const [rewards, setRewards] = useState<RewardsProps | null>(null);
   const [xpProgress, setXpProgress] = useState(0);
 
+  // Convert xpProgress (0-100) to one of Tailwind's fractional width classes (w-0, w-1/12 .. w-11/12, w-full)
+  const xpWidthClass = (() => {
+    const n = Math.round((xpProgress / 100) * 12);
+    if (n <= 0) return "w-0";
+    if (n >= 12) return "w-full";
+    return `w-${n}/12`;
+  })();
+
   useEffect(() => {
     if (!address || !isConnected) {
       setError("Wallet is not connected");
@@ -81,7 +89,7 @@ function Rewards() {
     <div className="bg-card rounded-t-3xl min-h-[60vh] p-6">
       <div className="space-y-6">
         {/* XP Level Section */}
-        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
+        <div className="bg-card rounded-lg p-4 border border-border">
           <div className="flex items-center justify-between mb-3">
             <div>
               <p className="text-muted-foreground text-sm font-medium">
@@ -100,14 +108,13 @@ function Rewards() {
 
           <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
             <div
-              className="bg-[var(--progress-bar-playtoday)] h-full rounded-full transition-all duration-300"
-              style={{ width: `${xpProgress}%` }}
+              className={`h-full rounded-full transition-all duration-300 ${xpWidthClass}`}
             />
           </div>
         </div>
 
         {/* Rank Section */}
-        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
+        <div className="bg-card rounded-lg p-4 border border-border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-muted-foreground text-sm font-medium">Rank</p>
@@ -124,7 +131,7 @@ function Rewards() {
         </div>
 
         {/* Points Section */}
-        <div className="bg-card rounded-lg p-4 border border-[var(--border)]">
+        <div className="bg-card rounded-lg p-4 border border-border">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-muted-foreground text-sm font-medium mb-1">
@@ -158,15 +165,15 @@ function Rewards() {
                   key={index}
                   className={
                     trophy.unlocked
-                      ? "transition-all duration-200 border border-[var(--border)] bg-gradient-to-br from-[var(--muted)] to-[var(--card)] shadow-sm"
-                      : "transition-all duration-200 border border-[var(--border)] bg-muted shadow-sm"
+                      ? "transition-all duration-200 border border-border bg-gradient-to-br from-muted to-card shadow-sm"
+                      : "transition-all duration-200 border border-border bg-muted shadow-sm"
                   }
                 >
                   <CardContent className="p-4 text-center">
                     <div
                       className={
                         trophy.unlocked
-                          ? "inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all bg-gradient-to-br from-[var(--muted)] to-[var(--card)]"
+                          ? "inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all bg-gradient-to-br from-muted to-card"
                           : "inline-flex items-center justify-center w-16 h-16 rounded-full mb-3 transition-all bg-muted"
                       }
                     >
