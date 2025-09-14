@@ -1,7 +1,7 @@
 "use client";
-import SearchBar from "@/components/searchpage/SearchBar";
 import BalanceCard from "@/components/dashboard/BalanceCard";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
+import SearchBar from "@/components/searchpage/SearchBar";
 import Tab from "@/components/searchpage/Tabs";
 import { useUser } from "@/context/userContext";
 import { useState } from "react";
