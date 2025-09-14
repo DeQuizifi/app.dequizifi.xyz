@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Spinner from "../ui/Spinner";
 
 type LatestContestProps = {

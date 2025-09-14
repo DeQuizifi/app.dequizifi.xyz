@@ -82,7 +82,7 @@ export default function UnfinishedQuizzes() {
 
   return (
     <div className="px-6 mt-8 pb-24">
-  <h3 className="text-base font-semibold mb-4 text-card-foreground">
+      <h3 className="text-base font-semibold mb-4 text-card-foreground">
         Your Unfinished Quizzes
       </h3>
       <div className="space-y-4">
@@ -148,7 +148,11 @@ function ProgressCircle({ percent }: { percent: number }) {
   const offset = circumference - (normalizedPercent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
+    <svg
+      width={size}
+      height={size}
+      className={`block transform -rotate-90 ${colorClass}`}
+    >
       <circle
         cx={size / 2}
         cy={size / 2}

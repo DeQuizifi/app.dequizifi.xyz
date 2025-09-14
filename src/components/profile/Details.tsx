@@ -1,7 +1,7 @@
 "use client";
+import Spinner from "@/components/ui/Spinner";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import Spinner from "@/components/ui/Spinner";
 import { Button } from "../ui/button";
 
 interface DetailsProps {

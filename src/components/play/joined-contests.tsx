@@ -127,7 +127,11 @@ function HourProgressCircle({ hours }: { hours: number }) {
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <svg width={size} height={size} className={`block transform -rotate-90 ${colorClass}`}>
+    <svg
+      width={size}
+      height={size}
+      className={`block transform -rotate-90 ${colorClass}`}
+    >
       <circle
         cx={size / 2}
         cy={size / 2}

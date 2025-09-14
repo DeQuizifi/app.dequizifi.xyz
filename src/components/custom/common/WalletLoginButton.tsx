@@ -1,7 +1,7 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useAccount } from "wagmi";
 
 function WalletLoginButton() {

@@ -1,11 +1,11 @@
 "use client";
 import { Card, CardDescription } from "@/components/ui/card";
-import { LuCoins } from "react-icons/lu";
-import { IoMedalOutline } from "react-icons/io5";
-import { CiCalendar } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import Spinner from "@/components/ui/Spinner";
+import { useEffect, useState } from "react";
+import { CiCalendar } from "react-icons/ci";
+import { IoMedalOutline } from "react-icons/io5";
+import { LuCoins } from "react-icons/lu";
+import { useAccount } from "wagmi";
 
 interface OverallStatisticsProps {
   overallPoints: number;

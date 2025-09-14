@@ -1,9 +1,9 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { CircularProgress } from "./circular-progress";
-import { useAccount } from "wagmi";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { CircularProgress } from "./circular-progress";
 
 interface RecentQuizWidgetProps {
   progress: number;

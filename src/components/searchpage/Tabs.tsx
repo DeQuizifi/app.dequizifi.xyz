@@ -1,8 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LatestTab from "./LatestTab";
-import QuizTab from "./QuizTab";
 import ContestTab from "./ContestTab";
 import FriendsTab from "./FriendsTab";
+import LatestTab from "./LatestTab";
+import QuizTab from "./QuizTab";
 
 interface TabsProps {
   search: string;

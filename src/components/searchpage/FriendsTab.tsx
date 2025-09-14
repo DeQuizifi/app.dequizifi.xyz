@@ -1,8 +1,8 @@
 import {
+  FaPaperPlane,
+  FaUserAltSlash,
   FaUserCheck,
   FaUserClock,
-  FaUserAltSlash,
-  FaPaperPlane,
 } from "react-icons/fa";
 import { Button } from "../ui/button";
 

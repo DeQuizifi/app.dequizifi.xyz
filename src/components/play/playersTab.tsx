@@ -31,12 +31,12 @@ export default function PlayersTab({ className = "" }: Props) {
                 <User2 size={18} />
               </div>
 
-             <div className="text-sm font-medium text-foreground">
+              <div className="text-sm font-medium text-foreground">
                 {p.name}
               </div>
             </div>
 
-             <div className="text-sm font-semibold text-foreground">
+            <div className="text-sm font-semibold text-foreground">
               XP {p.xp}
             </div>
           </li>
