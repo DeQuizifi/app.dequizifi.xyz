@@ -13,7 +13,7 @@ export default function Settings() {
             </label>
             <input
               type="text"
-              className="border border-[var(--border)] rounded px-3 py-2 bg-background text-foreground"
+              className="border border-border rounded px-3 py-2 bg-background text-foreground"
               placeholder="Enter new username"
             />
           </div>
@@ -23,7 +23,7 @@ export default function Settings() {
             </label>
             <input
               type="password"
-              className="border border-[var(--border)] rounded px-3 py-2 bg-background text-foreground"
+              className="border border-border rounded px-3 py-2 bg-background text-foreground"
               placeholder="Enter new password"
             />
           </div>
@@ -31,7 +31,7 @@ export default function Settings() {
             <label className="font-medium text-foreground">
               Notification Preferences
             </label>
-            <select className="border border-[var(--border)] rounded px-3 py-2 bg-background text-foreground">
+            <select className="border border-border rounded px-3 py-2 bg-background text-foreground">
               <option>Email</option>
               <option>SMS</option>
               <option>Push Notification</option>
@@ -40,7 +40,7 @@ export default function Settings() {
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-medium text-foreground">Theme</label>
-            <select className="border border-[var(--border)] rounded px-3 py-2 bg-background text-foreground">
+            <select className="border border-border rounded px-3 py-2 bg-background text-foreground">
               <option>Light</option>
               <option>Dark</option>
               <option>System</option>

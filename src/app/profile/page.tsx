@@ -1,13 +1,13 @@
 "use client";
 import BalanceCard from "@/components/dashboard/BalanceCard";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
-import OverallStatistics from "@/components/profile/OverallStatistics";
 import Details from "@/components/profile/Details";
-import { useUser } from "@/context/userContext";
-import Statistics from "@/components/profile/Statistics";
+import OverallStatistics from "@/components/profile/OverallStatistics";
 import Rewards from "@/components/profile/Rewards";
 import Settings from "@/components/profile/Settings";
+import Statistics from "@/components/profile/Statistics";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUser } from "@/context/userContext";
 
 export default function ProfilePage() {
   // Get dynamic user info from context
