@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import { useState } from "react";
 
 interface InviteFriendsBannerProps {
   onInvite?: () => void;

@@ -1,6 +1,5 @@
 "use client";
 import { SignInButton } from "@farcaster/auth-kit";
-import React from "react";
 
 type FarcasterSignInButtonProps = {
   // Server-generated, single-use nonce. Do NOT pass constants.

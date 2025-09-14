@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import PlayersTab from "./playersTab";
 import RewardTab from "./RewardTab";
@@ -42,14 +43,13 @@ export default function PlayTab() {
         {active === "players" ? (
           <div>
             <div className="text-sm max-w-full">
-              
               <PlayersTab />
             </div>
           </div>
         ) : (
           <div>
             <div className="text-sm max-w-full">
-              <RewardTab/>
+              <RewardTab />
             </div>
           </div>
         )}

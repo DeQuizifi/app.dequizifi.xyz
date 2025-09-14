@@ -1,10 +1,9 @@
 "use client";
-import "@farcaster/auth-kit/styles.css";
-import { AuthKitProvider } from "@farcaster/auth-kit";
-import RainbowKitProviderWrapper from "@/providers/RainbowKitProviderWrapper";
-import { UserProvider } from "@/context/userContext";
 import ConditionalNavbar from "@/components/layout/ConditionalNavbar";
-import React from "react";
+import { UserProvider } from "@/context/userContext";
+import RainbowKitProviderWrapper from "@/providers/RainbowKitProviderWrapper";
+import { AuthKitProvider } from "@farcaster/auth-kit";
+import "@farcaster/auth-kit/styles.css";
 
 const config = {
   rpcUrl: "https://mainnet.optimism.io",

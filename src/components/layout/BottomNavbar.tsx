@@ -1,12 +1,12 @@
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import {
+  ChartColumnIncreasing,
+  Gamepad2,
   House,
   Search,
-  Gamepad2,
-  ChartColumnIncreasing,
   User,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavItem {
   id: string;

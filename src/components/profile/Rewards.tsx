@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trophy, Lock } from "lucide-react";
-import { useAccount } from "wagmi";
+import { Card, CardContent } from "@/components/ui/card";
 import Spinner from "@/components/ui/Spinner";
+import { Lock, Trophy } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 interface RewardsProps {
   xpLevel: number;

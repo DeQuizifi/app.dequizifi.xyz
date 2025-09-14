@@ -1,5 +1,3 @@
-"use client";
-
 interface CircularProgressProps {
   value: number;
   size?: number;
