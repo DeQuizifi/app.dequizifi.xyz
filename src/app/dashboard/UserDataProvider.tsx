@@ -9,12 +9,15 @@ interface UserDataProviderProps {
 }
 
 export default function UserDataProvider({ className }: UserDataProviderProps) {
-  const { username, balance } = useUser();
+  const { username, balance, address } = useUser();
 
   return (
     <div className={className}>
       <div className="flex items-start justify-between gap-4">
-        <WelcomeHeader name={username ?? undefined} />
+        <WelcomeHeader
+          name={username ?? undefined}
+          address={address ?? undefined}
+        />
         <BalanceCard amount={balance ?? 0} />
       </div>
     </div>
