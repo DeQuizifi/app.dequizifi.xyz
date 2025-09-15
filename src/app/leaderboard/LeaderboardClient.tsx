@@ -17,7 +17,8 @@ type LeaderboardEntry = {
 export default function LeaderboardClient() {
   const [activeTab, setActiveTab] = useState<"week" | "allTime">("week");
   const [timeRemaining, setTimeRemaining] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // initial/fetching
+  const [loadingMore, setLoadingMore] = useState(false); // incremental load
   const [displayedUsers, setDisplayedUsers] = useState<number>(6);
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
     []
@@ -72,23 +73,36 @@ export default function LeaderboardClient() {
     return () => controller.abort();
   }, [address, isConnected, activeTab]);
 
-  // Timer for weekly remaining time
+  // Timer for weekly remaining time (exact ms delta to upcoming Sunday 23:59:59.999)
   useEffect(() => {
     const updateRemainingTime = () => {
       const now = new Date();
-      const dayOfWeek = now.getDay();
-      const hoursInDay = now.getHours();
-      const minutesInHour = now.getMinutes();
-      const secondsInMinute = now.getSeconds();
 
-      const daysRemaining = 7 - dayOfWeek;
-      const hoursRemaining = 24 - hoursInDay - 1;
-      const minutesRemaining = 60 - minutesInHour - 1;
-      const secondsRemaining = 60 - secondsInMinute;
+      // days until upcoming Sunday (0 = Sunday)
+      const daysUntilEnd = (7 - now.getDay()) % 7;
 
-      setTimeRemaining(
-        `${daysRemaining}d ${hoursRemaining}h ${minutesRemaining}m ${secondsRemaining}s`
-      );
+      const end = new Date(now);
+      end.setDate(now.getDate() + daysUntilEnd);
+      end.setHours(23, 59, 59, 999);
+
+      let deltaMs = end.getTime() - now.getTime();
+      // Clamp so we never show negative values
+      deltaMs = Math.max(0, deltaMs);
+
+      const MS_PER_DAY = 24 * 60 * 60 * 1000;
+      const MS_PER_HOUR = 60 * 60 * 1000;
+      const MS_PER_MIN = 60 * 1000;
+
+      const days = Math.floor(deltaMs / MS_PER_DAY);
+      deltaMs = deltaMs % MS_PER_DAY;
+
+      const hours = Math.floor(deltaMs / MS_PER_HOUR);
+      deltaMs = deltaMs % MS_PER_HOUR;
+
+      const minutes = Math.floor(deltaMs / MS_PER_MIN);
+      const seconds = Math.floor((deltaMs % MS_PER_MIN) / 1000);
+
+      setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
     };
 
     updateRemainingTime();
@@ -102,12 +116,12 @@ export default function LeaderboardClient() {
   const hasMore = displayedUsers < currentLeaderboard.length;
 
   const handleLoadMore = () => {
-    setLoading(true);
+    setLoadingMore(true);
     setTimeout(() => {
       setDisplayedUsers((prev) =>
         Math.min(prev + 3, currentLeaderboard.length)
       );
-      setLoading(false);
+      setLoadingMore(false);
     }, 600);
   };
 
@@ -121,7 +135,7 @@ export default function LeaderboardClient() {
     return <div className="text-destructive">{error}</div>;
   }
 
-  if (loading) {
+  if (loading && leaderboardData.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-primary">
         <Spinner />
@@ -205,7 +219,7 @@ export default function LeaderboardClient() {
             }))}
             onLoadMore={handleLoadMore}
             hasMore={hasMore}
-            loading={loading}
+            loading={loadingMore}
           />
         )}
       </div>

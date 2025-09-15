@@ -36,6 +36,8 @@ export default function LeaderboardBody({ activeTab }: Props) {
 
     const controller = new AbortController();
     const fetchLeaderboard = async () => {
+      // Clear any previous error when starting a new fetch
+      setError(null);
       setLoading(true);
       const url =
         activeTab === "week"
@@ -44,23 +46,37 @@ export default function LeaderboardBody({ activeTab }: Props) {
       try {
         const res = await fetch(url, { signal: controller.signal });
         const data = await res.json();
+
+        // If the request was aborted while awaiting, avoid updating state
+        if (controller.signal.aborted) return;
+
         if (!res.ok) {
           setError(data.error ?? "Failed to load leaderboard");
           setLeaderboardData([]);
           return;
         }
+
+        // Clear any error and set data on success (guarded by abort check above)
+        setError(null);
         setLeaderboardData(data);
       } catch (err: unknown) {
-        if (
-          typeof err === "object" &&
-          err !== null &&
-          "name" in err &&
-          (err as { name?: unknown }).name === "AbortError"
-        )
-          return;
+        // Robust abort detection: either DOMException or object with name === 'AbortError'
+        const isAbortError =
+          (typeof err === "object" &&
+            err !== null &&
+            "name" in err &&
+            (err as unknown as { name?: unknown }).name === "AbortError") ||
+          (err instanceof DOMException &&
+            (err as DOMException).name === "AbortError");
+
+        if (isAbortError) return;
+
         console.error("Failed to fetch leaderboard", err);
-        setError("Failed to fetch leaderboard");
+        // Only set error if not aborted/unmounted
+        if (!controller.signal.aborted) setError("Failed to fetch leaderboard");
       } finally {
+        // Avoid setting loading state if the request was aborted or component unmounted
+        if (controller.signal.aborted) return;
         setLoading(false);
       }
     };
