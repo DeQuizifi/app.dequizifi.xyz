@@ -1,12 +1,8 @@
-"use client";
-import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
-import BalanceCard from "@/components/dashboard/BalanceCard";
 import PlayToday from "@/components/play/playToday";
-import { useUser } from "@/context/userContext";
 import JoinedContests from "@/components/play/joined-contests";
+import HeaderSectionClient from "./HeaderSectionClient";
 
 function PlayPage() {
-  const { username, balance } = useUser();
   return (
     <main
       className="min-h-screen relative overflow-x-hidden"
@@ -21,13 +17,8 @@ function PlayPage() {
 
       {/* Content */}
       <div className="relative z-10 pb-[calc(72px+env(safe-area-inset-bottom))]">
-        {/* Header Section with Welcome and Balance */}
-        <div className="px-6 pt-12 pb-8">
-          <div className="flex items-start justify-between gap-4">
-            <WelcomeHeader name={username ?? undefined} />
-            <BalanceCard amount={balance ?? 0} />
-          </div>
-        </div>
+        {/* Header Section with Welcome and Balance (client) */}
+        <HeaderSectionClient />
 
         {/* Main Card Container for PlayToday and UnfinishedQuizzesSection */}
         <div className="bg-card rounded-t-2xl w-full mx-0 pt-6 pb-8 flex flex-col min-h-[calc(100vh-120px)] justify-between">
