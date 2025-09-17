@@ -44,14 +44,14 @@ export default function LeaderboardBody({
 
   // Optimized fetch function that only fetches missing data
   const fetchTabData = useCallback(
-    async (tab: "week" | "allTime") => {
+    async (tab: "week" | "allTime", controller?: AbortController) => {
       if (!address || !isConnected) {
         setError("User Is Not Connected");
         setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
         return;
       }
 
-      const controller = new AbortController();
+      const ac = controller ?? new AbortController();
 
       try {
         setError(null);
@@ -62,10 +62,10 @@ export default function LeaderboardBody({
             ? "/api/leaderboard/points"
             : "/api/leaderboard/overallpoints";
 
-        const res = await fetch(url, { signal: controller.signal });
+        const res = await fetch(url, { signal: ac.signal });
         const data = await res.json();
 
-        if (controller.signal.aborted) return;
+        if (ac.signal.aborted) return;
 
         if (!res.ok) {
           setError(data.error ?? "Failed to load leaderboard");
@@ -93,13 +93,11 @@ export default function LeaderboardBody({
         if (isAbortError) return;
 
         console.error("Failed to fetch leaderboard", err);
-        if (!controller.signal.aborted) {
+        if (!ac.signal.aborted) {
           setError("Failed to fetch leaderboard");
           setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
         }
       }
-
-      return () => controller.abort();
     },
     [address, isConnected]
   );
@@ -108,10 +106,12 @@ export default function LeaderboardBody({
     // Only fetch if we don't have data for the active tab
     const currentData = activeTab === "week" ? weekData : allTimeData;
     const currentStatus = loadingState[activeTab];
+    const controller = new AbortController();
 
     if (currentData.length === 0 && currentStatus !== "loading") {
-      fetchTabData(activeTab);
+      fetchTabData(activeTab, controller);
     }
+    return () => controller.abort();
   }, [activeTab, weekData, allTimeData, loadingState, fetchTabData]);
 
   // Memoized current data based on active tab
