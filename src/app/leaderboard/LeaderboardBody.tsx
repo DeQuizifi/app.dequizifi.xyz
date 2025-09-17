@@ -33,8 +33,8 @@ export default function LeaderboardBody({
     week: "idle" | "loading" | "error";
     allTime: "idle" | "loading" | "error";
   }>({
-    week: initialWeekData.length > 0 ? "idle" : "loading",
-    allTime: initialAllTimeData.length > 0 ? "idle" : "loading",
+    week: "idle",
+    allTime: "idle",
   });
 
   const [displayedUsers, setDisplayedUsers] = useState<number>(6);
@@ -142,7 +142,7 @@ export default function LeaderboardBody({
 
   // Get current loading status
   const isFirstLoading =
-    loadingState[activeTab] === "loading" && currentData.length === 0;
+    currentData.length === 0 && loadingState[activeTab] !== "error";
   const hasError = loadingState[activeTab] === "error";
 
   // Compact skeleton component for better UX than full-screen spinner
