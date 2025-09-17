@@ -1,3 +1,4 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContestTab from "./ContestTab";
 import FriendsTab from "./FriendsTab";
