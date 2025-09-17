@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useAccount } from "wagmi";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
-import Spinner from "@/components/ui/Spinner";
 import type { user } from "@/generated/prisma";
 
 type LeaderboardEntry = {
@@ -15,52 +14,74 @@ type LeaderboardEntry = {
 
 interface Props {
   activeTab: "week" | "allTime";
+  initialWeekData?: LeaderboardEntry[];
+  initialAllTimeData?: LeaderboardEntry[];
 }
 
-export default function LeaderboardBody({ activeTab }: Props) {
-  const [loading, setLoading] = useState(true);
+export default function LeaderboardBody({
+  activeTab,
+  initialWeekData = [],
+  initialAllTimeData = [],
+}: Props) {
+  // Separate data cache per tab to avoid refetching when switching
+  const [weekData, setWeekData] = useState<LeaderboardEntry[]>(initialWeekData);
+  const [allTimeData, setAllTimeData] =
+    useState<LeaderboardEntry[]>(initialAllTimeData);
+
+  // Separate loading states: first load vs pagination
+  const [loadingState, setLoadingState] = useState<{
+    week: "idle" | "loading" | "error";
+    allTime: "idle" | "loading" | "error";
+  }>({
+    week: initialWeekData.length > 0 ? "idle" : "loading",
+    allTime: initialAllTimeData.length > 0 ? "idle" : "loading",
+  });
+
   const [displayedUsers, setDisplayedUsers] = useState<number>(6);
-  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>(
-    []
-  );
+  const [isPaginating, setIsPaginating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { address, isConnected } = useAccount();
 
-  useEffect(() => {
-    if (!address || !isConnected) {
-      setError("User Is Not Connected");
-      setLoading(false);
-      setLeaderboardData([]);
-      return;
-    }
+  // Optimized fetch function that only fetches missing data
+  const fetchTabData = useCallback(
+    async (tab: "week" | "allTime") => {
+      if (!address || !isConnected) {
+        setError("User Is Not Connected");
+        setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
+        return;
+      }
 
-    const controller = new AbortController();
-    const fetchLeaderboard = async () => {
-      // Clear any previous error when starting a new fetch
-      setError(null);
-      setLoading(true);
-      const url =
-        activeTab === "week"
-          ? "/api/leaderboard/points"
-          : "/api/leaderboard/overallpoints";
+      const controller = new AbortController();
+
       try {
+        setError(null);
+        setLoadingState((prev) => ({ ...prev, [tab]: "loading" }));
+
+        const url =
+          tab === "week"
+            ? "/api/leaderboard/points"
+            : "/api/leaderboard/overallpoints";
+
         const res = await fetch(url, { signal: controller.signal });
         const data = await res.json();
 
-        // If the request was aborted while awaiting, avoid updating state
         if (controller.signal.aborted) return;
 
         if (!res.ok) {
           setError(data.error ?? "Failed to load leaderboard");
-          setLeaderboardData([]);
+          setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
           return;
         }
 
-        // Clear any error and set data on success (guarded by abort check above)
-        setError(null);
-        setLeaderboardData(data);
+        // Update the specific tab's data
+        if (tab === "week") {
+          setWeekData(data);
+        } else {
+          setAllTimeData(data);
+        }
+
+        setLoadingState((prev) => ({ ...prev, [tab]: "idle" }));
       } catch (err: unknown) {
-        // Robust abort detection: either DOMException or object with name === 'AbortError'
         const isAbortError =
           (typeof err === "object" &&
             err !== null &&
@@ -72,51 +93,98 @@ export default function LeaderboardBody({ activeTab }: Props) {
         if (isAbortError) return;
 
         console.error("Failed to fetch leaderboard", err);
-        // Only set error if not aborted/unmounted
-        if (!controller.signal.aborted) setError("Failed to fetch leaderboard");
-      } finally {
-        // Avoid setting loading state if the request was aborted or component unmounted
-        if (controller.signal.aborted) return;
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setError("Failed to fetch leaderboard");
+          setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
+        }
       }
+
+      return () => controller.abort();
+    },
+    [address, isConnected]
+  );
+
+  useEffect(() => {
+    // Only fetch if we don't have data for the active tab
+    const currentData = activeTab === "week" ? weekData : allTimeData;
+    const currentStatus = loadingState[activeTab];
+
+    if (currentData.length === 0 && currentStatus !== "loading") {
+      fetchTabData(activeTab);
+    }
+  }, [activeTab, weekData, allTimeData, loadingState, fetchTabData]);
+
+  // Memoized current data based on active tab
+  const currentData = useMemo(() => {
+    return activeTab === "week" ? weekData : allTimeData;
+  }, [activeTab, weekData, allTimeData]);
+
+  // Memoized computed values to avoid recalculation on every render
+  const { top3Users, remainingUsers, hasMore } = useMemo(() => {
+    const top3 = currentData.slice(0, 3);
+    const remaining = currentData.slice(3, displayedUsers);
+    const more = displayedUsers < currentData.length;
+
+    return {
+      top3Users: top3,
+      remainingUsers: remaining,
+      hasMore: more,
     };
+  }, [currentData, displayedUsers]);
 
-    fetchLeaderboard();
-    return () => controller.abort();
-  }, [address, isConnected, activeTab]);
+  // Optimized load more - no artificial delay, separate pagination state
+  const handleLoadMore = useCallback(() => {
+    setIsPaginating(true);
+    setDisplayedUsers((prev) => Math.min(prev + 3, currentData.length));
+    // Remove pagination state after brief moment for UX
+    setTimeout(() => setIsPaginating(false), 200);
+  }, [currentData.length]);
 
-  const currentLeaderboard = leaderboardData;
-  const top3Users = currentLeaderboard.slice(0, 3);
-  const remainingUsers = currentLeaderboard.slice(3, displayedUsers);
-  const hasMore = displayedUsers < currentLeaderboard.length;
+  // Get current loading status
+  const isFirstLoading =
+    loadingState[activeTab] === "loading" && currentData.length === 0;
+  const hasError = loadingState[activeTab] === "error";
 
-  const handleLoadMore = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setDisplayedUsers((prev) =>
-        Math.min(prev + 3, currentLeaderboard.length)
-      );
-      setLoading(false);
-    }, 600);
-  };
+  // Compact skeleton component for better UX than full-screen spinner
+  const LeaderboardSkeleton = () => (
+    <div className="space-y-6">
+      {/* Top 3 skeleton */}
+      <div className="mt-6 relative pb-20">
+        <div className="flex justify-center space-x-4">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="w-24 h-32 bg-muted animate-pulse rounded-lg"
+            ></div>
+          ))}
+        </div>
+      </div>
 
-  if (error) {
-    return <div className="text-destructive">{error}</div>;
+      {/* List skeleton */}
+      <div className="mx-[-1.5rem] -mt-24 space-y-2">
+        {[1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="h-16 bg-muted animate-pulse rounded-lg mx-6"
+          ></div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (hasError && error) {
+    return <div className="text-destructive text-center py-8">{error}</div>;
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-primary">
-        <Spinner />
-      </div>
-    );
+  if (isFirstLoading) {
+    return <LeaderboardSkeleton />;
   }
 
   return (
     <>
       <div className="mt-6 relative pb-20">
         <Top3Ranks
-          top3Users={top3Users.map((entry, idx) => ({
+          top3Users={top3Users.map((entry: LeaderboardEntry, idx: number) => ({
             id: entry.id,
             rank: idx + 1,
             username: entry.user?.username ?? "Unknown",
@@ -128,15 +196,17 @@ export default function LeaderboardBody({ activeTab }: Props) {
       <div className="mx-[-1.5rem] -mt-24">
         {remainingUsers.length > 0 && (
           <LeaderboardList
-            users={remainingUsers.map((entry, idx) => ({
-              id: entry.id,
-              rank: idx + 4,
-              username: entry.user?.username ?? "Unknown",
-              points: entry.points,
-            }))}
+            users={remainingUsers.map(
+              (entry: LeaderboardEntry, idx: number) => ({
+                id: entry.id,
+                rank: idx + 4,
+                username: entry.user?.username ?? "Unknown",
+                points: entry.points,
+              })
+            )}
             onLoadMore={handleLoadMore}
             hasMore={hasMore}
-            loading={loading}
+            loading={isPaginating}
           />
         )}
       </div>
