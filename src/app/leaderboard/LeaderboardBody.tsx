@@ -108,7 +108,7 @@ export default function LeaderboardBody({
     const currentStatus = loadingState[activeTab];
     const controller = new AbortController();
 
-    if (currentData.length === 0 && currentStatus !== "loading") {
+    if (currentData.length === 0 && currentStatus === "idle") {
       fetchTabData(activeTab, controller);
     }
     return () => controller.abort();
