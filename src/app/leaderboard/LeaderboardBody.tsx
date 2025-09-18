@@ -53,15 +53,21 @@ export default function LeaderboardBody({
   const [error, setError] = useState<string | null>(null);
   const { address, isConnected } = useAccount();
 
+  // Reset page size per tab for consistent UX
+  useEffect(() => {
+    setDisplayedUsers(6);
+    setError(null); // also clear stale errors on tab switch
+  }, [activeTab]);
+
   // Fetch data for active tab
   const fetchData = useCallback(async () => {
+    // If we already have data, skip fetch and do not surface errors
+    if (tabData[activeTab].length > 0) return;
+
     if (!address || !isConnected) {
       setError("User is not connected");
       return;
     }
-
-    // Don't fetch if we already have data for this tab
-    if (tabData[activeTab].length > 0) return;
 
     setIsLoading(true);
     setError(null);
@@ -119,7 +125,7 @@ export default function LeaderboardBody({
     points: entry.points,
   }));
 
-  if (error) {
+  if (error && currentData.length === 0) {
     return <div className="text-destructive text-center py-8">{error}</div>;
   }
 
@@ -129,6 +135,9 @@ export default function LeaderboardBody({
 
   return (
     <>
+      {error && currentData.length > 0 && (
+        <div className="text-destructive text-center py-2">{error}</div>
+      )}
       <div className="mt-6 relative pb-20">
         <Top3Ranks top3Users={transformedTop3} />
       </div>
