@@ -1,39 +1,43 @@
 "use client";
 
+import React, { useCallback, useEffect, useState } from "react";
 import RecentQuizWidget from "@/components/dashboard/RecentQuizWidget";
 import { mockRecentQuiz, type RecentQuiz } from "@/lib/data/mockData";
-import { useEffect, useState } from "react";
 
 interface RecentQuizProviderProps {
+  /** Optional handler when a recent quiz is clicked */
   onQuizClick?: (quizId: string) => void;
 }
 
+/**
+ * Provides RecentQuizWidget with the latest quiz for the user.
+ * Uses mock data here; replace data-loading with real API call when available.
+ */
 export default function RecentQuizProvider({
   onQuizClick,
 }: RecentQuizProviderProps) {
   const [recentQuiz, setRecentQuiz] = useState<RecentQuiz | null>(null);
 
+  // Load mock data once. Keep timeout small to simulate async fetch.
   useEffect(() => {
-    // Simulate loading user data
-    const timer = setTimeout(() => {
-      setRecentQuiz(mockRecentQuiz);
-    }, 100);
-
+    const timer = setTimeout(() => setRecentQuiz(mockRecentQuiz), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleQuizClick = () => {
-    if (recentQuiz && onQuizClick) {
-      onQuizClick(recentQuiz.id);
-    } else if (recentQuiz) {
-      // Default behavior if no custom handler provided
-      console.log(`Navigate to quiz ${recentQuiz.id}`);
-    }
-  };
+  // Stable click handler to avoid changing identity on parent re-renders.
+  const handleQuizClick = useCallback(() => {
+    if (!recentQuiz) return;
 
-  if (!recentQuiz) {
-    return null;
-  }
+    if (typeof onQuizClick === "function") {
+      onQuizClick(recentQuiz.id);
+      return;
+    }
+
+    // Default behavior: log navigation intent. Replace with router push as needed.
+    console.log(`Navigate to quiz ${recentQuiz.id}`);
+  }, [recentQuiz, onQuizClick]);
+
+  if (!recentQuiz) return null;
 
   return (
     <RecentQuizWidget
