@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useAccount } from "wagmi";
 import LeaderboardList from "@/components/leaderboard/LeaderboardList";
 import Top3Ranks from "@/components/leaderboard/Top3Ranks";
@@ -18,195 +18,128 @@ interface Props {
   initialAllTimeData?: LeaderboardEntry[];
 }
 
+// Loading skeleton component
+const LeaderboardSkeleton = () => (
+  <div className="space-y-6">
+    <div className="mt-6 relative pb-20">
+      <div className="flex justify-center space-x-4">
+        {Array.from({ length: 3 }, (_, i) => (
+          <div
+            key={i}
+            className="w-24 h-32 bg-muted animate-pulse rounded-lg"
+          />
+        ))}
+      </div>
+    </div>
+    <div className="mx-[-1.5rem] -mt-24 space-y-2">
+      {Array.from({ length: 3 }, (_, i) => (
+        <div key={i} className="h-16 bg-muted animate-pulse rounded-lg mx-6" />
+      ))}
+    </div>
+  </div>
+);
+
 export default function LeaderboardBody({
   activeTab,
   initialWeekData = [],
   initialAllTimeData = [],
 }: Props) {
-  // Separate data cache per tab to avoid refetching when switching
-  const [weekData, setWeekData] = useState<LeaderboardEntry[]>(initialWeekData);
-  const [allTimeData, setAllTimeData] =
-    useState<LeaderboardEntry[]>(initialAllTimeData);
-
-  // Separate loading states: first load vs pagination
-  const [loadingState, setLoadingState] = useState<{
-    week: "idle" | "loading" | "error";
-    allTime: "idle" | "loading" | "error";
-  }>({
-    week: "idle",
-    allTime: "idle",
+  const [tabData, setTabData] = useState({
+    week: initialWeekData,
+    allTime: initialAllTimeData,
   });
-
-  const [displayedUsers, setDisplayedUsers] = useState<number>(6);
-  const [isPaginating, setIsPaginating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [displayedUsers, setDisplayedUsers] = useState(6);
   const [error, setError] = useState<string | null>(null);
   const { address, isConnected } = useAccount();
 
-  // Optimized fetch function that only fetches missing data
-  const fetchTabData = useCallback(
-    async (tab: "week" | "allTime", controller?: AbortController) => {
-      if (!address || !isConnected) {
-        setError("User Is Not Connected");
-        setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
-        return;
+  // Fetch data for active tab
+  const fetchData = useCallback(async () => {
+    if (!address || !isConnected) {
+      setError("User is not connected");
+      return;
+    }
+
+    // Don't fetch if we already have data for this tab
+    if (tabData[activeTab].length > 0) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const url =
+        activeTab === "week"
+          ? "/api/leaderboard/points"
+          : "/api/leaderboard/overallpoints";
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to load leaderboard");
       }
 
-      const ac = controller ?? new AbortController();
-
-      try {
-        setError(null);
-        setLoadingState((prev) => ({ ...prev, [tab]: "loading" }));
-
-        const url =
-          tab === "week"
-            ? "/api/leaderboard/points"
-            : "/api/leaderboard/overallpoints";
-
-        const res = await fetch(url, { signal: ac.signal });
-        const data = await res.json();
-
-        if (ac.signal.aborted) return;
-
-        if (!res.ok) {
-          setError(data.error ?? "Failed to load leaderboard");
-          setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
-          return;
-        }
-
-        // Update the specific tab's data
-        if (tab === "week") {
-          setWeekData(data);
-        } else {
-          setAllTimeData(data);
-        }
-
-        setLoadingState((prev) => ({ ...prev, [tab]: "idle" }));
-      } catch (err: unknown) {
-        const isAbortError =
-          (typeof err === "object" &&
-            err !== null &&
-            "name" in err &&
-            (err as unknown as { name?: unknown }).name === "AbortError") ||
-          (err instanceof DOMException &&
-            (err as DOMException).name === "AbortError");
-
-        if (isAbortError) return;
-
-        console.error("Failed to fetch leaderboard", err);
-        if (!ac.signal.aborted) {
-          setError("Failed to fetch leaderboard");
-          setLoadingState((prev) => ({ ...prev, [tab]: "error" }));
-        }
-      }
-    },
-    [address, isConnected]
-  );
+      setTabData((prev) => ({ ...prev, [activeTab]: data }));
+    } catch (err) {
+      console.error("Failed to fetch leaderboard:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to fetch leaderboard"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, [activeTab, address, isConnected, tabData]);
 
   useEffect(() => {
-    // Only fetch if we don't have data for the active tab
-    const currentData = activeTab === "week" ? weekData : allTimeData;
-    const currentStatus = loadingState[activeTab];
-    const controller = new AbortController();
+    fetchData();
+  }, [fetchData]);
 
-    if (currentData.length === 0 && currentStatus === "idle") {
-      fetchTabData(activeTab, controller);
-    }
-    return () => controller.abort();
-  }, [activeTab, weekData, allTimeData, loadingState, fetchTabData]);
+  // Get current data and computed values
+  const currentData = tabData[activeTab];
+  const top3Users = currentData.slice(0, 3);
+  const remainingUsers = currentData.slice(3, displayedUsers);
+  const hasMore = displayedUsers < currentData.length;
 
-  // Memoized current data based on active tab
-  const currentData = useMemo(() => {
-    return activeTab === "week" ? weekData : allTimeData;
-  }, [activeTab, weekData, allTimeData]);
-
-  // Memoized computed values to avoid recalculation on every render
-  const { top3Users, remainingUsers, hasMore } = useMemo(() => {
-    const top3 = currentData.slice(0, 3);
-    const remaining = currentData.slice(3, displayedUsers);
-    const more = displayedUsers < currentData.length;
-
-    return {
-      top3Users: top3,
-      remainingUsers: remaining,
-      hasMore: more,
-    };
-  }, [currentData, displayedUsers]);
-
-  // Optimized load more - no artificial delay, separate pagination state
-  const handleLoadMore = useCallback(() => {
-    setIsPaginating(true);
+  const handleLoadMore = () => {
     setDisplayedUsers((prev) => Math.min(prev + 3, currentData.length));
-    // Remove pagination state after brief moment for UX
-    setTimeout(() => setIsPaginating(false), 200);
-  }, [currentData.length]);
+  };
 
-  // Get current loading status
-  const isFirstLoading =
-    currentData.length === 0 && loadingState[activeTab] !== "error";
-  const hasError = loadingState[activeTab] === "error";
+  // Transform data for components
+  const transformedTop3 = top3Users.map((entry, idx) => ({
+    id: entry.id,
+    rank: idx + 1,
+    username: entry.user?.username ?? "Unknown",
+    points: entry.points,
+  }));
 
-  // Compact skeleton component for better UX than full-screen spinner
-  const LeaderboardSkeleton = () => (
-    <div className="space-y-6">
-      {/* Top 3 skeleton */}
-      <div className="mt-6 relative pb-20">
-        <div className="flex justify-center space-x-4">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="w-24 h-32 bg-muted animate-pulse rounded-lg"
-            ></div>
-          ))}
-        </div>
-      </div>
+  const transformedRemaining = remainingUsers.map((entry, idx) => ({
+    id: entry.id,
+    rank: idx + 4,
+    username: entry.user?.username ?? "Unknown",
+    points: entry.points,
+  }));
 
-      {/* List skeleton */}
-      <div className="mx-[-1.5rem] -mt-24 space-y-2">
-        {[1, 2, 3].map((i) => (
-          <div
-            key={i}
-            className="h-16 bg-muted animate-pulse rounded-lg mx-6"
-          ></div>
-        ))}
-      </div>
-    </div>
-  );
-
-  if (hasError && error) {
+  if (error) {
     return <div className="text-destructive text-center py-8">{error}</div>;
   }
 
-  if (isFirstLoading) {
+  if (isLoading && currentData.length === 0) {
     return <LeaderboardSkeleton />;
   }
 
   return (
     <>
       <div className="mt-6 relative pb-20">
-        <Top3Ranks
-          top3Users={top3Users.map((entry: LeaderboardEntry, idx: number) => ({
-            id: entry.id,
-            rank: idx + 1,
-            username: entry.user?.username ?? "Unknown",
-            points: entry.points,
-          }))}
-        />
+        <Top3Ranks top3Users={transformedTop3} />
       </div>
 
       <div className="mx-[-1.5rem] -mt-24">
-        {remainingUsers.length > 0 && (
+        {transformedRemaining.length > 0 && (
           <LeaderboardList
-            users={remainingUsers.map(
-              (entry: LeaderboardEntry, idx: number) => ({
-                id: entry.id,
-                rank: idx + 4,
-                username: entry.user?.username ?? "Unknown",
-                points: entry.points,
-              })
-            )}
+            users={transformedRemaining}
             onLoadMore={handleLoadMore}
             hasMore={hasMore}
-            loading={isPaginating}
+            loading={false}
           />
         )}
       </div>
