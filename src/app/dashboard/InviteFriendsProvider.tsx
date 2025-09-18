@@ -1,33 +1,42 @@
 "use client";
 
+import React, { useCallback } from "react";
 import InviteFriendsBanner from "@/components/dashboard/InviteFriendsBanner";
 
 interface InviteFriendsProviderProps {
+  /** Called when user clicks the invite action */
   onInvite?: () => void;
+  /** Called when user dismisses the banner */
   onDismiss?: () => void;
 }
 
+/**
+ * Lightweight provider that wires optional callbacks to the InviteFriendsBanner.
+ * Handlers are memoized to avoid unnecessary re-renders of the banner.
+ */
 export default function InviteFriendsProvider({
   onInvite,
   onDismiss,
 }: InviteFriendsProviderProps) {
-  const handleInvite = () => {
-    if (onInvite) {
+  // Stable invite handler — calls provided callback or fallback analytics
+  const handleInvite = useCallback(() => {
+    if (typeof onInvite === "function") {
       onInvite();
-    } else {
-      // Default analytics tracking for invite action
-      console.log("User clicked invite friends");
+      return;
     }
-  };
+    // Fallback instrumentation (keep side-effect minimal here)
+    // Replace with real analytics call when available
+    console.log("InviteFriends: default invite action triggered");
+  }, [onInvite]);
 
-  const handleDismiss = () => {
-    if (onDismiss) {
+  // Stable dismiss handler — calls provided callback or fallback analytics
+  const handleDismiss = useCallback(() => {
+    if (typeof onDismiss === "function") {
       onDismiss();
-    } else {
-      // Default analytics tracking for banner dismiss
-      console.log("User dismissed invite banner");
+      return;
     }
-  };
+    console.log("InviteFriends: banner dismissed (default)");
+  }, [onDismiss]);
 
   return (
     <InviteFriendsBanner onInvite={handleInvite} onDismiss={handleDismiss} />
