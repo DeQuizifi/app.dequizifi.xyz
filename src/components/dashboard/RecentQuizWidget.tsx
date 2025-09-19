@@ -3,7 +3,12 @@
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { getRecentQuizOrContest } from "@/actions/dashboard/recentquizorcontest/action";
 import { CircularProgress } from "./circular-progress";
+import type {
+  ActionResult,
+  RecentActivityResult,
+} from "@/actions/dashboard/recentquizorcontest/schema";
 
 interface RecentQuizWidgetProps {
   progress: number;
@@ -15,14 +20,11 @@ export default function RecentQuizWidget({
   progress,
   onClick,
 }: RecentQuizWidgetProps) {
-  //RecentQuizInformation
   const { address, isConnected } = useAccount();
   const [error, setError] = useState<string | null>(null);
-  type RecentData = {
-    quiz?: { title: string };
-    contest?: { name: string };
-  } | null;
-  const [recent, setRecent] = useState<RecentData>(null);
+  const [data, setData] = useState<RecentActivityResult | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("jwtToken");
@@ -39,43 +41,101 @@ export default function RecentQuizWidget({
       }
     };
 
-    // Set up an interval to check periodically (for when token is set by login)
     const interval = setInterval(checkToken, 500);
-
-    // Clean up interval
     return () => clearInterval(interval);
   }, [token]);
 
   useEffect(() => {
     const fetchRecent = async () => {
       if (!isConnected || !address) {
-        setError("Can't find user");
-        setRecent(null);
+        setError("Wallet not connected");
+        setData(null);
+        setIsLoading(false);
         return;
       }
       if (!token) {
         setError("User not logged in");
-        setRecent(null);
+        setData(null);
+        setIsLoading(false);
         return;
       }
+
+      setIsLoading(true);
       try {
-        const res = await fetch(`/api/dashboard/recentquizorcontest`);
-        const data = await res.json();
-        if (!res.ok) {
-          setError(data.error || "Internal Server Error");
-          setRecent(null);
-        } else {
-          setRecent(data.result || null);
+        const result: ActionResult<RecentActivityResult> =
+          await getRecentQuizOrContest();
+
+        if (result.success) {
+          setData(result.data);
           setError(null);
+        } else {
+          setError(result.error.message);
+          setData(null);
         }
       } catch (error) {
         console.error(error);
         setError("Internal Server Error");
-        setRecent(null);
+        setData(null);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     fetchRecent();
   }, [address, isConnected, token]);
+
+  const getDisplayData = () => {
+    if (error) {
+      return {
+        title: "Recent Activity",
+        subtitle: error,
+        isError: true,
+      };
+    }
+
+    if (isLoading) {
+      return {
+        title: "Recent Activity",
+        subtitle: "Loading...",
+        isError: false,
+      };
+    }
+
+    if (!data?.result) {
+      return {
+        title: "Recent Activity",
+        subtitle: "No Recent Activity",
+        isError: false,
+      };
+    }
+
+    // Check if it's a quiz result (has quiz property)
+    if ("quiz" in data.result) {
+      return {
+        title: "Recent Quiz",
+        subtitle: data.result.quiz.title,
+        isError: false,
+      };
+    }
+
+    // Otherwise it's a contest result
+    if ("contest" in data.result) {
+      return {
+        title: "Recent Contest",
+        subtitle: data.result.contest.name,
+        isError: false,
+      };
+    }
+
+    return {
+      title: "Recent Activity",
+      subtitle: "No Recent Activity",
+      isError: false,
+    };
+  };
+
+  const displayData = getDisplayData();
+  const hasQuizProgress = data?.result && "quiz" in data.result;
 
   return (
     <Card
@@ -83,11 +143,11 @@ export default function RecentQuizWidget({
       role="button"
       tabIndex={0}
       aria-label={
-        recent?.quiz
-          ? `Continue quiz: ${recent.quiz.title}, ${progress}% complete`
-          : recent?.contest
-          ? `View contest: ${recent.contest.name}`
-          : `No recent activity`
+        hasQuizProgress
+          ? `Continue quiz: ${displayData.subtitle}, ${progress}% complete`
+          : displayData.isError
+          ? `Error: ${displayData.subtitle}`
+          : `View: ${displayData.subtitle}`
       }
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -103,27 +163,19 @@ export default function RecentQuizWidget({
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
             <h3 className="text-md font-medium uppercase tracking-wide mb-4">
-              {recent?.quiz
-                ? "Recent Quiz"
-                : recent?.contest
-                ? "Recent Contest"
-                : "Recent Activity"}
+              {displayData.title}
             </h3>
             <h4 className="text-lg font-semibold text-foreground leading-tight">
-              {error
-                ? error
-                : recent?.quiz?.title
-                ? recent.quiz.title
-                : recent?.contest?.name
-                ? recent.contest.name
-                : "No Recent Activity"}
+              {displayData.subtitle}
             </h4>
             {/* No need to print joined/attempted time */}
           </div>
           <div className="flex-shrink-0">
-            <CircularProgress value={recent?.quiz ? progress : 0} />
-            {error && (
-              <div className="text-xs text-destructive mt-2">{error}</div>
+            <CircularProgress value={hasQuizProgress ? progress : 0} />
+            {displayData.isError && (
+              <div className="text-xs text-destructive mt-2">
+                {displayData.subtitle}
+              </div>
             )}
           </div>
         </div>
