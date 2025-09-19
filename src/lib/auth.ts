@@ -1,25 +1,35 @@
-import jwt from "jsonwebtoken";
+import { createHash } from "crypto";
+import prisma from "./prisma";
+import { getSession } from "./session";
+import { cookieName } from "./constants";
 
-// Resolve and validate the JWT secret once at module load
-const SECRET_ENV = process.env.JWT_SECRET;
-if (!SECRET_ENV || !SECRET_ENV.trim()) {
-  // Fail fast with a descriptive message to avoid signing/verifying with undefined
-  throw new Error(
-    "JWT_SECRET is not set. Define it in the server environment."
-  );
-}
-const SECRET = SECRET_ENV;
+export { cookieName as COOKIE_NAME };
 
-// Create JWT with wallet address
-export function signToken(wallet: string) {
-  // Align with cookie Max-Age (7 days). Consider short-lived access + refresh in future.
-  return jwt.sign({ wallet }, SECRET, { expiresIn: "7d" });
+export function hashNonce(nonce: string) {
+  return createHash("sha256").update(nonce).digest("hex");
 }
 
-// Verify and decode JWT
-export function verifyToken(token: string) {
+
+
+// Get current user from Iron Session
+export async function getCurrentUserFromSession() {
   try {
-    return jwt.verify(token, SECRET) as { wallet: string };
+    const session = await getSession();
+    if (!session.user?.id) return null;
+
+    const user = await prisma.user.findFirst({
+      where: { id: session.user.id },
+    });
+    return user ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function getCurrentUserIdFromSession(): Promise<string | null> {
+  try {
+    const session = await getSession();
+    return session.user?.id ?? null;
   } catch {
     return null;
   }

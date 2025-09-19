@@ -25,26 +25,6 @@ export default function RecentQuizWidget({
   const [data, setData] = useState<RecentActivityResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [token, setToken] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("jwtToken");
-    }
-    return null;
-  });
-
-  // Watch for token changes in localStorage
-  useEffect(() => {
-    const checkToken = () => {
-      const storedToken = localStorage.getItem("jwtToken");
-      if (storedToken !== token) {
-        setToken(storedToken);
-      }
-    };
-
-    const interval = setInterval(checkToken, 500);
-    return () => clearInterval(interval);
-  }, [token]);
-
   useEffect(() => {
     const fetchRecent = async () => {
       if (!isConnected || !address) {
@@ -53,12 +33,7 @@ export default function RecentQuizWidget({
         setIsLoading(false);
         return;
       }
-      if (!token) {
-        setError("User not logged in");
-        setData(null);
-        setIsLoading(false);
-        return;
-      }
+      // Server will enforce session auth; proceed to call the action
 
       setIsLoading(true);
       try {
@@ -82,7 +57,7 @@ export default function RecentQuizWidget({
     };
 
     fetchRecent();
-  }, [address, isConnected, token]);
+  }, [address, isConnected]);
 
   const getDisplayData = () => {
     if (error) {

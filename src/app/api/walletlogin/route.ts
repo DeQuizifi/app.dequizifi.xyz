@@ -1,5 +1,5 @@
-import { signToken } from "@/lib/auth";
-import prisma from "@/lib/prisma/prisma";
+import { getSession } from "@/lib/session";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 //Extacting the username from farcaster account
@@ -49,13 +49,10 @@ export async function POST(req: Request) {
   }
 
   // ✅ Issue JWT inside the function
-  const token = signToken(walletAddress);
+  // Create / update iron session and store wallet address
+  const session = await getSession();
+  session.user = { id: walletAddress };
+  await session.save();
 
-  // Set HttpOnly cookie with JWT
-  const response = NextResponse.json({ success: true, user }, { status: 200 });
-  response.headers.append(
-    "Set-Cookie",
-    `token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=604800`
-  );
-  return response;
+  return NextResponse.json({ success: true, user }, { status: 200 });
 }

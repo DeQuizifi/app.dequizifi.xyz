@@ -1,28 +1,29 @@
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { title } from "process";
 
-export async function GET(req:Request) {
+export async function GET(req: Request) {
   try {
-    const {search} = Object.fromEntries(new URL(req.url).searchParams)
+    const { search } = Object.fromEntries(new URL(req.url).searchParams);
     const fetchlatestquiz = await prisma.quiz.findMany({
-      where: search ? {
-        OR:[
-          {
-            title:{
-              contains: search,
-              mode:"insensitive"
-            }
-          },
-          {
-            category:{
-              contains: search,
-              mode:"insensitive"
-            }
+      where: search
+        ? {
+            OR: [
+              {
+                title: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                category: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
           }
-        ]
-
-      } : undefined,
+        : undefined,
       select: {
         title: true,
         createdAt: true,
@@ -39,16 +40,18 @@ export async function GET(req:Request) {
     });
 
     const fetchlatestcontest = await prisma.contest.findMany({
-      where: search ? {
-        OR:[
-          {
-            name:{
-              contains: search,
-              mode:"insensitive"
-            }
+      where: search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            ],
           }
-        ]
-      }:undefined,
+        : undefined,
       select: {
         name: true,
         createdAt: true,

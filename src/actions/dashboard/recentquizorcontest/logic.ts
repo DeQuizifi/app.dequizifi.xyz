@@ -1,56 +1,25 @@
 import "server-only";
 
-import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
-import prisma from "@/lib/prisma/prisma";
-import type { ActionResult, RecentActivityResult } from "./schema";
+import prisma from "@/lib/prisma";
+import { Result, success, error } from "@/lib/result";
+import type {
+  RecentActivityResult,
+  GetRecentQuizOrContestInput,
+} from "./schema";
 
-export async function getRecentQuizOrContestLogic(): Promise<
-  ActionResult<RecentActivityResult>
-> {
+export async function getRecentQuizOrContest(
+  input: GetRecentQuizOrContestInput,
+  userId: string
+): Promise<Result<RecentActivityResult>> {
   try {
-    // Get token from cookies
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-
-    if (!token) {
-      return {
-        success: false,
-        error: {
-          type: "UNAUTHORIZED",
-          message: "Authentication token not found",
-          statusCode: 401,
-        },
-      };
-    }
-
-    const decoded = verifyToken(token);
-    if (!decoded) {
-      return {
-        success: false,
-        error: {
-          type: "INVALID_TOKEN",
-          message: "Invalid or expired token",
-          statusCode: 401,
-        },
-      };
-    }
-
-    // Get user
+    // Get user by ID (userId from auth context is user.id, not walletAddress)
     const user = await prisma.user.findUnique({
-      where: { walletAddress: decoded.wallet },
+      where: { id: userId },
       select: { id: true },
     });
 
     if (!user) {
-      return {
-        success: false,
-        error: {
-          type: "USER_NOT_FOUND",
-          message: "User not found",
-          statusCode: 404,
-        },
-      };
+      return error("User not found");
     }
 
     // Get recent quiz and contest
@@ -88,19 +57,9 @@ export async function getRecentQuizOrContestLogic(): Promise<
       result = recentContest;
     }
 
-    return {
-      success: true,
-      data: { result },
-    };
-  } catch (error) {
-    console.error("Error in getRecentQuizOrContestLogic:", error);
-    return {
-      success: false,
-      error: {
-        type: "INTERNAL_ERROR",
-        message: "Internal server error",
-        statusCode: 500,
-      },
-    };
+    return success({ result });
+  } catch (err) {
+    console.error("Error in getRecentQuizOrContest:", err, { userId });
+    return error("Failed to fetch recent quiz or contest");
   }
 }

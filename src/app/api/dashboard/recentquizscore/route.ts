@@ -1,27 +1,13 @@
-import { verifyToken } from "@/lib/auth";
-import prisma from "@/lib/prisma/prisma";
+import { getSession } from "@/lib/session";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
-export async function GET(req: Request) {
-  // Prefer HttpOnly cookie; fall back to Authorization: Bearer
-  const cookieToken = (await cookies()).get("token")?.value;
-  const authHeader = req.headers.get("authorization") || "";
-  const bearerToken = authHeader.startsWith("Bearer ")
-    ? authHeader.slice(7)
-    : null;
-  const token = cookieToken ?? bearerToken;
-  if (!token) {
+export async function GET() {
+  const session = await getSession();
+  const wallet = session.user?.id;
+  if (!wallet) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const decoded = verifyToken(token);
-  if (!decoded) {
-    return NextResponse.json(
-      { error: "Invalid or expired token" },
-      { status: 401 }
-    );
-  }
-  const wallet = decoded.wallet;
   try {
     const username = await prisma.user.findUnique({
       where: {
