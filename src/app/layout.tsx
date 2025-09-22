@@ -1,20 +1,6 @@
-import ClientAppProvider from "@/components/custom/common/ClientAppProvider";
-import "@farcaster/auth-kit/styles.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-type FarcasterAuthKitConfig = {
-  rpcUrl: string;
-  domain: string;
-  siweUri: string;
-};
-
-const config: FarcasterAuthKitConfig = {
-  rpcUrl: "https://mainnet.optimism.io",
-  domain: "example.com",
-  siweUri: "https://example.com/login",
-};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +25,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClientAppProvider>{children}</ClientAppProvider>
+        {children}
       </body>
     </html>
   );
