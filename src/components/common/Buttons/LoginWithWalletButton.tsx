@@ -1,15 +1,11 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
 
 type Props = {
   asChild?: boolean;
   children?: React.ReactNode;
 };
 
-const LoginWithWalletButton: React.FC<Props> = ({
-  asChild = false,
-  children,
-}) => {
+export function LoginWithWalletButton({ asChild = false, children }: Props) {
   return (
     <Button
       asChild={asChild}
@@ -20,6 +16,4 @@ const LoginWithWalletButton: React.FC<Props> = ({
       {children ?? "LOGIN WITH WALLET"}
     </Button>
   );
-};
-
-export default LoginWithWalletButton;
+}

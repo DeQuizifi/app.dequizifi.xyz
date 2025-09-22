@@ -1,7 +1,6 @@
-import React from "react";
-import LoginWithWalletButton from "@/components/common/Buttons/LoginWithWalletButton";
+import { LoginWithWalletButton } from "@/components/common/Buttons/LoginWithWalletButton";
 
-const LoginPageContainer: React.FC = () => {
+export function LoginPageContainer() {
   return (
     <div className="min-h-screen bg-[url('/images/login-bg.svg')] bg-cover bg-center flex flex-col justify-end">
       <div className="p-6 pb-12">
@@ -21,6 +20,4 @@ const LoginPageContainer: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default LoginPageContainer;
+}
