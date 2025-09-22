@@ -1,5 +1,5 @@
 import { verifyToken } from "@/lib/auth";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -49,23 +49,27 @@ export async function GET(req: Request) {
     });
     const recentContest = await prisma.contestParticipant.findFirst({
       where: {
-        userId: username.id
+        userId: username.id,
       },
       orderBy: {
-        joinedAt: "desc"
+        joinedAt: "desc",
       },
       select: {
-        joinedAt:true,
+        joinedAt: true,
         contest: {
           select: {
             name: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-    const quizTime = recentquiz?.createdAt ? new Date(recentquiz.createdAt).getTime() : 0;
-    const contestTime = recentContest?.joinedAt ? new Date(recentContest.joinedAt).getTime() : 0;
+    const quizTime = recentquiz?.createdAt
+      ? new Date(recentquiz.createdAt).getTime()
+      : 0;
+    const contestTime = recentContest?.joinedAt
+      ? new Date(recentContest.joinedAt).getTime()
+      : 0;
 
     let result;
     if (quizTime >= contestTime) {

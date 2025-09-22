@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { SiweMessage } from "siwe";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 
 // Simple random username generator
 function generateUsername() {

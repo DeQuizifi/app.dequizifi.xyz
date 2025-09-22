@@ -1,5 +1,5 @@
 import { verifyToken } from "@/lib/auth";
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 

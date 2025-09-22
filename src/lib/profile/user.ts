@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma/prisma";
+import prisma from "@/lib/prisma";
 export async function getUser() {
   const userInfo = await prisma.user.findUnique({
     where: {
@@ -32,27 +32,26 @@ export async function getRewards(userId: string) {
   return userRewards;
 }
 
-export async function  userWelcomeHeader(userId: string){
-    const welcomeHeader = await prisma.user.findUnique({
-        where :{id: userId},
-        select:{
-            username:true,
-            walletAddress:true,
-            balance: true,
-
-        }
-    });
-    return welcomeHeader;
+export async function userWelcomeHeader(userId: string) {
+  const welcomeHeader = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      username: true,
+      walletAddress: true,
+      balance: true,
+    },
+  });
+  return welcomeHeader;
 }
 
-export async function profilePersonalStats(userId : string){
-    const personalStats = await prisma.profileStats.findFirst({
-        where: {userId},
-        select: {
-            bestRank:true,
-            weekStatus: true,
-            overallPoints: true,
-        }
-    });
-    return personalStats;
+export async function profilePersonalStats(userId: string) {
+  const personalStats = await prisma.profileStats.findFirst({
+    where: { userId },
+    select: {
+      bestRank: true,
+      weekStatus: true,
+      overallPoints: true,
+    },
+  });
+  return personalStats;
 }
