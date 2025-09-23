@@ -1,4 +1,4 @@
-import { UserNameBalance } from "@/components/models/user/UserNameBalance";
+import { UserNameBalance } from "@/components/models/user/UserNameBalanceCard";
 import InviteCard from "@/components/common/Cards/InviteCard";
 import { UserRecentQuiz } from "@/components/models/user/UserRecentQuizCard";
 import { QuizTrendingList } from "@/components/models/quiz/QuizTrendingList";
