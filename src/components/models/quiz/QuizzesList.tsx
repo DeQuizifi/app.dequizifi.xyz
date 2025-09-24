@@ -14,7 +14,7 @@ interface QuizzesListProps {
 
 export function QuizzesList({ title, quizzes }: QuizzesListProps) {
   return (
-    <div className="mt-3">
+    <div className="mt-4">
       <h3 className="mx-4 mb-4 text-lg font-semibold text-primary-foreground">
         {title}
       </h3>
