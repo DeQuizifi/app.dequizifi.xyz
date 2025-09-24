@@ -7,7 +7,7 @@ export function QuizSearchTab() {
       <Input
         placeholder="Search Quizzes"
         aria-label="Search quizzes"
-        className="w-full rounded-2xl bg-foreground/70 border-0 shadow-none focus:text-primary-foreground/80 placeholder:text-primary-foreground/80 px-6 py-10 focus-visible:ring-0 focus-visible:border-0 mt-16 font-mono"
+        className="w-full rounded-2xl bg-foreground/20 backdrop-blur-md border-0 shadow-none focus:text-primary-foreground/80 placeholder:text-primary-foreground/80 px-6 py-10 focus-visible:ring-0 focus-visible:border-0 mt-16 font-mono"
       />
 
       <SearchTabs/>
