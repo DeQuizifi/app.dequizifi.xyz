@@ -7,36 +7,20 @@ interface Quiz {
   hoursLeftToStart: number;
 }
 
-const mockQuizzes: Quiz[] = [
-  {
-    id: 1,
-    quizName: "DeFi Championship",
-    peopleJoined: 320,
-    hoursLeftToStart: 24,
-  },
-  {
-    id: 2,
-    quizName: "Crypto Trading Battle",
-    peopleJoined: 285,
-    hoursLeftToStart: 18,
-  },
-  {
-    id: 3,
-    quizName: "NFT Masters Contest",
-    peopleJoined: 198,
-    hoursLeftToStart: 15,
-  },
-];
+interface QuizzesListProps {
+  title: string;
+  quizzes: Quiz[];
+}
 
-export function QuizMultiPlayerList() {
+export function QuizzesList({ title, quizzes }: QuizzesListProps) {
   return (
-    <div className="mt-6">
+    <div className="mt-3">
       <h3 className="mx-4 mb-4 text-lg font-semibold text-primary-foreground">
-        Contest Quizzes
+        {title}
       </h3>
 
       <div className="space-y-0">
-        {mockQuizzes.map((quiz) => (
+        {quizzes.map((quiz) => (
           <QuizCard
             key={quiz.id}
             quizName={quiz.quizName}
@@ -48,3 +32,6 @@ export function QuizMultiPlayerList() {
     </div>
   );
 }
+
+// Export the Quiz interface for reuse
+export type { Quiz };
