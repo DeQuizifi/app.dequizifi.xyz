@@ -1,4 +1,4 @@
-import { QuizCard } from "@/components/common/Cards/QuizCard";
+import { QuizCard } from "@/components/models/quiz/QuizCard";
 
 interface Quiz {
   id: number;
