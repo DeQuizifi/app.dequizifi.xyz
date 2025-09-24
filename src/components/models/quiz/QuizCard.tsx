@@ -18,7 +18,7 @@ export function QuizCard({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="mx-4 mb-4 rounded-2xl bg-primary/10 p-4 border border-primary/20">
+    <div className=" mx-4 mb-4 rounded-2xl bg-foreground/40 p-4 border border-primary/20">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4 flex-1">
           <div className="w-12 h-12 flex-shrink-0">
