@@ -31,7 +31,7 @@ const mockQuizzes: Quiz[] = [
 export function QuizMultiPlayerList() {
   return (
     <div className="mt-6">
-      <h3 className="mb-4 text-lg font-semibold text-primary-foreground">
+      <h3 className="mx-4 mb-4 text-lg font-semibold text-primary-foreground">
         Contest Quizzes
       </h3>
 
