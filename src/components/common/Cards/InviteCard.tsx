@@ -10,7 +10,7 @@ export function InviteCard() {
   if (!open) return null;
 
   return (
-    <div className="relative max-w-md mx-4 md:mx-auto mt-6 rounded-2xl bg-card/20 shadow-lg backdrop-blur-sm p-6">
+    <div className="relative max-w-md mt-6 rounded-2xl bg-card/20 shadow-lg backdrop-blur-sm p-6">
       <button
         aria-label="Close invite card"
         onClick={() => setOpen(false)}
@@ -35,4 +35,3 @@ export function InviteCard() {
     </div>
   );
 }
-

@@ -4,10 +4,10 @@ import { QuizTrendingList } from "@/components/models/quiz/QuizTrendingList";
 
 export function HomePageContainer() {
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-[url('/images/dashboard.svg')]">
+    <>
       <UserRecentQuiz />
       <InviteCard />
       <QuizTrendingList />
-    </div>
+    </>
   );
 }

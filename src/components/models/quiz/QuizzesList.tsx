@@ -19,7 +19,7 @@ export function QuizzesList({ title, quizzes }: QuizzesListProps) {
         {title}
       </h3>
 
-      <div className="space-y-0">
+      <div className="space-y-2">
         {quizzes.map((quiz) => (
           <QuizCard
             key={quiz.id}
@@ -32,6 +32,3 @@ export function QuizzesList({ title, quizzes }: QuizzesListProps) {
     </div>
   );
 }
-
-// Export the Quiz interface for reuse
-// Quiz interface is exported above
