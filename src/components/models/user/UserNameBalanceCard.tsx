@@ -21,11 +21,11 @@ export function UserNameBalance() {
       </div>
 
       <div className="flex items-center">
-        <div className="flex items-center px-1 py-1 rounded-full shadow-md bg-foreground">
+        <div className="flex items-center px-1 py-1 rounded-full shadow-md">
           <span className="text-sm text-primary-foreground font-semibold ml-1">
             60.2
           </span>
-          <div className="w-8 h-8 ml-2 rounded-full bg-primary relative overflow-hidden flex-shrink-0">
+          <div className="w-8 h-8 ml-2 rounded-full relative overflow-hidden flex-shrink-0">
             <Image
               src="/images/balanceIcon.svg"
               alt="balance"

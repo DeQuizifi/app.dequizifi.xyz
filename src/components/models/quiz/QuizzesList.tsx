@@ -1,6 +1,6 @@
 import { QuizCard } from "@/components/models/quiz/QuizCard";
 
-interface Quiz {
+export interface Quiz {
   id: number;
   quizName: string;
   peopleJoined: number;
@@ -34,4 +34,4 @@ export function QuizzesList({ title, quizzes }: QuizzesListProps) {
 }
 
 // Export the Quiz interface for reuse
-export type { Quiz };
+// Quiz interface is exported above
