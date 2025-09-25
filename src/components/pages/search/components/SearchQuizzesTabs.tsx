@@ -107,7 +107,7 @@ export function SearchQuizzesTabs() {
       <Input
         placeholder="Search Quizzes"
         aria-label="Search quizzes"
-        className="w-full rounded-2xl bg-foreground/20 backdrop-blur-md border-0 shadow-none focus:text-primary-foreground/80 placeholder:text-primary-foreground/80 py-10 focus-visible:ring-0 focus-visible:border-0 font-mono"
+        className="w-full rounded-2xl bg-foreground/20 backdrop-blur-md border-0 shadow-none focus:text-primary-foreground/80 placeholder:text-primary-foreground/80 p-8 focus-visible:ring-0 focus-visible:border-0 font-mono"
       />
 
       <div className="mt-6">

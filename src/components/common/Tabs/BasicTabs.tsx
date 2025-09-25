@@ -23,7 +23,7 @@ export function BasicTabs({
   return (
     <div className={className}>
       {/* Tab Navigation */}
-      <div className="border-b border-primary/20">
+      <div className="border-b border-primary/20 backdrop-blur-sm px-2">
         <div className="flex justify-start gap-8">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
@@ -32,10 +32,10 @@ export function BasicTabs({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-1 py-2 pb-3 text-sm relative transition-all duration-300 ease-in-out ${
+                className={`flex items-center gap-2 px-1 py-2 pb-3 text-sm relative transition-all duration-150 ease-in-out ${
                   isActive
-                    ? "text-primary-foreground border-b-4 border-primary-foreground font-semibold"
-                    : "text-primary-foreground/60 hover:text-primary-foreground"
+                    ? "text-primary-foreground font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-current"
+                    : "text-primary-foreground/60 font-semibold hover:text-primary-foreground"
                 }`}
               >
                 {tab.label}
@@ -45,7 +45,6 @@ export function BasicTabs({
         </div>
       </div>
 
-      {/* Tab Content */}
       <div className="mt-4">
         {tabs.map((tab) => (
           <div
