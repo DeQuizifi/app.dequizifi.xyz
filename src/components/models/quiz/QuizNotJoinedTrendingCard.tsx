@@ -11,8 +11,9 @@ export function QuizNotJoinedTrendingCard({
   peopleJoined,
   hoursLeftToStart,
 }: QuizNotJoinedTrendingCardProps) {
-  // Calculate progress percentage (assuming max 24 hours)
-  const progressValue = Math.max(0, ((24 - hoursLeftToStart) / 24) * 100);
+  // Calculate progress percentage (assuming max 24 hours) and clamp to [0,100]
+  const rawPercent = ((24 - hoursLeftToStart) / 24) * 100;
+  const progressValue = Math.min(100, Math.max(0, rawPercent));
 
   return (
     <div className="relative flex-shrink-0 w-72 h-48 rounded-2xl overflow-hidden bg-[url('/images/playQuizImage.svg')] bg-cover bg-center border-2 border-primary">
