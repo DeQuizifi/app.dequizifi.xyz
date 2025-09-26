@@ -54,4 +54,4 @@ export function QuizRewardCard() {
   );
 }
 
-export default QuizRewardCard;
+

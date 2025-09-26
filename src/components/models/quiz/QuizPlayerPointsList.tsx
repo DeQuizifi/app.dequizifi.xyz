@@ -48,4 +48,4 @@ export function QuizPlayerPointsList() {
   );
 }
 
-export default QuizPlayerPointsList;
+

@@ -18,13 +18,8 @@ export function QuizNotJoinedTrendingCard({
   const rawPercent = ((24 - hoursLeftToStart) / 24) * 100;
   const progressValue = Math.min(100, Math.max(0, rawPercent));
 
-  const handleQuizClick = () => {
-    // Store quiz data in session storage
-    sessionStorage.setItem("selectedQuiz", JSON.stringify(quiz));
-  };
-
   return (
-    <Link href={`/play/${quiz.id}`} onClick={handleQuizClick} className="block">
+    <Link href={`/play/${quiz.id}`} className="block">
       <div className="relative flex-shrink-0 w-72 h-48 rounded-2xl overflow-hidden bg-[url('/images/playQuizImage.svg')] bg-cover bg-center border-2 border-primary">
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-foreground/60" />

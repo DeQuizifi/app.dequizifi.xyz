@@ -1,6 +1,6 @@
 import { BasicTabs } from "@/components/common/Tabs/BasicTabs";
-import QuizPlayerPointsList from "@/components/models/quiz/QuizPlayerPointsList";
-import QuizRewardCard from "@/components/models/quiz/QuizRewardCard";
+import {QuizPlayerPointsList} from "@/components/models/quiz/QuizPlayerPointsList";
+import {QuizRewardCard} from "@/components/models/quiz/QuizRewardCard";
 
 export function QuizSlugTabs() {
   const tabs = [
@@ -23,4 +23,4 @@ export function QuizSlugTabs() {
   );
 }
 
-export default QuizSlugTabs;
+
