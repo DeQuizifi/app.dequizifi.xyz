@@ -5,6 +5,8 @@ export interface Quiz {
   quizName: string;
   peopleJoined: number;
   hoursLeftToStart: number;
+  /** A short ~20 word description shown under the quiz title */
+  description?: string;
 }
 
 interface QuizzesListProps {
@@ -21,12 +23,7 @@ export function QuizzesList({ title, quizzes }: QuizzesListProps) {
 
       <div className="space-y-2">
         {quizzes.map((quiz) => (
-          <QuizCard
-            key={quiz.id}
-            quizName={quiz.quizName}
-            peopleJoined={quiz.peopleJoined}
-            hoursLeftToStart={quiz.hoursLeftToStart}
-          />
+          <QuizCard key={quiz.id} quiz={quiz} />
         ))}
       </div>
     </div>
