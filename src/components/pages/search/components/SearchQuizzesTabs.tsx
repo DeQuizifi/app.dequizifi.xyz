@@ -8,18 +8,24 @@ const latestQuizzes: Quiz[] = [
     quizName: "Blockchain Basics",
     peopleJoined: 245,
     hoursLeftToStart: 8,
+    description:
+      "Introductory quiz covering blocks, consensus, transactions, and network fundamentals to build a clear foundation in blockchain technology.",
   },
   {
     id: 2,
     quizName: "Smart Contracts 101",
     peopleJoined: 189,
     hoursLeftToStart: 5,
+    description:
+      "Core concepts and examples of smart contracts, common patterns, vulnerabilities, and best practices for secure on-chain logic.",
   },
   {
     id: 3,
     quizName: "Web3 Security",
     peopleJoined: 167,
     hoursLeftToStart: 3,
+    description:
+      "Practical security scenarios for web3: threat modeling, common exploits, defensive coding, and incident response fundamentals.",
   },
 ];
 
@@ -29,18 +35,24 @@ const singlePlayerQuizzes: Quiz[] = [
     quizName: "Solo Crypto Challenge",
     peopleJoined: 95,
     hoursLeftToStart: 6,
+    description:
+      "A self-paced challenge testing diverse crypto topics from basics to advanced concepts, ideal for skill sharpening and practice.",
   },
   {
     id: 2,
     quizName: "Bitcoin Knowledge Test",
     peopleJoined: 78,
     hoursLeftToStart: 9,
+    description:
+      "Focused questions about Bitcoin's design, consensus, history, and protocol specifics to assess fundamental network understanding.",
   },
   {
     id: 3,
     quizName: "Ethereum Deep Dive",
     peopleJoined: 112,
     hoursLeftToStart: 14,
+    description:
+      "In-depth exploration of Ethereum mechanics, EVM behavior, gas economics, and advanced developer tooling and standards.",
   },
 ];
 
@@ -50,18 +62,24 @@ const contestQuizzes: Quiz[] = [
     quizName: "DeFi Championship",
     peopleJoined: 320,
     hoursLeftToStart: 24,
+    description:
+      "Competitive timed contest on DeFi protocols, strategies, on-chain analytics, and real-world scenario problem solving skills.",
   },
   {
     id: 2,
     quizName: "Crypto Trading Battle",
     peopleJoined: 285,
     hoursLeftToStart: 18,
+    description:
+      "Head-to-head trading challenges focused on market concepts, risk management, and rapid decision-making under simulated conditions.",
   },
   {
     id: 3,
     quizName: "NFT Masters Contest",
     peopleJoined: 198,
     hoursLeftToStart: 15,
+    description:
+      "Contest on NFT ecosystems including valuation, rarity, utility mechanics, and community-driven creative strategies.",
   },
 ];
 
