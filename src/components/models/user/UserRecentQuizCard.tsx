@@ -37,9 +37,8 @@ export function UserRecentQuiz() {
 
             {/* Progress arc (completed percentage) */}
             <path
-              d={`M ${centerX} ${
-                centerY - radius
-              } A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} L ${centerX} ${centerY} Z`}
+              d={`M ${centerX} ${centerY - radius
+                } A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY} L ${centerX} ${centerY} Z`}
               fill="currentColor"
               className="text-primary"
             />
