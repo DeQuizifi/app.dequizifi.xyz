@@ -25,15 +25,15 @@ export function UserNameBalance() {
           <span className="text-sm text-primary-foreground font-bold ml-1">
             60.2
           </span>
-          <div className="w-8 h-8 ml-2 rounded-full relative overflow-hidden flex-shrink-0">
-            <Image
-              src="/images/balanceIcon.svg"
-              alt="balance"
-              fill
-              sizes="36px"
-              className="object-contain"
-            />
-          </div>
+           <div className="w-8 h-8 ml-2 rounded-full relative overflow-hidden flex-shrink-0" role="img" aria-label="Balance Icon">
+             <Image
+               src="/images/balanceIcon.svg"
+               alt="balance"
+               fill
+               sizes="36px"
+               className="object-contain"
+             />
+           </div>
         </div>
       </div>
     </div>
