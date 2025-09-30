@@ -1,5 +1,5 @@
 import { BasicTabs } from "@/components/common/Tabs/BasicTabs";
-import { QuizzesList, Quiz } from "@/components/models/quiz/QuizzesList";
+import { Quiz, QuizzesList } from "@/components/models/quiz/QuizzesList";
 import { Input } from "@/components/ui/input";
 
 const latestQuizzes: Quiz[] = [

@@ -1,8 +1,8 @@
-import { getSession } from "./session";
-import prisma from "./prisma";
 import { createSafeActionClient } from "next-safe-action";
 import { headers } from "next/headers";
 import * as zod from "zod";
+import prisma from "./prisma";
+import { getSession } from "./session";
 
 export function defineMetadataSchema() {
   return zod.object({

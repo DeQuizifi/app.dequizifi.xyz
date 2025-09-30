@@ -18,7 +18,7 @@ export function QuizCard({ quiz }: QuizCardProps) {
 
 
   return (
-    <Link href={`/play/${quiz.id}`}  className="block">
+    <Link href={`/play/${quiz.id}`} className="block">
       <div className=" rounded-2xl bg-foreground/20 backdrop-blur-sm p-4 border border-primary/20">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 flex-1">
