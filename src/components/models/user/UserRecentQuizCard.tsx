@@ -13,7 +13,7 @@ export function UserRecentQuiz() {
   const largeArcFlag = percentage > 50 ? 1 : 0;
 
   return (
-    <div className="rounded-2xl bg-foreground/10 p-6">
+    <div className="rounded-2xl bg-foreground/10 p-6 backdrop-blur-sm border border-border/10 shadow-inner">
       <div className="flex items-center justify-between">
         <div className="flex-1 space-y-2">
           <h3 className="text-sm font-semibold text-primary-foreground tracking-widest">
