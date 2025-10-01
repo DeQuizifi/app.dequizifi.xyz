@@ -21,7 +21,7 @@ export function UserNameBalance() {
       </div>
 
       <div className="flex items-center">
-        <div className="flex items-center bg-primary/20 px-1 py-1 rounded-full shadow-md backdrop-blur-md">
+        <div className="flex items-center bg-primary/20 px-1 py-1 rounded-full shadow-inner backdrop-blur-sm border border-border/30">
           <span className="text-sm text-primary-foreground font-bold ml-1">
             60.2
           </span>

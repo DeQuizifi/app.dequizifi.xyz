@@ -63,7 +63,7 @@ export function BottomNavbar() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border rounded-t-2xl shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-transparent border-t border-border/10 rounded-t-2xl shadow-inner backdrop-blur-sm"
       aria-label="Main navigation"
     >
       <div className="flex items-center justify-around gap-3 px-4 py-4 max-w-screen-xl mx-auto">
@@ -81,13 +81,13 @@ export function BottomNavbar() {
               <span
                 className={
                   "inline-flex items-center justify-center p-4 rounded-full " +
-                  (active ? "bg-primary" : "")
+                  (active ? "bg-white/20 shadow-inner border border-primary" : "")
                 }
               >
                 <Icon
                   className={
                     "h-6 w-6 " +
-                    (active ? "text-primary-foreground" : "text-foreground")
+                    (active ? "text-primary-foreground" : "text-white")
                   }
                   aria-hidden="true"
                 />
