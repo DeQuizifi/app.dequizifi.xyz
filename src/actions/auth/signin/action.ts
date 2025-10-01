@@ -17,7 +17,10 @@ export const signinAction = actionClient
         return result.data;
       }
 
-      throw new Error(result.error, { cause: { internal: true } });
+        // Log the error before throwing
+        console.error("Sign in error:", result.error, { walletAddress });
+        // In production, replace console.error with a proper logger
+        throw new Error("Sign in failed: " + result.error);
     } catch (err) {
       const error = err as Error;
       const cause = error.cause as { internal: boolean } | undefined;
