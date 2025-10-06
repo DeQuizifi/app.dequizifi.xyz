@@ -63,10 +63,10 @@ export function BottomNavbar() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-transparent border-t border-border/10 rounded-t-2xl shadow-inner backdrop-blur-sm"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 border-t border-gray-700"
       aria-label="Main navigation"
     >
-      <div className="flex items-center justify-around gap-3 px-4 py-4 max-w-screen-xl mx-auto">
+      <div className="flex items-center justify-around gap-1 px-2 py-2 max-w-screen-xl mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
@@ -77,21 +77,15 @@ export function BottomNavbar() {
               href={item.href}
               aria-label={`Navigate to ${item.label}`}
               aria-current={active ? "page" : undefined}
+              className={`flex flex-col items-center justify-center p-2 rounded-full transition-colors duration-200 ${
+                active ? "bg-primary text-primary-foreground" : "text-gray-400 hover:text-white"
+              }`}
             >
-              <span
-                className={
-                  "inline-flex items-center justify-center p-4 rounded-full " +
-                  (active ? "bg-white/20 shadow-inner border border-primary" : "")
-                }
-              >
-                <Icon
-                  className={
-                    "h-6 w-6 " +
-                    (active ? "text-primary-foreground" : "text-white")
-                  }
-                  aria-hidden="true"
-                />
-              </span>
+              <Icon
+                className={"h-6 w-6"}
+                aria-hidden="true"
+              />
+              <span className="text-xs mt-1">{item.label}</span>
             </Link>
           );
         })}
