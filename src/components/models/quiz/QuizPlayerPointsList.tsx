@@ -18,11 +18,11 @@ const players: Player[] = [
 export function QuizPlayerPointsList() {
   return (
     <div className="w-full max-w-md mx-auto">
-      <ul className="space-y-3">
+      <ul className="space-y-1">
         {players.map((p) => (
           <li
             key={p.rank}
-            className="flex items-center justify-between bg-foreground/20 backdrop-blur-md rounded-2xl px-4 py-3"
+            className="flex items-center justify-between bg-foreground/20 backdrop-blur-sm rounded-2xl px-4 py-3"
           >
             <div className="flex items-center gap-4">
               <div className="text-sm font-medium text-primary-foreground w-6">
