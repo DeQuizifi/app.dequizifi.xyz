@@ -20,16 +20,16 @@ export function QuizDetailsCard() {
   } as Quiz;
 
   return (
-    <div className="bg-foreground/20 backdrop-blur-lg rounded-2xl p-6 border border-primary/20 mb-5">
+    <div className="bg-foreground/20 backdrop-blur-sm rounded-2xl p-6 border border-primary/20 mb-5">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-base font-bold text-primary-foreground">
+        <h1 className="text-base font-bold text-primary-foreground text-xl">
           {quizInfo.quizName}
         </h1>
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" aria-label="Share">
             <Share2 className="h-5 w-5 text-primary-foreground" />
           </Button>
-          <Button size="sm" className="rounded-2xl">
+          <Button size="lg" className="rounded-2xl">
             Join
           </Button>
         </div>

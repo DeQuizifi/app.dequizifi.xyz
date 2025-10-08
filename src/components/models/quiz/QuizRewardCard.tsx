@@ -15,7 +15,7 @@ const rewards: Reward[] = [
 
 export function QuizRewardCard() {
   return (
-    <div className="max-w-md mx-auto bg-foreground/10 backdrop-blur-md rounded-2xl p-4">
+    <div className="max-w-md mx-auto bg-foreground/20 backdrop-blur-sm rounded-2xl p-4">
       <div className="flex items-center justify-between mb-4 px-2">
         <div className="text-sm text-primary-foreground font-semibold">
           Total Prize Pool
