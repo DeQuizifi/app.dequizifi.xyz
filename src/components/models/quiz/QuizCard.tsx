@@ -1,83 +1,48 @@
-"use client";
-
-import Image from "next/image";
-import Link from "next/link";
-import type { Quiz } from "./QuizzesList";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Users, Clock } from "lucide-react";
 
 interface QuizCardProps {
-  quiz: Quiz;
+  quiz: {
+    id: number;
+    quizName: string;
+    peopleJoined: number;
+    hoursLeftToStart: number;
+    description?: string;
+  };
+  buttonText?: string;
+  onButtonClick?: (id: number) => void;
 }
 
-export function QuizCard({ quiz }: QuizCardProps) {
-  const { quizName, peopleJoined, hoursLeftToStart } = quiz;
-  const totalHours = 12;
-  const percentage = (hoursLeftToStart / totalHours) * 100;
-  const radius = 20;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
-
+export function QuizCard({ quiz, buttonText = "Play Now", onButtonClick }: QuizCardProps) {
   return (
-    <Link href={`/play/${quiz.id}`} className="block">
-      <div className=" rounded-2xl bg-foreground/20 backdrop-blur-sm p-4 border border-primary/20">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4 flex-1">
-            <div className="w-12 h-12 flex-shrink-0">
-              <Image
-                src="/cube1.svg"
-                alt="Quiz icon"
-                width={48}
-                height={48}
-                className="w-12 h-12"
-              />
-            </div>
-
-            <div className="flex-1">
-              <h4 className="text-lg font-semibold text-primary-foreground">
-                {quizName}
-              </h4>
-              <p className="text-sm text-primary-foreground opacity-80">
-                {peopleJoined} people joined
-              </p>
-            </div>
-          </div>
-
-          <div className="relative w-16 h-16 flex-shrink-0">
-            <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 50 50">
-              {/* Background circle */}
-              <circle
-                cx="25"
-                cy="25"
-                r={radius}
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-                className="text-muted/30"
-              />
-              {/* Progress circle */}
-              <circle
-                cx="25"
-                cy="25"
-                r={radius}
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
-                strokeLinecap="round"
-                className="text-primary"
-              />
-            </svg>
-
-            {/* Hours text in center */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-primary-foreground">
-                {hoursLeftToStart}h
-              </span>
-            </div>
-          </div>
+    <Card className="w-full max-w-sm bg-gradient-to-br from-purple-600 to-indigo-800 text-white shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold">{quiz.quizName}</CardTitle>
+        {quiz.description && (
+          <CardDescription className="text-purple-200 mt-2">
+            {quiz.description}
+          </CardDescription>
+        )}
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex items-center text-purple-100">
+          <Users className="mr-2 h-5 w-5" />
+          <span>{quiz.peopleJoined} People Joined</span>
         </div>
-      </div>
-    </Link>
+        <div className="flex items-center text-purple-100">
+          <Clock className="mr-2 h-5 w-5" />
+          <span>{quiz.hoursLeftToStart} Hours Left</span>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button
+          className="w-full bg-white text-indigo-800 hover:bg-gray-100 hover:text-indigo-900 font-semibold py-2 px-4 rounded-lg"
+          onClick={() => onButtonClick && onButtonClick(quiz.id)}
+        >
+          {buttonText}
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

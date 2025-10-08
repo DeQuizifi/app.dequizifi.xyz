@@ -1,5 +1,5 @@
 import { BasicTabs } from "@/components/common/Tabs/BasicTabs";
-import { Quiz, QuizzesList } from "@/components/models/quiz/QuizzesList";
+import { QuizListContainer } from "@/components/models/quiz/QuizListContainer";
 import { Input } from "@/components/ui/input";
 import { latestQuizzes } from "./latestQuizzes";
 import { singlePlayerQuizzes } from "./singlePlayerQuizzes";
@@ -10,13 +10,13 @@ export function SearchQuizzesTabs() {
     {
       id: "latest",
       label: "Latest",
-      component: <QuizzesList title="Latest Quizzes" quizzes={latestQuizzes} />,
+      component: <QuizListContainer title="Latest Quizzes" quizzes={latestQuizzes} />,
     },
     {
       id: "quiz",
       label: "Quiz",
       component: (
-        <QuizzesList
+        <QuizListContainer
           title="Single Player Quizzes"
           quizzes={singlePlayerQuizzes}
         />
@@ -26,7 +26,7 @@ export function SearchQuizzesTabs() {
       id: "contest",
       label: "Contest",
       component: (
-        <QuizzesList title="Contest Quizzes" quizzes={contestQuizzes} />
+        <QuizListContainer title="Contest Quizzes" quizzes={contestQuizzes} />
       ),
     },
     {
