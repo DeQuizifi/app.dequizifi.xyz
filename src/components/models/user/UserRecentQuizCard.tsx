@@ -13,13 +13,13 @@ export function UserRecentQuiz() {
   const largeArcFlag = percentage > 50 ? 1 : 0;
 
   return (
-    <div className="rounded-2xl bg-foreground/10 p-6 backdrop-blur-sm border border-border/10 shadow-inner">
+    <div className="rounded-3xl bg-card p-8 shadow-lg border border-border">
       <div className="flex items-center justify-between">
         <div className="flex-1 space-y-2">
-          <h3 className="text-sm font-semibold text-primary-foreground tracking-widest">
+          <h3 className="text-sm font-bold text-muted-foreground tracking-widest">
             RECENT QUIZ
           </h3>
-          <h4 className="text-xl font-semibold text-primary-foreground">
+          <h4 className="text-2xl font-bold text-foreground">
             Know Your Crypto Lingo
           </h4>
         </div>
@@ -46,7 +46,7 @@ export function UserRecentQuiz() {
 
           {/* Percentage text in center */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-lg font-bold text-primary-foreground">
+            <span className="text-xl font-bold text-foreground">
               {percentage}%
             </span>
           </div>
