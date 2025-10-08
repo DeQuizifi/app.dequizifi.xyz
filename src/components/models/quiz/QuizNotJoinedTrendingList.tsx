@@ -1,4 +1,4 @@
-import { QuizNotJoinedTrendingCard } from "./QuizNotJoinedTrendingCard";
+import { QuizCard } from "./QuizCard";
 
 interface Quiz {
   id: number;
@@ -52,6 +52,11 @@ const mockNotJoinedQuizzes: Quiz[] = [
 ];
 
 export function QuizNotJoinedTrendingList() {
+  const handlePlayNow = (id: number) => {
+    console.log(`Playing quiz with ID: ${id}`);
+    // Implement navigation or other logic here
+  };
+
   return (
     <div className="mt-4">
       <h3 className="mx-4 mb-4 text-lg font-semibold text-primary-foreground">
@@ -62,7 +67,9 @@ export function QuizNotJoinedTrendingList() {
       <div className="px-4">
         <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4">
           {mockNotJoinedQuizzes.map((quiz) => (
-            <QuizNotJoinedTrendingCard key={quiz.id} quiz={quiz} />
+            <div key={quiz.id} className="min-w-[300px]">
+              <QuizCard quiz={quiz} onButtonClick={handlePlayNow} />
+            </div>
           ))}
         </div>
       </div>
