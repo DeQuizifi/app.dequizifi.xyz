@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Josefin_Sans } from "next/font/google";
 import "./globals.css";
-
+import ErrorBoundary from "@/components/common/ErrorBoundary/ErrorBoundary";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -38,7 +38,7 @@ export default function RootLayout({
       <body
         className={`${josefinSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ErrorBoundary>{children}</ErrorBoundary>
       </body>
     </html>
   );
