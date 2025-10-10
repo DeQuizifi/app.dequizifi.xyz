@@ -29,7 +29,7 @@ export function QuizDetailsCard() {
           <Button variant="ghost" size="icon" aria-label="Share">
             <Share2 className="h-5 w-5 text-primary-foreground" />
           </Button>
-          <Button size="lg" className="rounded-2xl">
+          <Button size="lg">
             Join
           </Button>
         </div>
