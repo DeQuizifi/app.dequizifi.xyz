@@ -1,3 +1,5 @@
+"use client";
+
 import { BasicTabs } from "@/components/common/Tabs/BasicTabs";
 import {QuizPlayerPointsList} from "@/components/models/quiz/QuizPlayerPointsList";
 import {QuizRewardCard} from "@/components/models/quiz/QuizRewardCard";
