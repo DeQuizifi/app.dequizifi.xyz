@@ -69,7 +69,7 @@ const QuizCardSkeleton = () => (
   </div>
 );
 
-export function QuizTrendingList() {
+export const QuizTrendingList = React.memo(() => {
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -103,4 +103,4 @@ export function QuizTrendingList() {
       </div>
     </div>
   );
-}
+});

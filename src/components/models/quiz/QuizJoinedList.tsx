@@ -1,3 +1,4 @@
+import React from "react";
 import { QuizCard } from "./QuizCard";
 
 interface Quiz {
@@ -35,7 +36,7 @@ const mockJoinedQuizzes: Quiz[] = [
   },
 ];
 
-export function QuizJoinedList() {
+export const QuizJoinedList = React.memo(() => {
   const handlePlayNow = (id: number) => {
     console.log(`Playing quiz with ID: ${id}`);
     // Implement navigation or other logic here
@@ -53,4 +54,4 @@ export function QuizJoinedList() {
       </div>
     </div>
   );
-}
+});
