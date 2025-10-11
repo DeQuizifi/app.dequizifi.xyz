@@ -40,6 +40,37 @@ export function QuizCard({ quiz, buttonText = "Play Now", onButtonClick, isLoadi
     );
   }
 
+  if (!quiz) {
+    return (
+      <Card className="w-full max-w-sm bg-gradient-to-br from-purple-600 to-indigo-800 text-white shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">No Quiz Available</CardTitle>
+          <CardDescription className="text-purple-200 mt-2">
+            This quiz could not be loaded or does not exist.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex items-center text-purple-100">
+            <Users className="mr-2 h-5 w-5" />
+            <span>N/A People Joined</span>
+          </div>
+          <div className="flex items-center text-purple-100">
+            <Clock className="mr-2 h-5 w-5" />
+            <span>N/A Hours Left</span>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            className="w-full bg-white text-indigo-800 hover:bg-gray-100 hover:text-indigo-900 font-semibold py-2 px-4 rounded-lg"
+            disabled
+          >
+            Not Available
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-sm bg-gradient-to-br from-purple-600 to-indigo-800 text-white shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
       <CardHeader>
