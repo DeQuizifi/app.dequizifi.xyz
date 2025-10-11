@@ -13,8 +13,9 @@ export function InviteCard() {
     <div className="relative max-w-md mt-6 rounded-2xl bg-card/20 shadow-lg backdrop-blur-sm p-6">
       <button
         aria-label="Close invite card"
+        aria-expanded={open}
         onClick={() => setOpen(false)}
-        className="absolute top-3 right-3 rounded-full p-1 text-primary-foreground"
+        className="absolute top-3 right-3 rounded-full p-1 text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <X className="w-6 h-6" />
       </button>
