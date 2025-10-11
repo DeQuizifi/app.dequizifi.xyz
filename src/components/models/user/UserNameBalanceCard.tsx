@@ -8,11 +8,12 @@ export function UserNameBalance() {
     <div className="flex items-center justify-between px-4 py-6 max-w-screen-xl mx-auto">
       <div className="flex-1">
         <div className="space-y-1 ml-2">
-          <p className="text-lg text-primary-foreground font-bold font-mono opacity-80">
+          <h2 id="welcome-greeting" className="text-lg text-primary-foreground font-bold font-mono opacity-80">
             Welcome
-          </p>
+          </h2>
           <h1
             className="text-xl font-mono font-bold text-primary-foreground"
+            aria-labelledby="welcome-greeting"
             aria-label={`Welcome ${name}`}
           >
             {name}
